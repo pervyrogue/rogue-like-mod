@@ -5316,7 +5316,7 @@ label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                         $ R_Custom6[8] = R_Hair
                         $ R_Custom6[9] = R_Hose
                         $ R_Custom6[0] = 2 if Agree else 1
-                    elif Custom == 6:
+                    elif Custom == 13:
                         $ R_Custom7[1] = R_Arms
                         $ R_Custom7[2] = R_Legs
                         $ R_Custom7[3] = R_Over
