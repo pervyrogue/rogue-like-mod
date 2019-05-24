@@ -3986,7 +3986,7 @@ label Rogue_Clothes:
                                 call Rogue_OutfitShame(10,1)
                     "Custom 5":
                                 call Rogue_OutfitShame(11,1)
-                    "Custom +":
+                    "Custom 6":
                                 call Rogue_OutfitShame(12,1)
                     "Custom 7":
                                 call Rogue_OutfitShame(13,1)
