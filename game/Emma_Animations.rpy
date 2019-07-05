@@ -10,19 +10,29 @@ image Emma_Sprite:
         (0,0), ConditionSwitch(
             #hair back 
             "not E_Hair", Null(),
+			"(E_Hair == 'wet' or E_Water) and E_HairColor == 'red'", "images/EmmaSprite/EmmaSprite_HairbackWet_Red.png",
+            "(E_Hair == 'wet' or E_Water) and E_HairColor == 'white'", "images/EmmaSprite/EmmaSprite_HairbackWet_White.png",
+            "(E_Hair == 'wet' or E_Water) and E_HairColor == 'black'", "images/EmmaSprite/EmmaSprite_HairBlackbackWet.png",																																																		   
             "E_Hair == 'wet' or E_Water", "images/EmmaSprite/EmmaSprite_HairbackWet.png",
+            "E_Hair and E_HairColor == 'red'", "images/EmmaSprite/EmmaSprite_Hairback_Red.png",   
+            "E_Hair and E_HairColor == 'white'", "images/EmmaSprite/EmmaSprite_Hairback_White.png",   
+            "E_Hair and E_HairColor == 'black'", "images/EmmaSprite/EmmaSprite_HairBlackback.png",   
             "E_Hair", "images/EmmaSprite/EmmaSprite_Hairback.png",   
             "True", Null(),        
             ),     
         (0,0), ConditionSwitch(
             #nighty underlayer
             "E_Over == 'nighty'", "images/EmmaSprite/EmmaSprite_Nighty_Under.png", 
+            "E_Over == 'black cape'", "images/EmmaSprite/EmmaSprite_LongCape_Back_Black.png",   
+            "E_Over == 'cape'", "images/EmmaSprite/EmmaSprite_LongCape_Back.png",   
             "True", Null(),              
             ), 
         (0,0), ConditionSwitch(            
             #panties down back 
             "not E_Panties or not E_PantiesDown or (E_Legs == 'pants' and not E_Upskirt)", Null(), 
+            "E_Panties == 'black panties'", "images/EmmaSprite/EmmaSprite_Panties_DownBack_Black.png",   
             "E_Panties == 'sports panties'", "images/EmmaSprite/EmmaSprite_Panties_Sports_DownBack.png",   
+            "E_Panties == 'white panties'", "images/EmmaSprite/EmmaSprite_Panties_DownBack.png",   
             "True", "images/EmmaSprite/EmmaSprite_Panties_DownBack.png",   
             ),  
         (0,0), ConditionSwitch(
@@ -89,6 +99,8 @@ image Emma_Sprite:
         (0,0), ConditionSwitch(
             #boots    
             "E_Boots == 'thigh boots' and (E_Legs == 'skirt' or not E_Legs)", "images/EmmaSprite/EmmaSprite_Boots.png",    
+            "E_Boots == 'white thigh high'", "images/EmmaSprite/Emma_Sprite_ThighHighsWhite.png", 
+            "E_Boots == 'black thigh high'", "images/EmmaSprite/Emma_Sprite_ThighHighsBlack.png", 
             "True", Null(), 
             ),     
         (0,0), ConditionSwitch(
@@ -123,22 +135,34 @@ image Emma_Sprite:
             "E_Upskirt", ConditionSwitch(                   
                         #if the skirt's up or pants down 
                         "E_Legs == 'skirt'", "images/EmmaSprite/EmmaSprite_SkirtUp.png", 
+						"E_Legs == 'NewX'", "images/EmmaSprite/EmmaSprite_Pants_NewX_unzip.png", 
+						"E_Legs == 'NewX black'", "images/EmmaSprite/EmmaSprite_Pants_NewXBlack_unzip.png",
                         "True", Null(),
                         ),                    
             "True", ConditionSwitch(                
                     #if it's the ring pericings
                     "E_Wet", ConditionSwitch(   
                         #if she's not wet
-                        "E_Legs == 'pants'", "images/EmmaSprite/EmmaSprite_Pants.png",   
-                        "E_Legs == 'yoga pants'", "images/EmmaSprite/EmmaSprite_Pants_YogaWet.png",       
-                        "E_Legs == 'skirt'", "images/EmmaSprite/EmmaSprite_Skirt.png", 
+                        "E_Legs == 'pants' and not E_Upskirt", "images/EmmaSprite/EmmaSprite_Pants.png",
+                        "E_Legs == 'black pants' and not E_Upskirt", "images/EmmaSprite/EmmaSprite_Pants_Black.png",
+                        "E_Legs == 'yoga pants' and not E_Upskirt", "images/EmmaSprite/EmmaSprite_Pants_Yoga.png",
+                        "E_Legs == 'red sports shorts' and not E_Upskirt", "images/EmmaSprite/Emma_Sprite_ShortsRed.png",
+                        "E_Legs == 'white sports shorts' and not E_Upskirt", "images/EmmaSprite/Emma_Sprite_ShortsWhite.png",
+                        "E_Legs == 'NewX' and not E_Upskirt", "images/EmmaSprite/EmmaSprite_Pants_NewX.png", 
+                        "E_Legs == 'NewX black' and not E_Upskirt", "images/EmmaSprite/EmmaSprite_Pants_NewXBlack.png", 
+                        "E_Legs == 'skirt' and not E_Upskirt", "images/EmmaSprite/EmmaSprite_Skirt.png", 
                         "True", Null(),
                         ),
                     "True", ConditionSwitch(   
-                        #if she's wet
-                        "E_Legs == 'pants'", "images/EmmaSprite/EmmaSprite_Pants.png",   
-                        "E_Legs == 'yoga pants'", "images/EmmaSprite/EmmaSprite_Pants_Yoga.png",       
-                        "E_Legs == 'skirt'", "images/EmmaSprite/EmmaSprite_Skirt.png", 
+                        #if she's wet																										   
+                        "E_Legs == 'pants' and not E_Upskirt", "images/EmmaSprite/EmmaSprite_PantsWet.png",
+                        "E_Legs == 'black pants' and not E_Upskirt", "images/EmmaSprite/EmmaSprite_Pants_BlackWet.png",
+                        "E_Legs == 'yoga pants' and not E_Upskirt", "images/EmmaSprite/EmmaSprite_Pants_YogaWet.png",
+                        "E_Legs == 'red sports shorts' and not E_Upskirt", "images/EmmaSprite/Emma_Sprite_ShortsRedWet.png",
+                        "E_Legs == 'white sports shorts' and not E_Upskirt", "images/EmmaSprite/Emma_Sprite_ShortsWhiteWet.png",
+                        "E_Legs == 'NewX' and not E_Upskirt", "images/EmmaSprite/EmmaSprite_Pants_NewXWet.png", 
+                        "E_Legs == 'NewX black' and not E_Upskirt", "images/EmmaSprite/EmmaSprite_Pants_NewXBlackWet.png", 
+                        "E_Legs == 'skirt' and not E_Upskirt", "images/EmmaSprite/EmmaSprite_Skirt.png",
                         "True", Null(),
                         ),                    
                     ),    
@@ -161,10 +185,13 @@ image Emma_Sprite:
             "True", Null(), 
             ),    
         (0,0), ConditionSwitch(
-            #Chest underlayer
+            #Chest underlayer																					 
             "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Bra_Sports_Under.png",   
             "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Bra_Lace_Under.png",   
             "E_Chest == 'corset'", "images/EmmaSprite/EmmaSprite_CorsetUnder.png",   
+            "E_Chest == 'black corset'", "images/EmmaSprite/EmmaSprite_CorsetUnder_Black.png",   
+            "E_Chest == 'NewX'", "images/EmmaSprite/EmmaSprite_CorsetUnder_NewX.png",   
+            "E_Chest == 'NewX black'", "images/EmmaSprite/EmmaSprite_CorsetUnder_NewXBlack.png",   
             "True", Null(),              
             ), 
         (0,0), ConditionSwitch(

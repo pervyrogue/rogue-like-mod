@@ -553,6 +553,10 @@ label Emma_OtherWoman(Cnt = 0):
                         ch_e "If she can share then I can."
                     else:
                         ch_e "Sure, why not."
+                    if Other == "Rogue":
+                            $ E_Traits.append("poly rogue")
+					elif Other == "Kitty":
+							$ E_Traits.append("poly kitty")
                 else:
                     call EmmaFace("angry", 1)
                     ch_e "I really don't care what that little slut does."
@@ -630,6 +634,27 @@ label Emma_Settings:
                 else:
                     ch_e "I'll let you know when I care what you think."
 
+        "Wear this vibrator to class" if "vibeclass" not in E_Traits:
+                if "exhibitionist" in E_Traits:
+                    call EmmaFaceSpecial("sexy",1) from _call_EmmaFaceSpecial_14
+                    ch_e "Oooh, that could be entertaining. . ."  
+                elif ApprovalCheck("Emma", 1000, TabM=3) or ApprovalCheck("Emma", 800, "I") or ApprovalCheck("Emma", 750, "O"): 
+                    call EmmaFaceSpecial("surprised",1) from _call_EmmaFaceSpecial_15
+                    ch_e "Well, I mean, yeah, I guess I could. . ."
+                else:
+                    call EmmaFaceSpecial("angry",1) from _call_EmmaFaceSpecial_16
+                    $ E_Love = Statupdate("Emma", "Love", E_Love, 90, -5) 
+                    ch_e "Excuse me?!"
+                    return
+                $ E_Obed = Statupdate("Emma", "Obed", E_Obed, 90, 5) 
+                $ E_Lust = Statupdate("Emma", "Lust", E_Lust, 90, 5) 
+                $ E_Inbt = Statupdate("Emma", "Inbt", E_Inbt, 90, 5) 
+                $ E_Love = Statupdate("Emma", "Love", E_Love, 90, 5) 
+                $ E_Traits.append("vibeclass")
+                
+        "Don't wear the vibrator to class" if "vibeclass" in E_Traits:
+                ch_e "Ok"
+                $ E_Traits.remove("vibeclass")
         "Shift her Personality" if ApprovalCheck("Emma", 900, "L", TabM=0) or ApprovalCheck("Emma", 900, "O", TabM=0) or ApprovalCheck("Emma", 900, "I", TabM=0):
                 ch_p "Could we talk about us?"
                 call Emma_Personality
