@@ -547,7 +547,11 @@ label KFB_Cycle: #Repeating strokes
         if Round == 10:
             ch_k "It's[K_like]getting kinda late."  
         elif Round == 5:
-            ch_k "We should wrap this up."        
+            ch_k "We should wrap this up."   
+            
+        if K_Lust >= 50 and not K_Uptop and (K_Chest or K_Over):
+                $ K_Uptop = 1
+                "Kitty laughs and pulls her top open."       
     
     #Round = 0 loop breaks
     call KittyFace("bemused", 0)
@@ -992,8 +996,12 @@ label KSB_Cycle: #Repeating strokes
         if Round == 10:
             ch_k "It's[K_like]getting kinda late."  
         elif Round == 5:
-            ch_k "We should wrap this up."        
-    
+            ch_k "We should wrap this up."   
+            
+        if K_Lust >= 50 and not K_Uptop and (K_Chest or K_Over):
+                $ K_Uptop = 1
+                "Kitty laughs and pulls her top open."   
+                      
     #Round = 0 loop breaks
     call KittyFace("bemused", 0)
     $ Line = 0
@@ -2255,7 +2263,7 @@ label KLP_Prep: #Animation set-up
         $ renpy.pop_call() 
         $ Situation = 0  
         
-    if K_Legs == "skirt":
+    if K_Legs == "blue skirt":
         $ K_Upskirt = 1  
         $ K_SeenPanties = 1
     if not K_Panties:
@@ -3684,7 +3692,7 @@ label KLA_Prep: #Animation set-up
         $ Situation = 0  
     
     $ K_Upskirt = 1
-    if K_Legs == "skirt":
+    if K_Legs == "blue skirt":
         $ K_SeenPanties = 1
     if not K_Panties:
         call Kitty_First_Bottomless(1)

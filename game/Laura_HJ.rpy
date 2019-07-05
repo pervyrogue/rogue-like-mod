@@ -1508,17 +1508,17 @@ label L_BJ_Cycle: #Repeating strokes
                                     pass
                           
                         "Lick it. . ." if Speed != 1:
-                                $ Speed = 1   
+                                call Speed_Shift(1)
                         "Lick it. . . (locked)" if Speed == 1:
                                 pass  
                             
                         "Just the head. . ." if Speed != 2:
-                            $ Speed = 2
+                                call Speed_Shift(2)
                         "Just the head. . . (locked)" if Speed == 2:
                                 pass
                             
                         "Suck on it." if Speed != 3:
-                                $ Speed = 3  
+                                call Speed_Shift(3) 
                                 if Trigger2 == "jackin":
                                     "She dips her head a bit lower, and you move your hand out of the way."
                                     
@@ -1531,7 +1531,7 @@ label L_BJ_Cycle: #Repeating strokes
                         "Take it deeper." if Speed != 4:
                                     if Trigger2 == "jackin" and Speed != 3:
                                         "She takes it to the root, and you move your hand out of the way."
-                                    $ Speed = 4  
+                                    call Speed_Shift(4)
                         "Take it deeper. (locked)" if Speed == 4:
                                 pass
                             
@@ -1546,15 +1546,15 @@ label L_BJ_Cycle: #Repeating strokes
                                     $ D20 -= 5
                                     
                                 if D20 > 15:
-                                    $ Speed = 4              
+                                    call Speed_Shift(4)             
                                     if "setpace" not in L_RecentActions:      
                                         call Statup("Laura", "Inbt", 80, 3) 
                                 elif D20 > 10:
-                                    $ Speed = 3
+                                    call Speed_Shift(3)
                                 elif D20 > 5:
-                                    $ Speed = 2
+                                    call Speed_Shift(2)
                                 else:
-                                    $ Speed = 1
+                                    call Speed_Shift(1)
                                 $ L_RecentActions.append("setpace")
                                 
                         "Focus to last longer [[not unlocked]. (locked)" if "focus" not in P_Traits:

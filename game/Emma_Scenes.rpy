@@ -1597,7 +1597,7 @@ label Emma_BF_Jerk:
     $ renpy.pop_call()
     jump Player_Room
     
-## end Emma_Love//////////////////////////////////////////////////////////
+## start Emma_Love//////////////////////////////////////////////////////////
 label Emma_Love(Shipping=[],Shipshape=0):   
     # SHipping is used to track who else you're involved with
     if ApprovalCheck("Rogue", 1200, "LO"):
@@ -1898,7 +1898,9 @@ label Emma_Love_Redux:
             ch_e ". . ."
             call EmmaFace("angry", Eyes="side")               
             ch_e "I believe I do remember something to that effect, yes."
+    if Line != "love":
             menu:
+                extend ""
                 "I'm sorry, I didn't mean it.":
                     $ E_Eyes = "surprised"
                     ch_e "Oh? So you do love me?"
