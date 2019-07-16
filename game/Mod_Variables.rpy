@@ -1,4 +1,5 @@
 ﻿label  mod_default_Variables:
+    default CheatsEnabled = 1
     default R_Tan = 0
     default R_BodySuit = 0
     default R_HairColor = 0

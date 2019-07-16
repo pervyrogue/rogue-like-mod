@@ -169,36 +169,49 @@ screen choice(items):
 
     window:
         style "menu_window"
-        xpos 20
-        ypos 0.3
-        yanchor 0.0
-
-        vbox:
-            style "menu"
-            spacing 2
-
-            for caption, action, chosen in items:
-
-                if action:
-                    if " (locked)" in caption:
-                        $ caption = caption.replace(" (locked)", "")
-                        button:
-                            action None
-                            style "menu_choice_button"
-                            background "#424242"                           
-                            text caption style "menu_choice" color "#6E6E6E"
-                                
-
-                           
-                    else:               #to fix, just make this the default of "if action"
-                        button:
-                            action action
-                            style "menu_choice_button"
-
-                            text caption style "menu_choice" 
-
-                else:
-                    text caption style "menu_caption"
+        # mod_scrolling_menu
+        #xpos 20
+        #ypos 0.3
+        #yanchor 0.0
+        fixed pos (20,0.43) xysize (310,530):
+            viewport:
+                yinitial 0
+                #scrollbars "vertical"
+                #if not ("RENPY_IOS" in os.environ or "ANDROID_PRIVATE" in os.environ):
+                if renpy.mobile:
+                    scrollbars "vertical"
+                arrowkeys True
+                mousewheel True
+                draggable True
+        
+                side_yfill True
+    
+                vbox:
+                    style "menu"
+                    spacing 2
+        
+                    for caption, action, chosen in items:
+        
+                        if action:
+                            if " (locked)" in caption:
+                                $ caption = caption.replace(" (locked)", "")
+                                button:
+                                    action None
+                                    style "menu_choice_button"
+                                    background "#424242"                           
+                                    text caption style "menu_choice" color "#6E6E6E"
+                                        
+        
+                                   
+                            else:               #to fix, just make this the default of "if action"
+                                button:
+                                    action action
+                                    style "menu_choice_button"
+        
+                                    text caption style "menu_choice" 
+        
+                        else:
+                            text caption style "menu_caption"
 
 init -2:
     $ config.narrator_menu = True
@@ -1185,6 +1198,32 @@ screen P_Inventory_screen:
         
 #        hbox:    
         text "Inventory:" size 20
+        if CheatsEnabled:
+            textbutton "Disable Cheats" text_size 15 action [ SetVariable("CheatsEnabled", 0)]
+        else:
+            textbutton "Enable Cheats" text_size 15 action [ SetVariable("CheatsEnabled", 1)]
+        if CheatsEnabled:
+            textbutton "+ $1000" text_size 15 action SetVariable("P_Cash", P_Cash + 1000)
+        if P_Lvl < 10 and CheatsEnabled:
+            textbutton "Player Max Level" text_size 15 action [ SetVariable("P_Lvl", 10), SetVariable("P_XP", 3330), SetVariable("P_StatPoints", 9) ]
+        if R_Lvl < 10 and CheatsEnabled:
+            textbutton "Rogue Max Level" text_size 15 action [ SetVariable("R_Lvl", 10), SetVariable("R_XP", 3330), SetVariable("R_StatPoints", 9) ]
+        if K_Lvl < 10 and CheatsEnabled:
+            textbutton "Kitty Max Level" text_size 15 action [ SetVariable("K_Lvl", 10), SetVariable("K_XP", 3330), SetVariable("K_StatPoints", 9) ]
+        if E_Lvl < 10 and CheatsEnabled:
+            textbutton "Emma Max Level" text_size 15 action [ SetVariable("E_Lvl", 10), SetVariable("E_XP", 3330), SetVariable("E_StatPoints", 9) ]
+        if R_ForcedCount and CheatsEnabled:
+            textbutton "Rogue Forced 0" text_size 15 action [ SetVariable("R_ForcedCount", 0)]
+        if K_ForcedCount and CheatsEnabled:
+            textbutton "Kitty Forced 0" text_size 15 action [ SetVariable("K_ForcedCount", 0)]
+        if E_ForcedCount and CheatsEnabled:
+            textbutton "Emma Forced 0" text_size 15 action [ SetVariable("E_ForcedCount", 0)]
+        if not R_Action and CheatsEnabled:
+            textbutton "10 Rogue actions" text_size 15 action [ SetVariable("R_Action", 10)]
+        if not K_Action and CheatsEnabled:
+            textbutton "10 Kitty actions" text_size 15 action [ SetVariable("K_Action", 10)]
+        if not E_Action and CheatsEnabled:
+            textbutton "10 Emma actions" text_size 15 action [ SetVariable("E_Action", 10)]
         showif "dildo" in P_Inventory:
             $ Inventory_Count = Inventory_Check("dildo")
             text "Dildos: [Inventory_Count]" size 15        
