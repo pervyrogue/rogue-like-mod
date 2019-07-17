@@ -676,7 +676,200 @@ label E_TouchCheek:
     $ E_DailyActions.append("cheek")
     return
 # End Emma "touch cheek" action / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / 
-    
+
+label E_Headpat:  
+    call Shift_Focus("Emma")
+    call EmmaFace("surprised", 1)
+    if "no headpat" in E_DailyActions:
+        "You reach out to pat Emma on the head, but she glares at you hard enough that you freeze."
+        call EmmaFace("angry")
+        ch_e "What have we said about this \"head pats\" obsession?"
+        call Statup("Emma", "Love", 50, -2)
+        return
+    else:
+        "You reach out and pat Emma on the head."
+    call Statup("Emma", "Obed", 50, 2)    
+       
+    if ApprovalCheck("Emma", 1200):
+        call EmmaFace("sexy", 1)
+        ch_e "Hmmmm?"
+        call Statup("Emma", "Love", 85, 1)
+    elif ApprovalCheck("Emma", 1100) or ApprovalCheck("Emma", 850, "L"):
+        call EmmaFace("smile", 1)
+        ch_e "Mmmmmm. . ."      
+    elif "headpat" in E_DailyActions:        
+        call EmmaFace("angry", 1)
+        ch_e "Do I look like a child or pet to you?"
+        call Statup("Emma", "Love", 50, -2)
+        $ E_DailyActions.append("no headpat")
+    elif ApprovalCheck("Emma", 800):
+        $ E_Mouth = "smile"
+        $ E_Brows = "normal"
+        ch_e "Hmph. You have some odd interests."
+    else:
+        call EmmaFace("angry", 1)
+        "She grabs your wrist and pulls it away from her hair."
+        ch_e "I will warn you once. Stop that."  
+        call Statup("Emma", "Love", 50, -3)
+        call Statup("Emma", "Obed", 50, 1)
+        call Statup("Emma", "Inbt", 30, 1)
+   
+    if "no headpat" in E_DailyActions:
+        menu:
+            "Sorry, sorry, won't happen again.":
+                if ApprovalCheck("Emma", 300):
+                    call EmmaFace("sexy", 1)
+                    ch_e "I should hope not."
+                    call Statup("Emma", "Love", 80, 2)
+                else:
+                    call EmmaFace("angry", 1)
+                    $ E_Eyes = "side"
+                    "Emma silently glares at you."                
+                    call Statup("Emma", "Obed", 20, 1)  
+
+            "You know you wanted it.":
+                if ApprovalCheck("Emma", 600, "OI") or ApprovalCheck("Emma", 900):
+                    call EmmaFace("normal", 1)
+                    $ E_Eyes = "squint"
+                    ch_e "Hmph. . ."
+                    call Statup("Emma", "Love", 60, -1)
+                    call Statup("Emma", "Obed", 30, 2)                        
+                    call Statup("Emma", "Inbt", 40, 2)
+                else:
+                    call EmmaFace("sexy", 2)
+                    $ E_Eyes = "squint"
+                    ch_e "What nonsense. . ."  
+                    $ E_Blush = 1
+                    call Statup("Emma", "Love", 60, -3)
+                    call Statup("Emma", "Obed", 30, 3)                        
+                    call Statup("Emma", "Inbt", 40, 2)
+       
+    else:
+        menu:
+            "Sorry, you looked so cute there.":
+                if ApprovalCheck("Emma", 1050, "LI"):
+                    call EmmaFace("sexy", 1)
+                    "She hesitates, but then slowly closes her eyes."
+                    ch_e "Be grateful. I wouldn't let just anyone do this."
+                    call Statup("Emma", "Love", 80, 2)  
+                    $ Count = 5
+                elif ApprovalCheck("Emma", 700, "LI"):
+                    call EmmaFace("smile", 1)
+                    ch_e "Just cute? I must be slipping."
+                    call Statup("Emma", "Love", 80, 2)
+                    $ Count = 4
+                else:
+                    call EmmaFace("angry", 1)
+                    $ E_Eyes = "side"
+                    ch_e "You'll have to do better than that, [E_PetName]. Much better."              
+                    call Statup("Emma", "Obed", 20, 1)
+                    $ Count = 1  
+                   
+            "You had a loose hair going on.":
+                if ApprovalCheck("Emma", 850, "LI"):
+                    call EmmaFace("sexy", 1)
+                    ch_e "A loose hair, you say? Perhaps you can help get it back under control."
+                    call Statup("Emma", "Love", 60, 1)                        
+                    call Statup("Emma", "Inbt", 40, 1)
+                    $ Count = 5
+                elif ApprovalCheck("Emma", 700):
+                    call EmmaFace("normal")
+                    ch_e "A loose hair? Oh, [E_PetName]. I would hope you'd be more original than that."
+                    $ Count = 3
+                else:
+                    call EmmaFace("angry", 1)
+                    ch_e "I can handle something like that easily enough on my own."
+                    call Statup("Emma", "Obed", 50, 2)  
+                    $ Count = 1  
+                   
+            "Are you sure you didn't enjoy that?":
+                if ApprovalCheck("Emma", 1000):
+                    call EmmaFace("sexy", 1)
+                    $ E_Eyes = "side"
+                    ch_e "I'll admit that much, at least."
+                    call Statup("Emma", "Obed", 50, 2)  
+                    call Statup("Emma", "Obed", 30, 1)                        
+                    call Statup("Emma", "Inbt", 40, 1)
+                    $ Count = 4
+                elif ApprovalCheck("Emma", 600, "OI"):
+                    call EmmaFace("normal", 1)
+                    ch_e "Ah. . . no, no. A lady must have some secrets."
+                    call Statup("Emma", "Love", 60, -1)
+                    call Statup("Emma", "Obed", 50, 2)  
+                    call Statup("Emma", "Obed", 30, 2)                        
+                    call Statup("Emma", "Inbt", 40, 2)
+                    $ Count = 2
+                else:
+                    call EmmaFace("angry", 1)
+                    $ E_Eyes = "side"
+                    ch_e "If you'd tried that a few years ago..."  
+                    call Statup("Emma", "Love", 60, -3)
+                    call Statup("Emma", "Obed", 50, 2)  
+                    call Statup("Emma", "Obed", 30, 3)                        
+                    call Statup("Emma", "Inbt", 40, 2)
+                    $ Count = 1
+        while Count > 0 and Round >= 10:
+            $ Count -= 1 if Count != 3 else 0
+            $ Round -= 1
+            menu:
+                "Continue?"
+                "Yes":
+                    "You continue to hold your hand on top of Emma's head, rubbing it softly."                    
+                    if not Count:
+                        if ApprovalCheck("Emma", 800):
+                            call EmmaFace("bemused", 2)
+                            call Statup("Emma", "Love", 80, 2)                      
+                            call Statup("Emma", "Inbt", 40, 2)
+                            ch_e "I think. . . that will do."
+                            "She steps back and out of your range."
+                            call EmmaFace("bemused", 1)
+                        else:
+                            call EmmaFace("angry", 2)
+                            call Statup("Emma", "Love", 60, -5)                      
+                            call Statup("Emma", "Inbt", 40, 3)
+                            ch_e "I think you've had your fun. . ."
+                            "She knocks your hand away."
+                            call EmmaFace("angry", 1)
+                    elif Count == 1:
+                        if ApprovalCheck("Emma", 900):
+                            call EmmaFace("bemused", 1)
+                            call Statup("Emma", "Love", 80, 1)
+                            call Statup("Emma", "Obed", 50, 2)                        
+                            call Statup("Emma", "Inbt", 40, 2)
+                            if Taboo > 20:
+                                    # Taboo ratings over 20 are considered public areas, over 0 means people might be around
+                                    ch_e "We really shouldn't do this in public. . . I do have an image."
+                            else:
+                                    ch_e "Just be careful not to do that in public. . . I do have an image."
+                        else:
+                            call EmmaFace("angry", 2)
+                            call Statup("Emma", "Love", 60, -2)
+                            call Statup("Emma", "Obed", 60, 2)  
+                            call Statup("Emma", "Obed", 30, 2)  
+                            ch_e "Don't push your luck too far."
+                    else:
+                        if ApprovalCheck("Emma", 900):
+                            call EmmaFace("bemused", 2,Eyes="closed")
+                            if Count > 3:
+                                call Statup("Emma", "Love", 90, 1)
+                                call Statup("Emma", "Love", 70, 1)
+                                call Statup("Emma", "Obed", 50, 1)
+                                ch_e "Mmmmm. . . you really shouldn't. . ."
+                                "She does seem to be leaning into it. . ."
+                        else:
+                            call EmmaFace("angry", 1)
+                            call Statup("Emma", "Love", 60, -1)
+                            call Statup("Emma", "Obed", 50, 2)  
+                            call Statup("Emma", "Obed", 30, 2)                        
+                            call Statup("Emma", "Inbt", 40, 2)
+                            ch_e "Er. . ."
+                            $ Count -= 1 if Count > 2 else 0
+                "No":
+                    $ Count = 0
+    $ Count = 0                
+    $ E_RecentActions.append("headpat")
+    $ E_DailyActions.append("headpat")
+    return
 # Slap Ass
 
 label E_Slap_Ass:
@@ -1613,9 +1806,7 @@ label EM_Interupted:
     if "unseen" in E_RecentActions:                         
                 call EmmaFace("surprised", 2)
                 "Emma stops what she's doing with a start, eyes wide."
-                if not E_Legs or E_Upskirt:                    
-                    if not E_Panties or E_PantiesDown:
-                        call Emma_First_Bottomless(1) 
+                call Emma_First_Bottomless(1) 
                 call EmmaFace("confused", 1, Eyes="surprised")
                 if E_Loc == "bg desk":
                     $ E_Loc = bg_current
@@ -1772,7 +1963,7 @@ label Emma_Offhand(TempLine=0):
                 $ PrimaryLust += 2 if E_Lust < 50 else 1
         
     elif Trigger2 == "fondle breasts":
-                $ Line = renpy.random.choice([" You reach out and massage her pert breasts.", 
+                $ Line = renpy.random.choice([" You reach out and massage her voluminous breasts.", 
                         " You pass your hands gently over her warm breasts.", 
                         " Her nipples catch lightly on your fingers as you grasp her warm flesh, you can feel them stiffen.",
                         " She gasps as you lightly thumb her tight nipples."])

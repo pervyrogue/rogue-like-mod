@@ -47,7 +47,7 @@ label K_Sex_P:
     if Situation == "Kitty":                                                                  #Kitty auto-starts   
                 if Approval > 2:                                                      # fix, add kitty auto stuff here
                     call Kitty_Sex_Launch("L")   
-                    if K_Legs == "skirt":
+                    if K_Legs == "blue skirt":
                         "Kitty slides onto her back and pulls you against her, sliding her skirt up as she does so."
                         $ K_Upskirt = 1
                     elif K_Legs == "capris" or K_Legs == "black jeans":
@@ -96,7 +96,7 @@ label K_Sex_P:
     
     if Situation == "auto":   
                 call Kitty_Sex_Launch("L")   
-                if K_Legs == "skirt":
+                if K_Legs == "blue skirt":
                     "You press Kitty down onto her back, sliding her skirt up as you go."
                     $ K_Upskirt = 1                
                 elif K_Legs == "capris" or K_Legs == "black jeans":
@@ -794,7 +794,7 @@ label K_Sex_A:
             #Kitty auto-starts   
             if Approval > 2:                                                      # fix, add kitty auto stuff here
                 call Kitty_Sex_Launch("L")   
-                if K_Legs == "skirt":
+                if K_Legs == "blue skirt":
                     "Kitty slides onto her back and pulls you against her, sliding her skirt up as she does so."
                     $ K_Upskirt = 1
                 elif K_Legs == "capris" or K_Legs == "black jeans":
@@ -842,7 +842,7 @@ label K_Sex_A:
     
     if Situation == "auto":   
             call Kitty_Sex_Launch("L")   
-            if K_Legs == "skirt":
+            if K_Legs == "blue skirt":
                 "You press Kitty down onto her back, sliding her skirt up as you go."
                 $ K_Upskirt = 1                
             elif K_Legs == "capris" or K_Legs == "black jeans":

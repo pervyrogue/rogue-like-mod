@@ -548,7 +548,11 @@ label L_FB_Cycle: #Repeating strokes
         if Round == 10:
             ch_l "It's getting late, we should wrap this up."  
         elif Round == 5:
-            ch_l "Tic tock, [L_Petname]."        
+            ch_l "Tic tock, [L_Petname]."    
+            
+        if L_Lust >= 50 and not L_Uptop and (L_Chest or L_Over):
+                $ L_Uptop = 1
+                "Laura grunts and pulls her clothes aside."        
     
     #Round = 0 loop breaks
     call LauraFace("bemused", 0)
@@ -996,6 +1000,10 @@ label L_SB_Cycle: #Repeating strokes
             ch_l "It's getting late, we should wrap this up."  
         elif Round == 5:
             ch_l "Tic tock, [L_Petname]."        
+    
+        if L_Lust >= 50 and not L_Uptop and (L_Chest or L_Over):
+                $ L_Uptop = 1
+                "Laura grunts and pulls her clothes aside."        
     
     #Round = 0 loop breaks
     call LauraFace("bemused", 0)

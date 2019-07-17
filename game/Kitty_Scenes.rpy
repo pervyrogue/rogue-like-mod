@@ -20,7 +20,7 @@ label KittyMeet:
     $ K_Loc = "bg campus" 
     call Statup("Kitty", "Love", 90, -25) 
     call KittyFace("surprised")
-    $ K_Arms = 1
+    $ Kitty_Arms = 1
     ch_u "Hey!"
     $ K_Brows = "angry"
     ch_u "What the hell was that?"
@@ -840,14 +840,14 @@ label Kitty_Caught(TotalCaught=0):
 label Plan_Kappa:
     call KittyFace("sly")         
     "As you say this, a sly grin crosses Kitty's face."
-    $ K_Arms = 0
+    $ Kitty_Arms = 0
     $ Kitty_Arms = 2
     "You quickly approach Xavier and place your hands on his head."
     call XavierFace("psychic")
     ch_x ". . ."
     call XavierFace("shocked")
     "Xavier realizes with a shock that with your powers, his telepathy is useless."    
-    $ K_Arms = 2
+    $ Kitty_Arms = 2
     show Kitty_Sprite at SpriteLoc(StageLeft+100,150) with ease
     $ K_SpriteLoc = StageCenter
     "Kitty moves in sits on his lap, pinning his arms to the chair."
@@ -1023,11 +1023,11 @@ label Kitty_BF:
                     call K_Kissing_Launch("kiss you")
                     $ K_Kissed += 1
                 "She wouldn't understand." if len(P_Harem) == 1:
-                    $ Line = "no."
+                    $ Line = "no"
                 "They wouldn't be cool with that." if len(P_Harem) > 1:
-                    $ Line = "no."
+                    $ Line = "no"
                 "I'm sorry, but. . . no." if K_Event[5] != 20:
-                    $ Line = "no."
+                    $ Line = "no"
                 "No way.":
                     jump Kitty_BF_Jerk
             if Line == "no":                
@@ -1538,7 +1538,7 @@ label Kitty_Sub:
                         call KittyFace("startled", 1)
                         call Statup("Kitty", "Obed", 200, -5)
                         menu:
-                            ch_k "Only if you think it might be[K_Like]weird. But I think it's kinda hot."
+                            ch_k "Only if you think it might be[K_like]weird. But I think it's kinda hot."
                             "Only if you're okay with it.":
                                 call KittyFace("bemused", 2)
                                 call Statup("Kitty", "Love", 95, 10)
@@ -1604,7 +1604,7 @@ label Kitty_Sub:
                 call Statup("Kitty", "Inbt", 50, -5)
                 call KittyFace("sadside", 1)
                 menu:
-                    ch_k ". . . Well. . . maybe you can still kinda[K_Like]be in control, anyway?"
+                    ch_k ". . . Well. . . maybe you can still kinda[K_like]be in control, anyway?"
                     "I like that idea.":
                             call Statup("Kitty", "Obed", 200, 10)
                             call KittyFace("smile", 1)
@@ -1649,7 +1649,7 @@ label Kitty_Sub_Asked:
     ch_k "Yeah.  And I also[K_like]remember what a {i}jerk{/i} you were to me about it."
     menu:
         extend ""
-        "Well, I wanted to say I was sorry.  And I was hoping maybe we could give it another shot.":
+        "Well, I wanted to say I was sorry. And I was hoping maybe we could give it another shot.":
                 if "sir" in K_Petnames and ApprovalCheck("Kitty", 850, "O"): 
                         #if this is asking about the "master" name, and her Obedience is higher than 700
                         pass
@@ -1667,7 +1667,7 @@ label Kitty_Sub_Asked:
                         #Blushing expression.  Kitty kisses player and big addition of points
                         ch_k "Okay.  We can[K_like]try again." 
 
-        "Listen. . .I know it's what you want.  Do you want to try again, or not?":
+        "Listen. . . I know it's what you want. Do you want to try again, or not?":
                 call KittyFace("bemused", 1)
                 if "sir" in K_Petnames:
                     if ApprovalCheck("Kitty", 850, "O"): 
@@ -1969,7 +1969,7 @@ label Kitty_Sexfriend:
 
                         "Uhm, I think I've had my fill of {i}weird{/i}, thanks":
                             call KittyFace("angry",1)
-                            ch_k "Fine. [K_Like]whatever."
+                            ch_k "Fine. [K_like]whatever."
                             $ Line = "rude"
                                 
     if not Line: #again, if the Line has been changed to "rude" or "embarrassed" then it skips past here.                          

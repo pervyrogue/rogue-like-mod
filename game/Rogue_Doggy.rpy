@@ -2133,5 +2133,4 @@ image Dildo_Animation:
 image AssTest:
 #    "Dildo_Animation"
     AlphaMask("Dildo_Animation", "AssBase")
-    
-    
+

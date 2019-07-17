@@ -343,7 +343,7 @@ label E_Sex_P:
         call Statup("Emma", "Obed", 50, -3)
     elif E_Sex:
         call EmmaFace("sad") 
-        ch_e "I'm sure you can figure out how to take care fo that yourself."       
+        ch_e "I'm sure you can figure out how to take care of that yourself."       
     else:
         call EmmaFace("normal", 1)
         ch_e "I'm afraid not."     

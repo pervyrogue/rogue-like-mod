@@ -29,10 +29,10 @@ image blackscreen:
     Solid("#000000")
     on show:
         alpha 1.0
-        linear 0.5 alpha 1.0
+        linear 0.4 alpha 1.0
     on hide:
         alpha 1.0
-        linear 0.5 alpha 0.0
+        linear 0.4 alpha 0.0
 
 define ch_r = Character('Rogue', color="#85bb65", image = "arrow", show_two_window=True)
 define ch_p = Character('[Playername]', color="#87CEEB", show_two_window=True)
@@ -68,7 +68,7 @@ label splashscreen:
 init -1:  
 
 #World Stats
-    default SaveVersion = 982
+    default SaveVersion = 983
     default Day = 1
     default Cheat = 0
     default Time_Options = ["Morning", "Midday", "Evening", "Night"]
@@ -284,6 +284,7 @@ init -1:
     default R_TempClothes = [0,0,0,0,0,0,0,0,0,0,0]  
     default R_Gym = [2,"gloved",0,"hoodie",0,"sports bra","shorts",0,0,0,0]
     default R_Sleepwear = [0,0,0,0,0,"tank","green panties",0,0,0]
+    default R_Swim = [0,0,0,"hoodie",0,"bikini top","bikini bottoms",0,0,0,0] 
     # (0-6) = Mon-Sun, (7) Datewear, (8) null, (9) Private
     default R_Schedule = [0,0,0,0,0,0,0,0,0,0]                  
     default R_SpriteVer = 0
@@ -325,6 +326,7 @@ init -1:
 #Kitty Sprite Variables
     default K_Outfit = "pink outfit"
     default K_OutfitDay = "pink outfit"
+    default Kitty_Arms = 1
     default K_Emote = "normal"
     default K_EmoteDefault = "normal"
     default K_Arms = 0
@@ -348,6 +350,7 @@ init -1:
     default K_Water = 0
     default K_Upskirt = 0
     default K_PantiesDown = 0
+    default K_Uptop = 0
     # toggle(0),arms/gloves(1),pants(2),jacket(3),necklace(4),bra(5),panties(6),boots(7),hair(8),hose(9)
     default K_Custom = [0,0,0,0,0,0,0,0,0,0]
     default K_Custom2 = [0,0,0,0,0,0,0,0,0,0,0]
@@ -355,6 +358,7 @@ init -1:
     default K_TempClothes = [0,0,0,0,0,0,0,0,0,0,0]    
     default K_Gym = [2,0,"shorts",0,0,"sports bra","green panties",0,0,0,0]
     default K_Sleepwear = [0,0,"shorts",0,0,"cami","green panties",0,0,0]
+    default K_Swim = [0,0,"blue skirt",0,0,"bikini top","bikini bottoms",0,0,0,0] 
     # (0-6) = Mon-Sun, (7) Datewear, (8) null, (9) Private
     default K_Schedule = [0,0,0,0,0,0,0,0,0,0]                      #chooses when she wears what
     default KittyLayer = 100
@@ -470,6 +474,7 @@ init -1:
     default E_TitsUp = 1
     default E_Upskirt = 0
     default E_PantiesDown = 0
+    default E_Uptop = 0
     # toggle(0),arms/gloves(1),pants(2),jacket(3),necklace(4),bra(5),panties(6),boots(7),hair(8),hose(9)
     default E_Custom = [0,0,0,0,0,0,0,0,0,0]
     default E_Custom2 = [0,0,0,0,0,0,0,0,0,0,0]
@@ -477,8 +482,9 @@ init -1:
     default E_TempClothes = [0,0,0,0,0,0,0,0,0,0,0]   
     default E_Gym = [2,0,0,0,0,"sports bra","sports panties",0,0,0,0]
     default E_Sleepwear = [0,0,0,0,0,"corset","white panties",0,0,0]
+    default E_Swim = [0,0,0,0,0,"bikini top","bikini bottoms",0,0,0,0] 
     # (0-6) = Mon-Sun, (7) Datewear, (8) Teachingwear, (9) Private
-    default E_Schedule = [0,0,0,0,0,0,0,0,0,0]                      #chooses when she wears what
+    default E_Schedule = [0,0,0,0,0,0,0,"teacher","teacher",0]                      #chooses when she wears what [0,0,0,0,0,0,0,0,0,0]
     default EmmaLayer = 101
     default E_SpriteLoc = StageCenter                        #Sets Emma to default to the center
   # Sexual Encounters
@@ -594,6 +600,7 @@ init -1:
     default L_TitsUp = 1
     default L_Upskirt = 0
     default L_PantiesDown = 0
+    default L_Uptop = 0
     # toggle(0),arms/gloves(1),pants(2),jacket(3),necklace(4),bra(5),panties(6),boots(7),hair(8),hose(9)
     default L_Custom = [0,0,0,0,0,0,0,0,0,0]
     default L_Custom2 = [0,0,0,0,0,0,0,0,0,0,0]
@@ -601,6 +608,7 @@ init -1:
     default L_TempClothes = [0,0,0,0,0,0,0,0,0,0,0]   
     default L_Gym = [2,0,"leather pants",0,0,"leather bra","black panties",0,0,0,0]
     default L_Sleepwear = [0,0,0,0,0,"leather bra","black panties",0,0,0]
+    default L_Swim = [0,0,0,0,0,"bikini top","bikini bottoms",0,0,0,0] 
     # (0-6) = Mon-Sun, (7) Datewear, (8) Teachingwear, (9) Private
     default L_Schedule = [0,0,0,0,0,0,0,0,0,0]                      #chooses when she wears what
     default LauraLayer = 101
@@ -722,7 +730,7 @@ label VersionNumber:
     if SaveVersion == 975: #error correction, remove this eventually
         $ SaveVersion = 957  
         
-    if SaveVersion < 982:
+    if SaveVersion < 983:
         if SaveVersion < 976:
                 if SaveVersion < 94:
                     $ R_Love = R_Love * 10
@@ -1268,7 +1276,13 @@ label VersionNumber:
                 $ P_RecentActions.remove("lockedclass")
                 $ P_RecentActions.append("locked")
             $ SaveVersion = 982
-            #end Save 982 prep
+            #end Save 982 prep          
+            
+        if SaveVersion < 983:        
+            $ Kitty_Arms = K_Arms   
+#            $ K_Arms = 0
+#            $ SaveVersion = 983
+            #end Save 983 prep          
                     
                 
                 
@@ -1325,7 +1339,12 @@ label EventCalls:
                 if Day >= 10:
                     call LauraMeet
                     return       
-                    
+        
+        if bg_current == "bg campus" and Current_Time != "Night" and "met" in L_History and "met" in K_History:
+            if "dress3" not in L_History and "dress1" not in L_History:
+                #Calls Kitty starting dressup event
+                call Laura_Dressup
+            
         #Activates Emma meet and class stuff
         if "traveling" in P_RecentActions and bg_current == "bg classroom" and Weekday < 5:
             #if you are in motion, in the classroom, and it's a school day, 
@@ -1388,17 +1407,7 @@ label EventCalls:
                         jump Rogue_Addicted2        
                     elif R_Addict >= 90:                    #"I'm crazy-addicted" event
                         jump Rogue_Addicted3               
-                
-            #Activates if she hasn't given you a key yet
-            if not R_Event[0] and R_Sleep >= 5:               
-                        if R_Loc == bg_current or "Rogue" in Party:
-                            call Rogue_Key
-                            return  
-            if not K_Event[0] and K_Sleep >= 5:               
-                        if K_Loc == bg_current or "Kitty" in Party:
-                            call Kitty_Key
-                            return  
-                
+                   
         #Activates if Rogue or Kitty caught you cheating
         if "saw with Kitty" in R_Traits and "dating" in R_Traits:  
                     if bg_current == "bg rogue" or bg_current == "bg player":
@@ -1456,6 +1465,10 @@ label EventCalls:
                 if "stoodup" in R_Traits: #you stood her up
                             call Rogue_Date_Stood_Up
                             return  
+                if not R_Event[0] and R_Sleep >= 5:               
+                        if R_Loc == bg_current or "Rogue" in Party:
+                            call Rogue_Key
+                            return  
                 if "boyfriend" not in R_Petnames and R_Love >= 800 and R_Event[5] != 20 and "RogueNo" not in P_Traits: # R_Event[5]
                         # R_Event[5] is 20 if you refused due to other girlfriend    
                         # if "RogueNo" it means you can't date her.                    
@@ -1508,6 +1521,10 @@ label EventCalls:
                 if "stoodup" in K_Traits: #you stood her up
                             call Kitty_Date_Stood_Up
                             return                    
+                if not K_Event[0] and K_Sleep >= 5:               
+                            if K_Loc == bg_current or "Kitty" in Party:
+                                call Kitty_Key
+                                return                              
                 if "boyfriend" not in K_Petnames and K_Love >= 800 and K_Event[5] != 20 and "KittyNo" not in P_Traits: # K_Event[5]
                         # K_Event[5] is 20 if you refused due to other girlfriend
                         # if "KittyNo" it means you can't date her.
@@ -1541,15 +1558,11 @@ label EventCalls:
                 elif "daddy" not in K_Petnames and ApprovalCheck("Kitty", 750, "L") and ApprovalCheck("Kitty", 500, "O") and ApprovalCheck("Kitty", 500, "I"): # K_Event[5]
                         if bg_current == "bg kitty" or bg_current == "bg player" and K_Loc == bg_current:
                             call Kitty_Daddy
-                            return 
-                        else:
-                            call AskedMeet("Kitty","bemused")
+                            return                         
                 elif "sex friend" not in K_Petnames and K_Inbt >= 500: # K_Event[9]
                         if bg_current == "bg kitty" or bg_current == "bg player":
                             call Kitty_Sexfriend
                             return 
-                        else:
-                            call AskedMeet("Kitty","bemused")
                            
                 elif "fuck buddy" not in K_Petnames and K_Inbt >= 800 and bg_current != K_Loc: # K_Event[10]  Fix this one
                         #if she's not a fuckbuddy yet, and is not around at the time
@@ -1561,7 +1574,11 @@ label EventCalls:
         if "relationship" not in E_DailyActions and "angry" not in E_DailyActions: 
                 if "stoodup" in E_Traits: #you stood her up
                             call Emma_Date_Stood_Up
-                            return                    
+                            return          
+                if not E_Event[0] and E_Sleep >= 5:               
+                            if E_Loc == bg_current or "Emma" in Party:
+                                call Emma_Key
+                                return            
                 if "boyfriend" not in E_Petnames and E_Love >= 800 and E_Event[5] != 20 and "EmmaNo" not in P_Traits: # E_Event[5]
                         if P_Harem and "EmmaYes" not in P_Traits:
                             call Poly_Start("Emma")    
@@ -1604,7 +1621,58 @@ label EventCalls:
                         call Emma_Fuckbuddy
                         return  
         #End Emma relationsip stuff
-                            
+         
+        #Laura relationship stuff, not finished
+        if "relationship" not in L_DailyActions and "angry" not in L_DailyActions: 
+                if "stoodup" in L_Traits: #you stood her up
+                            call Laura_Date_Stood_Up
+                            return  
+                if not L_Event[0] and L_Sleep >= 5:               
+                            if L_Loc == bg_current or "Laura" in Party:
+                                call Laura_Key
+                                return                    
+                if "boyfriend" not in L_Petnames and L_Love >= 800 and L_Event[5] != 20 and "LauraNo" not in P_Traits: # L_Event[5]
+                        if P_Harem and "LauraYes" not in P_Traits:
+                            call Poly_Start("Laura")    
+                            return
+                        elif bg_current == "bg laura" or bg_current == "bg player":
+                            call Laura_BF
+                            return
+                        else:
+                            call AskedMeet("Laura","bemused") 
+                elif "lover" not in L_Petnames and L_Love >= 950 and L_Event[6] != 20: # L_Event[6]   
+                        if bg_current == "bg laura" or bg_current == "bg player":
+                            call Laura_Love
+                            return
+                        else:
+                            call AskedMeet("Laura","bemused") 
+                elif "sir" not in L_History and L_Obed >= 500: # L_Event[7]
+                        if bg_current == "bg laura" or bg_current == "bg player":
+                            call Laura_Sub
+                            return 
+                        else:
+                            call AskedMeet("Laura","bemused")
+                elif "master" not in L_History and L_Obed >= 800 and "sir" in L_Petnames: # L_Event[8]
+                        if bg_current == "bg laura" or bg_current == "bg player":
+                            call Laura_Master
+                            return 
+                        else:
+                            call AskedMeet("Laura","bemused")
+#                elif "daddy" not in L_Petnames and ApprovalCheck("Laura", 750, "L") and ApprovalCheck("Laura", 500, "O") and ApprovalCheck("Laura", 500, "I"): # L_Event[5]
+#                        if (bg_current == "bg laura" or bg_current == "bg player") and L_Loc == bg_current:
+#                            call Laura_Daddy
+#                            return 
+#                        else:
+#                            call AskedMeet("Laura","bemused")
+#                elif "sex friend" not in L_Petnames and L_Inbt >= 500 and bg_current == "bg classroom" and Time_Count == 2: # L_Event[9]  Fix this one
+#                            call Laura_Sexfriend
+#                            return 
+                           
+#                elif "fuck buddy" not in L_Petnames and L_Inbt >= 800 and bg_current != L_Loc: # L_Event[10]  Fix this one
+#                        #if she's not a fuckbuddy yet, and is not around at the time
+#                        call Laura_Fuckbuddy
+#                        return  
+        #End Laura relationsip stuff                   
 #End primary events
         
         
@@ -2101,6 +2169,57 @@ label RogueOutfit(R_OutfitTemp = R_Outfit, Spunk = 0, Undressed = 0, Changed = 1
                         #Puts a hoodie on if she's shy
                         $ R_Over = "hoodie"  
                         $ R_Shame -= 10 if R_Shame >=10 else R_Shame
+        elif R_OutfitTemp == "custom2":
+                    if not R_Legs and R_Custom2[2]:            
+                        $ Undressed = 1
+                    elif not R_Over and R_Custom2[3]:          
+                        $ Undressed = 1
+                    elif not R_Chest and R_Custom2[5]:          
+                        $ Undressed = 1
+                    elif not R_Panties and R_Custom2[6] and "pantyless" not in R_DailyActions:          
+                        $ Undressed = 1
+                    elif not R_Hose and R_Custom2[9]:          
+                        $ Undressed = 1
+                        
+                    $ R_Arms = R_Custom2[1]
+                    $ R_Legs = R_Custom2[2]
+                    $ R_Over = R_Custom2[3]
+                    $ R_Neck = R_Custom2[4] 
+                    $ R_Chest = R_Custom2[5]
+                    if "pantyless" not in R_DailyActions:
+                        $ R_Panties = R_Custom2[6]
+            #        $ R_Pubes = R_Custom2[7]
+                    $ R_Hair = R_Custom2[8] if R_Custom2[8] else "evo"
+                    $ R_Hose = R_Custom2[9]        
+                    $ R_Shame = R_OutfitShame[5]
+        elif R_OutfitTemp == "swimwear":
+                    if not R_Swim[0] and "bikini top" not in R_Inventory or "bikini bottoms" not in R_Inventory:
+                            #if she doesn't own her swimsuit components. . .
+                            ch_r "I don't really have any swimsuit I could wear. . ."
+                            return
+                    if not R_Swim[0] and R_Inbt >= 500:
+                            $ R_Swim[3] = 0
+                    if not R_Legs and R_Swim[2]:            
+                        $ Undressed = 1
+                    elif not R_Over and R_Swim[3]:          
+                        $ Undressed = 1
+                    elif not R_Chest and R_Swim[5]:          
+                        $ Undressed = 1
+                    elif not R_Panties and R_Swim[6]:# and "pantyless" not in R_DailyActions:          
+                        $ Undressed = 1
+                    elif not R_Hose and R_Swim[9]:          
+                        $ Undressed = 1
+                        
+                    $ R_Arms = R_Swim[1]
+                    $ R_Legs = R_Swim[2]
+                    $ R_Over = R_Swim[3]
+                    $ R_Neck = R_Swim[4] 
+                    $ R_Chest = R_Swim[5]
+                    $ R_Panties = R_Swim[6]
+            #        $ R_Pubes = R_Swim[7]
+                    $ R_Hair = R_Swim[8] if R_Swim[8] else "evo"
+                    $ R_Hose = R_Swim[9]        
+                    $ R_Shame = R_OutfitShame[6]
                 
         if R_Panties and R_Panties != "shorts" and "pantyless" in R_DailyActions:       
                 # This checks the pantyless state from flirting 
@@ -2442,6 +2561,45 @@ label KittyOutfit(K_OutfitTemp = K_Outfit, Spunk = 0, Undressed = 0, Changed = 1
                     $ K_Hair = K_Gym[8] if K_Gym[8] else K_Hair 
                     $ K_Hose = K_Gym[9]     
                     $ K_Shame = K_OutfitShame[7]   
+        elif K_OutfitTemp == "swimwear":
+                    if not K_Swim[0] and "bikini top" not in K_Inventory or "bikini bottoms" not in K_Inventory:
+                            #if she doesn't own her swimsuit components. . .
+                            ch_k "I wish I had something cute to wear, but I don't. . ."
+                            return
+                    if not K_Swim[0] and K_Inbt >= 500:
+                            $ K_Swim[2] = 0
+                    if not K_Legs and K_Swim[2]:            
+                        $ Undressed = 1
+                    elif not K_Over and K_Swim[3]:          
+                        $ Undressed = 1
+                    elif not K_Chest and K_Swim[5]:          
+                        $ Undressed = 1
+                    elif not K_Panties and K_Swim[6]:# and "pantyless" not in K_DailyActions:          
+                        $ Undressed = 1
+                    elif not K_Hose and K_Swim[9]:          
+                        $ Undressed = 1
+                        
+                    $ K_Arms = K_Swim[1]
+                    
+                    if not K_Swim[0] and "blue skirt" not in K_Inventory:
+                            #if she has no custom swimsuit and no blue skirt. . .
+                            if K_Inbt <= 400:
+                                ch_k "I don't know, I do have a suit, but it's a little daring. . ."
+                                ch_k "If only I had a little skirt or something. . ."
+                                return
+                            else:
+                                $ K_Legs = 0
+                    else:
+                        $ K_Legs = K_Swim[2]
+                    
+                    $ K_Over = K_Swim[3]
+                    $ K_Neck = K_Swim[4] 
+                    $ K_Chest = K_Swim[5]
+                    $ K_Panties = K_Swim[6]
+            #        $ K_Pubes = K_Swim[7]
+                    $ K_Hair = K_Swim[8] if K_Swim[8] else K_Hair
+                    $ K_Hose = K_Swim[9]        
+                    $ K_Shame = K_OutfitShame[6]
                 
         if K_Panties and "pantyless" in K_DailyActions:       
                 # This checks the pantyless state from flirting 
@@ -2797,6 +2955,32 @@ label EmmaOutfit(E_OutfitTemp = E_Outfit, Spunk = 0, Undressed = 0, Changed = 1)
                     $ E_Hair = E_Gym[8] if E_Gym[8] else E_Hair 
                     $ E_Hose = E_Gym[9]     
                     $ E_Shame = E_OutfitShame[7]   
+        elif E_OutfitTemp == "swimwear":
+                    if not E_Swim[0] and "bikini top" not in E_Inventory or "bikini bottoms" not in E_Inventory:
+                            #if she doesn't own her swimsuit components. . .
+                            ch_e "I really don't own the proper attire. . ."
+                            return
+                    if not E_Legs and E_Swim[2]:            
+                        $ Undressed = 1
+                    elif not E_Over and E_Swim[3]:          
+                        $ Undressed = 1
+                    elif not E_Chest and E_Swim[5]:          
+                        $ Undressed = 1
+                    elif not E_Panties and E_Swim[6]:# and "pantyless" not in E_DailyActions:          
+                        $ Undressed = 1
+                    elif not E_Hose and E_Swim[9]:          
+                        $ Undressed = 1
+                        
+                    $ E_Arms = E_Swim[1]
+                    $ E_Legs = E_Swim[2]
+                    $ E_Over = E_Swim[3]
+                    $ E_Neck = E_Swim[4] 
+                    $ E_Chest = E_Swim[5]
+                    $ E_Panties = E_Swim[6]
+            #        $ E_Pubes = E_Swim[7]
+                    $ E_Hair = E_Swim[8] if E_Swim[8] else E_Hair
+                    $ E_Hose = E_Swim[9]        
+                    $ E_Shame = E_OutfitShame[6]
                 
         if E_Panties and "pantyless" in E_DailyActions:       
                 # This checks the pantyless state from flirting 
@@ -3148,6 +3332,32 @@ label LauraOutfit(L_OutfitTemp = L_Outfit, Spunk = 0, Undressed = 0, Changed = 1
                     $ L_Hair = L_Gym[8] if L_Gym[8] else L_Hair 
                     $ L_Hose = L_Gym[9]     
                     $ L_Shame = L_OutfitShame[7]   
+        elif L_OutfitTemp == "swimwear":
+                    if not L_Swim[0] and "bikini top" not in L_Inventory or "bikini bottoms" not in L_Inventory:
+                            #if she doesn't own her swimsuit components. . .
+                            ch_l "Don't have a suit. . ."
+                            return
+                    if not L_Legs and L_Swim[2]:            
+                        $ Undressed = 1
+                    elif not L_Over and L_Swim[3]:          
+                        $ Undressed = 1
+                    elif not L_Chest and L_Swim[5]:          
+                        $ Undressed = 1
+                    elif not L_Panties and L_Swim[6]:# and "pantyless" not in L_DailyActions:          
+                        $ Undressed = 1
+                    elif not L_Hose and L_Swim[9]:          
+                        $ Undressed = 1
+                        
+                    $ L_Arms = L_Swim[1]
+                    $ L_Legs = L_Swim[2]
+                    $ L_Over = L_Swim[3]
+                    $ L_Neck = L_Swim[4] 
+                    $ L_Chest = L_Swim[5]
+                    $ L_Panties = L_Swim[6]
+            #        $ L_Pubes = L_Swim[7]
+                    $ L_Hair = L_Swim[8] if L_Swim[8] else L_Hair
+                    $ L_Hose = L_Swim[9]        
+                    $ L_Shame = L_OutfitShame[6]
                 
         if L_Panties and "pantyless" in L_DailyActions:       
                 # This checks the pantyless state from flirting 
@@ -3826,187 +4036,91 @@ label Wait (Outfit = 1, Lights = 1):
 
 
 label Taboo_Level(Taboo_Loc=0):
-        #Set your taboo level
-        if bg_current in ("bg player", "bg rogue", "bg kitty", "bg emma", "bg laura"):                     
-                    $ Taboo = 0
-        elif bg_current == "bg classroom" or "bg study":
-                if Current_Time == "Night":
-                    $ Taboo = 5
-                elif Current_Time == "Evening" or Weekday >= 5:
-                    if "locked" in P_RecentActions:
-                            $ Taboo = 0
-                    else:
-                            $ Taboo = 30
-                else:
-                    $ Taboo = 40
-        elif bg_current == "bg dangerroom":
-                if Current_Time == "Night":
-                    $ Taboo = 5
-                else:
-                    $ Taboo = 40
-        elif bg_current == "bg campus":
-                if Current_Time == "Night":
-                    $ Taboo = 20
-                else:
-                    $ Taboo = 40
-        elif bg_current == "bg showerroom":        
-                    $ Taboo = 20    
-        else:
-                    $ Taboo = 40
-                    
+    #cycles through each girl, setting their taboo level.
+    #Set your taboo level
+        call CheckTaboo("Player",bg_current)          
     #Set Rogue's Taboo level
         if "Rogue" in Party:
                     $ R_Loc = bg_current
-                    
         if R_Loc == "nearby":
                 $ Taboo_Check = bg_current
         else:
                 $ Taboo_Check = R_Loc
-        if R_Loc == bg_current:
-                    $ R_Taboo = Taboo            
-        elif Taboo_Check in ("bg player", "bg rogue", "bg kitty", "bg emma", "bg laura"): 
-                    $ R_Taboo = 0
-        elif Taboo_Check == "bg classroom" or "bg study":
-                if Current_Time == "Night":
-                    $ R_Taboo = 5
-                elif Current_Time == "Evening" or Weekday >= 5:
-                    if "locked" in P_RecentActions:
-                            $ R_Taboo = 0
-                    else:
-                            $ R_Taboo = 30
-                else:
-                    $ R_Taboo = 40
-        elif Taboo_Check == "bg dangerroom":
-                if Current_Time == "Night":
-                    $ R_Taboo = 5
-                else:
-                    $ R_Taboo = 40
-        elif Taboo_Check == "bg campus":
-                if Current_Time == "Night":
-                    $ R_Taboo = 20
-                else:
-                    $ R_Taboo = 40
-        elif Taboo_Check == "bg showerroom":        
-                    $ R_Taboo = 20    
-        else:
-                    $ R_Taboo = 40   
-        call Taboo_Buddy_Check("Rogue")
-        
-    #Set Kitty's Taboo level 
+        call CheckTaboo("Rogue",Taboo_Check)    
+    #Set Kitty's Taboo level
         if "Kitty" in Party:
                     $ K_Loc = bg_current
         if K_Loc == "nearby":
                 $ Taboo_Check = bg_current
         else:
                 $ Taboo_Check = K_Loc
-        if K_Loc == bg_current:
-                    $ K_Taboo = Taboo            
-        elif Taboo_Check in ("bg player", "bg rogue", "bg kitty", "bg emma", "bg laura"): 
-                $ K_Taboo = 0
-        elif Taboo_Check == "bg classroom" or "bg study":
-                if Current_Time == "Night":
-                    $ K_Taboo = 5
-                elif Current_Time == "Evening" or Weekday >= 5:
-                    if "locked" in P_RecentActions:
-                            $ K_Taboo = 0
-                    else:
-                            $ K_Taboo = 30
-                else:
-                    $ K_Taboo = 40
-        elif Taboo_Check == "bg dangerroom":
-                if Current_Time == "Night":
-                    $ K_Taboo = 5
-                else:
-                    $ K_Taboo = 40
-        elif Taboo_Check == "bg campus":
-                if Current_Time == "Night":
-                    $ K_Taboo = 20
-                else:
-                    $ K_Taboo = 40
-        elif Taboo_Check == "bg showerroom":        
-                    $ K_Taboo = 20    
-        else:
-                    $ K_Taboo = 40   
-        call Taboo_Buddy_Check("Kitty") 
-                    
-    #Set Emma's Taboo level 
+        call CheckTaboo("Kitty",Taboo_Check)
+    #Set Emma's Taboo level
         if "Emma" in Party:
                     $ E_Loc = bg_current
         if E_Loc == "nearby":
                 $ Taboo_Check = bg_current
         else:
                 $ Taboo_Check = E_Loc
-        if E_Loc == bg_current:
-                    $ E_Taboo = Taboo            
-        elif Taboo_Check in ("bg player", "bg rogue", "bg kitty", "bg emma", "bg laura"):  
-                    $ E_Taboo = 0
-        elif Taboo_Check == "bg classroom":
-                if Current_Time == "Night":
-                    $ E_Taboo = 5
-                    call Taboo_Buddy_Check("Emma") 
-                elif (Current_Time == "Evening" or Weekday >= 5):
-                    if "locked" in P_RecentActions:
-                            $ E_Taboo = 0
-                    else: 
-                            $ E_Taboo = 30
-                else:
-                    $ E_Taboo = 40
-        elif Taboo_Check == "bg dangerroom":
-                if Current_Time == "Night":
-                    $ E_Taboo = 5
-                else:
-                    $ E_Taboo = 40
-        elif Taboo_Check == "bg campus":
-                if Current_Time == "Night":
-                    $ E_Taboo = 20
-                else:
-                    $ E_Taboo = 40
-        elif Taboo_Check == "bg showerroom":        
-                    $ E_Taboo = 20    
-        else:
-                    $ E_Taboo = 40  
-        call Taboo_Buddy_Check("Emma") 
-                  
-    #Set Laura's Taboo level 
+        call CheckTaboo("Emma",Taboo_Check)
+    #Set Laura's Taboo level
         if "Laura" in Party:
                     $ L_Loc = bg_current
         if L_Loc == "nearby":
                 $ Taboo_Check = bg_current
         else:
                 $ Taboo_Check = L_Loc
-        if L_Loc == bg_current:
-                $ L_Taboo = Taboo            
-        elif Taboo_Check in ("bg player", "bg rogue", "bg kitty", "bg emma", "bg laura"): 
-                $ L_Taboo = 0
+        call CheckTaboo("Laura",Taboo_Check)
+        return
+            
+        #end taboo level
+
+label CheckTaboo(Girl=0,Taboo_Check=0):
+        # Taboo_Check is the location, Girl is the girl being tested
+    
+        if Taboo_Check in ("bg player", "bg rogue", "bg kitty", "bg emma", "bg laura"): 
+                    call Set_Taboo(Girl,0)
         elif Taboo_Check == "bg classroom" or "bg study":
                 if Current_Time == "Night":
-                            $ L_Taboo = 5
+                    call Set_Taboo(Girl,5)
                 elif Current_Time == "Evening" or Weekday >= 5:
                     if "locked" in P_RecentActions:
-                            $ L_Taboo = 0
+                            call Set_Taboo(Girl,0)
                     else:
-                            $ L_Taboo = 30
+                            call Set_Taboo(Girl,30)
                 else:
-                    $ L_Taboo = 40
+                    call Set_Taboo(Girl,40)
         elif Taboo_Check == "bg dangerroom":
                 if Current_Time == "Night":
-                    $ L_Taboo = 5
+                    call Set_Taboo(Girl,5)
                 else:
-                    $ L_Taboo = 40
-        elif Taboo_Check == "bg campus":
+                    call Set_Taboo(Girl,40)
+        elif Taboo_Check == "bg campus" or bg_current == "bg pool":
                 if Current_Time == "Night":
-                    $ L_Taboo = 20
+                    call Set_Taboo(Girl,20)
                 else:
-                    $ L_Taboo = 40
-        elif Taboo_Check == "bg showerroom":        
-                    $ L_Taboo = 20    
+                    call Set_Taboo(Girl,40)
+        elif Taboo_Check == "bg showerroom":   
+                    call Set_Taboo(Girl,20)
         else:
-                    $ L_Taboo = 40   
-        call Taboo_Buddy_Check("Laura") 
-                    
-        return        
-        #end taboo level
-            
+                    call Set_Taboo(Girl,40)
+        call Taboo_Buddy_Check(Girl) #checks the girl against all other girls
+        return
+        
+label Set_Taboo(Girl=0,Value=0):
+        #Sets "Girl's" Taboo to the given value
+        if Girl == "Rogue":
+                $ R_Taboo = Value
+        elif Girl == "Kitty":
+                $ K_Taboo = Value
+        elif Girl == "Emma":
+                $ E_Taboo = Value
+        elif Girl == "Laura":
+                $ L_Taboo = Value
+        else:
+                $ Taboo = Value
+        return
+    
 label Taboo_Buddy_Check(Girl="Rogue",TempTaboo=Taboo):
     #checks if the girl is comfortable with the other girls present
     if Girl == "Rogue":
@@ -4437,7 +4551,7 @@ label Display_Rogue(Dress = 1, TrigReset = 1, DLoc = R_SpriteLoc, YLoc=50):
             call RogueOutfit(Changed=1)
             $ R_Water = 0
             
-    if R_Loc != "bg showerroom":
+    if R_Loc != "bg showerroom" and R_Loc != "bg pool":
             $ R_Water = 0
             
     if "Rogue" not in Party and R_Loc != bg_current:  
@@ -4505,7 +4619,7 @@ label Display_Kitty(Dress = 1, TrigReset = 1, DLoc = K_SpriteLoc, YLoc=50):
             call KittyOutfit(Changed=1)
             $ K_Wet = 0
               
-    if K_Loc != "bg showerroom":
+    if K_Loc != "bg showerroom" and K_Loc != "bg pool":
             $ K_Water = 0
             
     if "Kitty" not in Party and K_Loc != bg_current:  
@@ -4574,7 +4688,7 @@ label Display_Emma(Dress = 1, TrigReset = 1, DLoc = E_SpriteLoc, Location = E_Lo
             call EmmaOutfit(Changed=1)
             $ E_Wet = 0
               
-    if E_Loc != "bg showerroom":
+    if E_Loc != "bg showerroom" and E_Loc != "bg pool":
             $ E_Water = 0
             
     if "Emma" not in Party and E_Loc != bg_current:  
@@ -4647,7 +4761,7 @@ label Display_Laura(Dress = 1, TrigReset = 1, DLoc = L_SpriteLoc, YLoc=50):
             call LauraOutfit(Changed=1)
             $ L_Wet = 0
               
-    if L_Loc != "bg showerroom":
+    if L_Loc != "bg showerroom" and L_Loc != "bg pool":
             $ L_Water = 0
             
     if "Laura" not in Party and L_Loc != bg_current:  
@@ -4911,7 +5025,7 @@ label P_Level_Up:
 # Rogue Leveling
 label R_Level_Up:
     menu:
-        "Rogue has [R_StatPoints] points to spend. How would you like to spend them?"
+        "Rogue is Level [R_Lvl] and has [R_StatPoints] points to spend. How would you like to spend them?"
                             
         "Increase sexual focus. [[One point]" if "focus" not in R_Traits:
             menu:
@@ -4991,7 +5105,7 @@ label R_Level_Up:
 # Kitty Leveling
 label K_Level_Up:
     menu:
-        "Kitty has [K_StatPoints] points to spend. How would you like to spend them?"
+        "Kitty is Level [K_Lvl] and has [K_StatPoints] points to spend. How would you like to spend them?"
                             
         "Increase sexual focus. [[One point]" if "focus" not in K_Traits:
             menu:
@@ -5046,7 +5160,7 @@ label K_Level_Up:
 # Emma Leveling
 label E_Level_Up:
     menu:
-        "Emma has [E_StatPoints] points to spend. How would you like to spend them?"
+        "Emma is Level [E_Lvl] and has [E_StatPoints] points to spend. How would you like to spend them?"
                             
         "Increase sexual focus. [[One point]" if "focus" not in E_Traits:
             menu:
@@ -5102,7 +5216,7 @@ label E_Level_Up:
 # Laura Leveling
 label L_Level_Up:
     menu:
-        "Laura has [L_StatPoints] points to spend. How would you like to spend them?"
+        "Laura is Level [L_Lvl] and has [L_StatPoints] points to spend. How would you like to spend them?"
                             
         "Increase sexual focus. [[One point]" if "focus" not in L_Traits:
             menu:
@@ -5209,6 +5323,20 @@ label Shop:
                         $ P_Cash -= 100
                     else:
                         "You don't have enough for that."   
+                "Buy yellow bikini top for $50." if "bikini top" not in R_Inventory and "r bikini top" not in P_Inventory:            
+                        if P_Cash >= 50:
+                            "You purchase the bikini top, this will look nice on Rogue."
+                            $ P_Inventory.append("r bikini top")
+                            $ P_Cash -= 50
+                        else:
+                            "You don't have enough for that."
+                "Buy green bikini bottoms for $50." if "bikini bottoms" not in R_Inventory and "r bikini bottoms" not in P_Inventory:            
+                        if P_Cash >= 50:
+                            "You purchase the bikini bottoms, these will look nice on Rogue."
+                            $ P_Inventory.append("r bikini bottoms")
+                            $ P_Cash -= 50
+                        else:
+                            "You don't have enough for that."  
                 "Never mind.":
                     pass
         "Gifts for Kitty":
@@ -5227,32 +5355,88 @@ label Shop:
                         $ P_Cash -= 110
                     else:
                         "You don't have enough for that."  
+                "Buy blue cat bikini top for $60." if "bikini top" not in K_Inventory and "k bikini top" not in P_Inventory:            
+                        if P_Cash >= 60:
+                            "You purchase the bikini top, this will look nice on Kitty."
+                            $ P_Inventory.append("k bikini top")
+                            $ P_Cash -= 60
+                        else:
+                            "You don't have enough for that."
+                "Buy blue bikini bottoms for $60." if "bikini bottoms" not in K_Inventory and "k bikini bottoms" not in P_Inventory:            
+                        if P_Cash >= 60:
+                            "You purchase the bikini bottoms, these will look nice on Kitty."
+                            $ P_Inventory.append("k bikini bottoms")
+                            $ P_Cash -= 60
+                        else:
+                            "You don't have enough for that."  
+                "Buy blue miniskirt for $50." if "blue skirt" not in K_Inventory and "k blue skirt" not in P_Inventory:            
+                        if P_Cash >= 60:
+                            "You purchase the blue skirt, this will look nice on Kitty."
+                            $ P_Inventory.append("k blue skirt")
+                            $ P_Cash -= 60
+                        else:
+                            "You don't have enough for that."  
                 "Never mind.":
                     pass
         "Gifts for Emma":
             menu:  
                 "Buy white lace bra for $90." if "lace bra" not in E_Inventory and "e lace bra" not in P_Inventory:            
-                    if P_Cash >= 90:
-                        "You purchase the lace bra, this will look nice on Emma."
-                        $ P_Inventory.append("e lace bra")
-                        $ P_Cash -= 90
-                    else:
-                        "You don't have enough for that."
+                        if P_Cash >= 90:
+                            "You purchase the lace bra, this will look nice on Emma."
+                            $ P_Inventory.append("e lace bra")
+                            $ P_Cash -= 90
+                        else:
+                            "You don't have enough for that."
                 "Buy white lace panties for $110." if "lace panties" not in E_Inventory and "e lace panties" not in P_Inventory:            
-                    if P_Cash >= 110:
-                        "You purchase the lace panties, these will look nice on Emma."
-                        $ P_Inventory.append("e lace panties")
-                        $ P_Cash -= 110
+                        if P_Cash >= 110:
+                            "You purchase the lace panties, these will look nice on Emma."
+                            $ P_Inventory.append("e lace panties")
+                            $ P_Cash -= 110
+                        else:
+                            "You don't have enough for that."   
+                "Buy pantyhose for $50." if "pantyhose" not in E_Inventory and "e pantyhose" not in P_Inventory:          
+                    if P_Cash >= 50:
+                        "You purchase the hose, these will look nice on Emma."             
+                        $ P_Inventory.append("e pantyhose")
+                        $ P_Cash -= 50
                     else:
-                        "You don't have enough for that."  
+                        "You don't have enough for that."   
+                "Buy stockings and garterbelt for $100." if "stockings and garterbelt" not in E_Inventory and "e stockings and garterbelt" not in P_Inventory and ApprovalCheck("Emma", 1500):          
+                    if P_Cash >= 100:
+                        "You purchase the stockings, these will look nice on Emma."             
+                        $ P_Inventory.append("e stockings and garterbelt")
+                        $ P_Cash -= 100
+                    else:
+                        "You don't have enough for that."   
+                "Buy white bikini top for $60." if "bikini top" not in E_Inventory and "e bikini top" not in P_Inventory:            
+                        if P_Cash >= 60:
+                            "You purchase the bikini top, this will look nice on Emma."
+                            $ P_Inventory.append("e bikini top")
+                            $ P_Cash -= 60
+                        else:
+                            "You don't have enough for that."
+                "Buy white bikini bottoms for $60." if "bikini bottoms" not in E_Inventory and "e bikini bottoms" not in P_Inventory:            
+                        if P_Cash >= 60:
+                            "You purchase the bikini bottoms, these will look nice on Emma."
+                            $ P_Inventory.append("e bikini bottoms")
+                            $ P_Cash -= 60
+                        else:
+                            "You don't have enough for that."  
                 "Never mind.":
                     pass
         "Gifts for Laura":
             menu:  
-                "Buy red lace corset for $90." if "corset" not in L_Inventory and "l corset" not in P_Inventory:            
-                    if P_Cash >= 90:
+                "Buy red corset for $70." if "corset" not in L_Inventory and "l corset" not in P_Inventory:            
+                    if P_Cash >= 70:
                         "You purchase the corset, this will look nice on Laura."
                         $ P_Inventory.append("l corset")
+                        $ P_Cash -= 70
+                    else:
+                        "You don't have enough for that."
+                "Buy red lace corset for $90." if "corset" not in L_Inventory and "l lace corset" not in P_Inventory:            
+                    if P_Cash >= 90:
+                        "You purchase the lace corset, this will look nice on Laura."
+                        $ P_Inventory.append("l lace corset")
                         $ P_Cash -= 90
                     else:
                         "You don't have enough for that."
@@ -5263,6 +5447,20 @@ label Shop:
                         $ P_Cash -= 110
                     else:
                         "You don't have enough for that."  
+                "Buy black bikini top for $50." if "bikini top" not in L_Inventory and "l bikini top" not in P_Inventory:            
+                        if P_Cash >= 50:
+                            "You purchase the bikini top, this will look nice on Laura."
+                            $ P_Inventory.append("l bikini top")
+                            $ P_Cash -= 50
+                        else:
+                            "You don't have enough for that."
+                "Buy black bikini bottoms for $50." if "bikini bottoms" not in L_Inventory and "l bikini bottoms" not in P_Inventory:            
+                        if P_Cash >= 50:
+                            "You purchase the bikini bottoms, these will look nice on Laura."
+                            $ P_Inventory.append("l bikini bottoms")
+                            $ P_Cash -= 50
+                        else:
+                            "You don't have enough for that."  
                 "Never mind.":
                     pass
         "Buy books":

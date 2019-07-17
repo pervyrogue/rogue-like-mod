@@ -164,8 +164,8 @@ label Laura_SexMenu:
                           
                 
         "Could we maybe?. . . [[fuck]":
-                ch_l "I'm not really ready for that sort of thing [[not in yet]." #fix, remove when ready
-                jump Laura_SMenu
+#                ch_l "I'm not really ready for that sort of thing [[not in yet]." #fix, remove when ready
+#                jump Laura_SMenu
                 
                 if L_Action:
                     menu:
@@ -1928,7 +1928,7 @@ label Laura_Offhand(TempLine=0):
                 $ PrimaryLust += 2 if L_Lust < 50 else 1
         
     elif Trigger2 == "fondle breasts":
-                $ Line = renpy.random.choice([" You reach out and massage her pert breasts.", 
+                $ Line = renpy.random.choice([" You reach out and massage her full breasts.", 
                         " You pass your hands gently over her warm breasts.", 
                         " Her nipples catch lightly on your fingers as you grasp her warm flesh, you can feel them stiffen.",
                         " She gasps as you lightly thumb her tight nipples."])

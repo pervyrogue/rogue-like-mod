@@ -550,7 +550,11 @@ label E_FB_Cycle: #Repeating strokes
         if Round == 10:
             ch_e "It's getting late. . ."  
         elif Round == 5:
-            ch_e "We should take a break soon."        
+            ch_e "We should take a break soon."     
+            
+        if E_Lust >= 50 and not E_Uptop and (E_Chest or E_Over):
+                $ E_Uptop = 1
+                "Emma sighs and tugs her breasts free of her clothes."            
     
     #Round = 0 loop breaks
     call EmmaFace("bemused", 0)
@@ -999,6 +1003,10 @@ label E_SB_Cycle: #Repeating strokes
         elif Round == 5:
             ch_e "We should take a break soon."        
     
+        if E_Lust >= 50 and not E_Uptop and (E_Chest or E_Over):
+                $ E_Uptop = 1
+                "Emma sighs and tugs her breasts free of her clothes."   
+                
     #Round = 0 loop breaks
     call EmmaFace("bemused", 0)
     $ Line = 0
@@ -2277,8 +2285,7 @@ label E_LP_Prep: #Animation set-up
     if E_Legs == "skirt":
         $ E_Upskirt = 1  
         $ E_SeenPanties = 1
-    if not E_Panties:
-        call Emma_First_Bottomless(1)
+    call Emma_First_Bottomless(1)
     
     $ Line = 0
     $ Cnt = 0
@@ -3712,8 +3719,7 @@ label E_LA_Prep: #Animation set-up
     $ E_Upskirt = 1
     if E_Legs == "skirt":
         $ E_SeenPanties = 1
-    if not E_Panties:
-        call Emma_First_Bottomless(1)
+    call Emma_First_Bottomless(1)
     $ Line = 0
     $ Cnt = 0
     if Taboo:
