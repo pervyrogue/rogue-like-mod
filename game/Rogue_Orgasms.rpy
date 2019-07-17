@@ -66,7 +66,9 @@ label PR_Cumming:
                 jump R_Creampie_A
             
         "Cum on her face":
-                jump R_Facial            
+                jump R_Facial     
+        "Cum on her tits":
+                jump R_TitSpunk         
         "Cum on her ass" if Trigger == "sex" or Trigger == "anal" or Trigger == "hotdog":
                 jump R_SpunkBack
             
@@ -794,6 +796,39 @@ label R_Facial:
         $ P_Cock = "out"            
         jump R_Orgasm_After
 
+#Start titjob spunk  / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /    
+label R_TitSpunk: 
+        if renpy.showing("Rogue_BJ_Animation"):       
+                if R_Addict >= 60 and ApprovalCheck("Rogue", 1000, "I", Bonus = ((R_Addict*10)- R_Obed)) and R_Swallow:
+                        $ R_Eyes = "manic"
+                        $ R_Blush = 1
+                        $ Speed = 0
+                        "You pull out of her mouth with a pop, and her eyes widen in surprise." 
+                        $ Speed = 4
+                        $ R_Spunk.append("mouth")
+                        "She leaps at your cock and sucks it deep, draining your fluids hungrily."
+                        $ R_Mouth = "lipbite"
+                        $ Speed = 0
+                        "When she finishes, she draws her hand across her lips."
+                        call RogueFace("bemused")
+                        $ R_Spunk.remove("mouth")
+                        ch_r "Sorry, [R_Petname], I just couldn't let that go to waste."
+                        call Statup("Rogue", "Obed", 80, -5)
+                        call Statup("Rogue", "Inbt", 200, 10)
+                        jump R_Swallowed
+                   
+        if not renpy.showing("Rogue_TJ_Animation") and not renpy.showing("Rogue_HJ_Animation") and not renpy.showing("Rogue_BJ_Animation"):      
+                call Rogue_HJ_Launch("cum")
+        $ R_Spunk.append("tits")
+        $ Speed = 0
+        "As you're about to finish, you speed up and spray all over her chest."
+
+        if Situation == "warn":
+            ch_r "Thanks for the warning, [R_Petname]. Such a mess though. . ."  
+        else:
+            ch_r "What a mess, you could have warned me." 
+                    
+        jump R_Orgasm_After
 
 # Start Spunk back  / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
 label R_SpunkBack: 
@@ -1090,7 +1125,7 @@ label RogueLust(Extreme = 0, Kissing = 0):
 
 #  Rogue Orgasm //////////////////////////
 
-label R_Cumming:
+label R_Cumming(Quick=0):
     $ R_Eyes = "surprised"
     $ R_Brows = "sad"
     $ R_Mouth = "sucking"
@@ -1118,7 +1153,10 @@ label R_Cumming:
                 "Rogue stiffens and lets out a low moan.",
                 "Rogue's body quivers and suddenly goes still."])
     "[Line]"
-    
+    if Quick:
+            call AnyFace("Rogue","sexy",2)  
+            $ R_Lust = 20
+            return
     $ R_Eyes = "closed"
     $ R_Brows = "sad"
     $ R_Mouth = "tongue"

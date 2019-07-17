@@ -420,7 +420,7 @@ image Kitty_Sprite:
             ),    
         (0,0), ConditionSwitch(  
             #UI tool for Trigger3(lesbian) actions (ie Rogue's hand on her when Kitty is secondary)
-            "not Trigger3 or Ch_Focus == 'Kitty'", Null(),
+            "Trigger != 'lesbian' or not Trigger3 or Ch_Focus == 'Kitty'", Null(),
             "Trigger3 == 'fondle pussy' and Trigger != 'sex' and K_Lust >= 70", "GirlFingerPussy_K",
             "Trigger3 == 'fondle pussy'", "GirlGropePussy_K",            
             "Trigger3 == 'lick pussy'", "Lickpussy_K",
@@ -537,6 +537,7 @@ image Kitty Blink:
     "K_Eyes == 'down'", "images/KittySprite/Kitty_Sprite_Eyes_Down.png",  
     "K_Eyes == 'stunned'", "images/KittySprite/Kitty_Sprite_Eyes_Down.png",  
     "K_Eyes == 'squint'", "Kitty_Squint",  
+    "K_Eyes == 'leftside'", "images/KittySprite/Kitty_Sprite_Eyes_SideLeft.png",
     "K_Eyes == 'closed'", "images/KittySprite/Kitty_Sprite_Eyes_Closed.png",    
     "True", "images/KittySprite/Kitty_Sprite_Eyes_Normal.png", 
     ),
@@ -771,6 +772,10 @@ image Kitty_Sex_Body = LiveComposite(
             ),
         (0,0),ConditionSwitch(                                                                                  #Outside Spunk
             "'belly' in K_Spunk", "images/KittySex/Kitty_Sex_Spunk_Body.png",   
+            "True", Null(),  
+            ),  
+        (0,0),ConditionSwitch(                                                                                  #Outside Spunk
+            "'tits' in K_Spunk", "images/KittySex/Kitty_Sex_Spunk_Tits.png",   
             "True", Null(),  
             ),  
         )
@@ -1883,6 +1888,11 @@ image Kitty_BJ_Backdrop:
             "K_Pierce == 'ring'", "images/KittyBJFace/Kitty_BJ_PierceRing.png",      
             "True", "images/KittyBJFace/Kitty_BJ_PierceBall.png",   
             ),   
+        (0,0), ConditionSwitch(                                                                         
+            # wet body
+            "not K_Water", Null(),
+            "True", "images/KittyBJFace/Kitty_BJ_Wet_Body.png",
+            ),  
             
         (0,0), ConditionSwitch(                                                                        
             #Bra
@@ -1901,6 +1911,11 @@ image Kitty_BJ_Backdrop:
             "K_Over == 'red shirt'", "images/KittyBJFace/Kitty_BJ_Over_RedShirt.png",
             "K_Over == 'towel'", "images/KittyBJFace/Kitty_BJ_Over_Towel.png",
             "True", Null(),
+            ),  
+        (0,0), ConditionSwitch(                                                                         
+            #Spunk
+            "'tits' not in K_Spunk", Null(),
+            "True", "images/KittyBJFace/Kitty_BJ_Spunk_Body.png",
             ),  
         )
     zoom 1.5 
@@ -3342,11 +3357,13 @@ label K_Pussy_Launch(T = Trigger):
 label K_Pos_Reset(Pose = 0):
     call Kitty_Hide 
     show Kitty_Sprite at SpriteLoc(K_SpriteLoc) zorder KittyLayer:
-        ease .5 offset (0,0) anchor (0.5, 0.0) zoom 1 alpha 1   
+        ease .5 offset (0,0) anchor (0.5, 0.0) zoom 1 alpha 1 xzoom 1 yzoom 1 
     show Kitty_Sprite zorder KittyLayer:
         offset (0,0) 
         anchor (0.5, 0.0)
-        zoom 1  
+        zoom 1   
+        xzoom 1 
+        yzoom 1
         alpha 1
         pos (K_SpriteLoc,50)
     $ Trigger = Pose

@@ -939,12 +939,15 @@ init python:
                     elif Type == "Daily":
                         if Check in R_DailyActions:
                             return 1
-                    elif Type == "Trait":
+                    elif Type == "Traits":
                         if Check in R_Traits:
                             return 1
                     elif Type == "History":
                         if Check in R_History:
-                            return 1                            
+                            return 1 
+                    elif Type == "Petnames":
+                        if Check in R_Petnames:
+                            return 1                                      
             elif Girl == "Kitty":
                     if Type == "Recent":
                         if Check in K_RecentActions:
@@ -952,12 +955,15 @@ init python:
                     elif Type == "Daily":
                         if Check in K_DailyActions:
                             return 1
-                    elif Type == "Trait":
+                    elif Type == "Traits":
                         if Check in K_Traits:
                             return 1
                     elif Type == "History":
                         if Check in K_History:
-                            return 1     
+                            return 1    
+                    elif Type == "Petnames":
+                        if Check in K_Petnames:
+                            return 1      
             elif Girl == "Emma":
                     if Type == "Recent":
                         if Check in E_RecentActions:
@@ -965,11 +971,14 @@ init python:
                     elif Type == "Daily":
                         if Check in E_DailyActions:
                             return 1
-                    elif Type == "Trait":
+                    elif Type == "Traits":
                         if Check in E_Traits:
                             return 1
                     elif Type == "History":
                         if Check in E_History:
+                            return 1     
+                    elif Type == "Petnames":
+                        if Check in E_Petnames:
                             return 1     
             elif Girl == "Laura":
                     if Type == "Recent":
@@ -978,12 +987,15 @@ init python:
                     elif Type == "Daily":
                         if Check in L_DailyActions:
                             return 1
-                    elif Type == "Trait":
+                    elif Type == "Traits":
                         if Check in L_Traits:
                             return 1
                     elif Type == "History":
                         if Check in L_History:
-                            return 1     
+                            return 1    
+                    elif Type == "Petnames":
+                        if Check in L_Petnames:
+                            return 1      
             return 0
 label Speed_Shift(S=0):   
     #adjusts the speed of animations to S, uses fade to hide glitches
@@ -1252,6 +1264,19 @@ label RoomStatboost(Type=0,Check=0,Amount=0):
         if L_Loc == bg_current or "Laura" in Nearby:
                 call Statup("Laura", Type, Check, Amount)
         return
+    
+label Quick_O(Girl=0,Quick=1):
+    #used to call up a quick orgasm, mostly animation. 
+    # call Quick_O("Rogue"), used 0 if you want the full dialogs.
+    if Girl == "Rogue":
+            call R_Cumming(1)
+    elif Girl == "Kitty":
+            call K_Cumming(1)
+    elif Girl == "Emma":
+            call E_Cumming(1)
+    elif Girl == "Laura":
+            call L_Cumming(1)
+    return
     
     
 label AnyFace(Girl=0,Emote = 5, B = 5, M = 0, Mouth = 0, Eyes = 0, Brows = 0):
@@ -2890,13 +2915,13 @@ label Dismissed:
         # this is called to dismiss any girl in the local area.
         menu:
             "Did you want to ask someone to leave?"
-            "Rogue" if R_Loc == bg_current:
+            "Rogue" if R_Loc == bg_current or "Rogue" in Party:
                 call Rogue_Dismissed
-            "Kitty" if K_Loc == bg_current:
+            "Kitty" if K_Loc == bg_current or "Kitty" in Party:
                 call Kitty_Dismissed
-            "Emma" if E_Loc == bg_current:
+            "Emma" if E_Loc == bg_current or "Emma" in Party:
                 call Emma_Dismissed
-            "Laura" if L_Loc == bg_current:
+            "Laura" if L_Loc == bg_current or "Laura" in Party:
                 call Laura_Dismissed
             "Nevermind.":
                 pass
@@ -6519,7 +6544,9 @@ label RogueWardrobe:
                     "Add lace bra":
                         $ R_Chest = "lace bra"
                     "Add bra":
-                        $ R_Chest = "bra"      
+                        $ R_Chest = "bra"     
+                    "Add bikini":
+                        $ R_Chest = "bikini top"       
                     "Toggle up-top":
                         if R_Uptop:
                             $ R_Uptop = 0
@@ -6588,6 +6615,8 @@ label RogueWardrobe:
                         $ R_Panties = 0     
                     "Add black panties":
                         $ R_Panties = "black panties"
+                    "Add bikini":
+                        $ R_Panties = "bikini bottoms"
                     "Add shorts":
                         $ R_Panties = "shorts"
                     "Add green panties":

@@ -1633,7 +1633,8 @@ label Rogue_Flirt:
     menu:        
 #            "Compliment her":
             
-#            "Say you love her":
+        "Say you love her":
+                    call Love_You("Rogue")
             
         "Touch her cheek.":                                                                                 #Touch her cheek 
                     call R_TouchCheek

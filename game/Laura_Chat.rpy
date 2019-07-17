@@ -1466,8 +1466,9 @@ label Laura_Flirt:
         menu:        
 #            "Compliment her":
                 
-#            "Say you love her":
-                
+            "Say you love her":
+                        call Love_You("Laura")
+                        
             "Touch her cheek":                                                                              
                     call L_TouchCheek
             "Pat her head":

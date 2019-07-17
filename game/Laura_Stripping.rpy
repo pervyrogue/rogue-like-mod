@@ -557,12 +557,13 @@ label Laura_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
                     #if she'd go topless
                     call Statup("Laura", "Inbt", 70, 1)
                     $ L_Uptop = 1
-                    "Laura scowls in irritation, and pulls her [L_Over] up over her breasts."
+                    $ Line = L_Over if L_Over else L_Chest
+                    "Laura scowls in irritation, and pulls her [Line] up over her breasts."
                     if Taboo:
                         call Statup("Laura", "Inbt", 90, (int(Taboo/20)))   
                     call Laura_First_Topless(1)
                     ch_l "That wasn't working out."  
-            elif L_Chest and ApprovalCheck("Laura", 800, TabM = 1):
+            elif L_Over and L_Chest and ApprovalCheck("Laura", 800, TabM = 1):
                     #if she won't go topless, but has a bra on. . .
                     call Statup("Laura", "Inbt", 40, 1)
                     $ Line = L_Over
@@ -973,9 +974,9 @@ label Laura_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
         $ Tempmod -= 20
     
     if Intro:
-        if L_Legs:
+        if L_Legs and not L_Upskirt:
                 ch_p "This might be easier without your [L_Legs] on."
-        elif L_Panties:
+        elif L_Panties and not L_PantiesDown:
                 ch_p "This might be easier without your [L_Panties] on."
                 
     $ Approval = ApprovalCheck("Laura", 1300, TabM = 5) # 120, 135, 150, -200(320) taboo, -25 if already seen
@@ -983,7 +984,7 @@ label Laura_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
     if Situation == "auto":
             $ Cnt = 0
             
-            if not L_Upskirt:                      
+            if not L_Upskirt and not L_PantiesDown:                      
                 if L_Legs == "skirt" and not L_Upskirt:                                          
                     #If she's in a skirt with panties, hike it up?
                     if Approval >= 2 or (L_SeenPussy and ApprovalCheck("Laura", 700) and not Taboo):

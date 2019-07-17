@@ -602,12 +602,13 @@ label Emma_Top_Off(Intro = 1, Line = 0, Cnt = 0):                               
                     #if she'd go topless
                     call Statup("Emma", "Inbt", 70, 1)
                     $ E_Uptop = 1
-                    "Emma scowls in irritation, and pulls her [E_Over] tits out."
+                    $ Line = E_Over if E_Over else E_Chest
+                    "Emma scowls in irritation, and pulls her [Line] tits out."
                     ch_e "Sometimes only direct contact will do."  
                     if Taboo:
                         call Statup("Emma", "Inbt", 90, (int(Taboo/20)))   
                     call Emma_First_Topless(1)
-            elif E_Chest and ApprovalCheck("Emma", 600, TabM = 1):
+            elif E_Over and E_Chest and ApprovalCheck("Emma", 600, TabM = 1):
                     #if she won't go topless, but has a bra on. . .
                     call Statup("Emma", "Inbt", 40, 1)
                     $ Line = E_Over
@@ -1038,9 +1039,9 @@ label Emma_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
         $ Tempmod -= 20
     
     if Intro:
-        if E_Legs:
+        if E_Legs and not E_Upskirt:
                 ch_p "This might be easier without your [E_Legs] on."
-        elif E_Panties:
+        elif E_Panties and not E_PantiesDown:
                 ch_p "This might be easier without your [E_Panties] on."
                 
     $ Approval = ApprovalCheck("Emma", 1300, TabM = 5) # 120, 135, 150, -200(320) taboo, -25 if already seen
@@ -1048,7 +1049,7 @@ label Emma_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
     if Situation == "auto":
             $ Cnt = 0
             
-            if not E_Upskirt:                      
+            if not E_Upskirt and not E_PantiesDown:                      
                 if E_Legs == "skirt" and not E_Upskirt:                                          
                     #If she's in a skirt with panties, hike it up?
                     if Approval >= 2 or (E_SeenPussy and ApprovalCheck("Emma", 700) and not Taboo):

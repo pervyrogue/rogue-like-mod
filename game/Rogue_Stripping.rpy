@@ -978,12 +978,13 @@ label Rogue_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
                     #if she'd go topless
                     call Statup("Rogue", "Inbt", 70, 1)
                     $ R_Uptop = 1
-                    "Rogue sighs in frustration, and pulls her [R_Over] up over her breasts."
+                    $ Line = R_Over if R_Over else R_Chest
+                    "Rogue sighs in frustration, and pulls her [Line] up over her breasts."
                     ch_r "I just wasn't getting much out of it that way."  
                     if Taboo:
                         call Statup("Rogue", "Inbt", 90, (int(Taboo/20)))   
                     call Rogue_First_Topless(1)
-            elif R_Chest and ApprovalCheck("Rogue", 800, TabM = 1):
+            elif R_Over and R_Chest and ApprovalCheck("Rogue", 800, TabM = 1):
                     #if she won't go topless, but has a bra on. . .
                     call Statup("Rogue", "Inbt", 40, 1)
                     $ Line = R_Over
@@ -1391,9 +1392,9 @@ label Rogue_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
         $ Tempmod -= 20
         
     if Intro:
-        if R_Legs:
+        if R_Legs and not R_Upskirt:
                 ch_p "This might be easier without your [R_Legs] on."
-        elif R_Panties:
+        elif R_Panties and not R_PantiesDown:
                 ch_p "This might be easier without your [R_Panties] on."
         
     $ Approval = ApprovalCheck("Rogue", 1200, TabM = 5) # 120, 135, 150, -200(320) taboo, -25 if already seen
@@ -1401,7 +1402,7 @@ label Rogue_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
     if Situation == "auto":
         $ Cnt = 0
         
-        if not R_Upskirt:                     
+        if not R_Upskirt and not R_PantiesDown:                    
             if R_Legs == "skirt":                                          
                 #If she's in a skirt with panties, hike it up?
                 if Approval >= 2 or (R_SeenPussy and not Taboo):

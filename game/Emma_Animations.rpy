@@ -3459,11 +3459,13 @@ label E_Pussy_Launch(T = Trigger):
 label E_Pos_Reset(Pose = 0):    
     call Emma_Hide 
     show Emma_Sprite at SpriteLoc(E_SpriteLoc) zorder EmmaLayer:
-        ease .5 offset (0,0) anchor (0.5, 0.0) zoom 1 alpha 1
+        ease .5 offset (0,0) anchor (0.5, 0.0) zoom 1 alpha 1 xzoom 1 yzoom 1
     show Emma_Sprite zorder EmmaLayer:
         offset (0,0) 
         anchor (0.5, 0.0)
-        zoom 1  
+        zoom 1   
+        xzoom 1 
+        yzoom 1
         alpha 1
         pos (E_SpriteLoc,50)
     $ Trigger = Pose

@@ -1837,7 +1837,7 @@ label Emma_Love(Shipping=[],Shipshape=0):
                     call Statup("Emma", "Obed", 90, 20)          
                     ch_e "That cow!"
                     $ E_RecentActions.append("angry")
-                    call GirlLikesGirl("Emma",Line,80,-50,1)                    
+                    call GirlLikesGirl("Emma",Line,800,-50,1)                    
     ch_e "I suppose I'll just have to let this go."
     ch_e "I'll. . . see you in a bit."
     ch_e "I need some time to consider this."

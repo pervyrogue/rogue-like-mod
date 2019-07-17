@@ -1787,7 +1787,6 @@ label Laura_Self_Set(Mode = "T3", Action = Trigger3, Length=0, Count2=0, Options
             $ Line = "Also, Laura continues stroke your cock. "
     else:        
             $ Line = "Also, Laura continues to masturbate. "
-            
     if Mode == "T3": #Sets Action based on the result
         $ Trigger3 = Action
     else:
@@ -2362,6 +2361,9 @@ label Laura_Threeway_Set(Preset = 0, Mode = 0, Action = Trigger4, ActiveGirl = P
 #                    $ Options.append("vibrator") 
                     
             if State == "hetero" or State == "threeway":
+                if Trigger == "anal":
+                    $ Options.extend(("hand","kiss you","kiss you"))   
+                else:
                     $ Options.extend(("hand","blow","kiss you"))                 
             $ renpy.random.shuffle(Options)
             
@@ -2549,7 +2551,6 @@ label Laura_Threeway_Set(Preset = 0, Mode = 0, Action = Trigger4, ActiveGirl = P
                 $ SecondaryLust += TempLust
                 $ PrimaryLust += TempLust2
             $ P_Focus += TempFocus
-
             return
 
 # end Laura Threeway-set ////////////////////////////////////////////////////////////////////////

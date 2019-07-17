@@ -965,13 +965,14 @@ label Kitty_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
             if ApprovalCheck("Kitty", 1300, TabM = 1) or (K_SeenChest and ApprovalCheck("Kitty", 500) and not Taboo):
                     #if she'd go topless
                     call Statup("Kitty", "Inbt", 70, 1)
-                    $ K_Uptop
-                    "Kitty growls slighty, and pulls her [K_Over] up over her breasts."
+                    $ K_Uptop = 1
+                    $ Line = K_Over if K_Over else K_Chest
+                    "Kitty growls slighty, and pulls her [Line] up over her breasts."
                     if Taboo:
                         call Statup("Kitty", "Inbt", 90, (int(Taboo/20)))   
                     call Kitty_First_Topless(1)
                     ch_k "I[K_like]wasn't feeling it that way."  
-            elif K_Chest and ApprovalCheck("Kitty", 900, TabM = 1):
+            elif K_Over and K_Chest and ApprovalCheck("Kitty", 900, TabM = 1):
                     #if she won't go topless, but has a bra on. . .
                     call Statup("Kitty", "Inbt", 40, 1)
                     $ Line = K_Over
@@ -1396,9 +1397,9 @@ label Kitty_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
         $ Tempmod -= 20
     
     if Intro:
-        if K_Legs:
+        if K_Legs and not K_Upskirt:
                 ch_p "This might be easier without your [K_Legs] on."
-        elif K_Panties:
+        elif K_Panties and not K_PantiesDown:
                 ch_p "This might be easier without your [K_Panties] on."
                 
     $ Approval = ApprovalCheck("Kitty", 1300, TabM = 5) # 120, 135, 150, -200(320) taboo, -25 if already seen
@@ -1406,7 +1407,7 @@ label Kitty_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
     if Situation == "auto":
         $ Cnt = 0
             
-        if not K_Upskirt:                  
+        if not K_Upskirt and not K_PantiesDown:                  
             if K_Legs == "blue skirt":                                          #If she's in a skirt with panties, hike it up?
                 if Approval >= 2 or (K_SeenPussy and ApprovalCheck("Kitty", 700) and not Taboo):
                     call Statup("Kitty", "Inbt", 60, 1)

@@ -1422,7 +1422,8 @@ label Kitty_Flirt:
         menu:        
 #            "Compliment her":
                 
-#            "Say you love her":
+            "Say you love her":
+                        call Love_You("Kitty")
                 
             "Touch her cheek.":                                                                                 #Touch her cheek 
                     call K_TouchCheek

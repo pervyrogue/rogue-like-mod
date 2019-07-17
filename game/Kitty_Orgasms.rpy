@@ -66,7 +66,11 @@ label PK_Cumming:
                 jump K_Creampie_A
             
         "Cum on her face":
-                jump K_Facial            
+                jump K_Facial 
+                
+        "Cum on her tits":
+                jump K_TitSpunk  
+                
         "Cum on her belly" if Trigger == "sex" or Trigger == "anal" or Trigger == "hotdog" or Trigger == "foot":
                 jump K_SpunkBelly
             
@@ -805,7 +809,41 @@ label K_Facial:
         jump K_Orgasm_After
 
 
-# Start Spunk back  / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+#Start titjob spunk  / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /    
+label K_TitSpunk: 
+        if renpy.showing("Kitty_BJ_Animation"):       
+                if K_Addict >= 60 and ApprovalCheck("Kitty", 1000, "I", Bonus = ((K_Addict*10)- K_Obed)) and K_Swallow:
+                        $ K_Eyes = "manic"
+                        $ K_Blush = 1
+                        $ Speed = 0
+                        "You pull out of her mouth with a pop, and her eyes widen in surprise." 
+                        $ Speed = 4
+                        $ K_Spunk.append("mouth")
+                        "She leaps at your cock and sucks it deep, draining your fluids hungrily."
+                        $ K_Mouth = "lipbite"
+                        $ Speed = 0
+                        "When she finishes, she draws her hand across her lips."
+                        call KittyFace("bemused")
+                        $ K_Spunk.remove("mouth")
+                        ch_k "I'm sorry, [K_Petname], too tasty."
+                        call Statup("Kitty", "Obed", 80, -5)
+                        call Statup("Kitty", "Inbt", 200, 10)
+                        jump K_Swallowed
+                   
+        if not renpy.showing("Kitty_TJ_Animation") and not renpy.showing("Kitty_HJ_Animation") and not renpy.showing("Kitty_BJ_Animation"):      
+                call Kitty_HJ_Launch("cum")
+        $ K_Spunk.append("tits")
+        $ Speed = 0
+        "As you're about to finish, you speed up and spray all over her chest."
+
+        if Situation == "warn":
+            ch_k "Whew, thanks for the head's up."  
+        else:
+            ch_k "Huh, nice warning there, [K_Petname]." 
+                    
+        jump K_Orgasm_After
+        
+# Start Spunk belly  / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
 label K_SpunkBelly: 
         if P_Cock != "foot":
                 call Kitty_Sex_Launch("hotdog")
@@ -1104,7 +1142,7 @@ label KittyLust(Extreme = 0, Kissing = 0):
     
 #  Kitty Orgasm //////////////////////////
 
-label K_Cumming:
+label K_Cumming(Quick=0):
     $ K_Eyes = "surprised"
     $ K_Brows = "sad"
     $ K_Mouth = "sucking"
@@ -1133,6 +1171,11 @@ label K_Cumming:
                 "Kitty's body quivers and suddenly goes still."])
     "[Line]"
     
+    if Quick:
+            call AnyFace("Kitty","sexy",2)  
+            $ K_Lust = 20
+            return
+            
     $ K_Eyes = "closed"
     $ K_Brows = "sad"
     $ K_Mouth = "tongue"

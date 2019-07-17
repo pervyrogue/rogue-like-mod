@@ -2389,6 +2389,20 @@ label Emma_Noticed(Other = "Rogue", Silent=0, B = 0):
                     $ B -= 200
                         
     if "three" not in E_History or "classcaught" not in E_History:   
+            if bg_current == "bg emma":
+                    #if you're in her room. . .
+                    ch_e "If the two of you cannot keep your hands off each other, please do so elsewhere. . ."
+                    "She shoves the two of you out of her room and slams the door."
+                    if Other == "Rogue":    
+                            $ R_Loc = "bg player"
+                    elif Other == "Kitty":    
+                            $ K_Loc = "bg player"
+                    elif Other == "Laura":    
+                            $ L_Loc = "bg player"
+                    $ renpy.pop_call()        
+                    $ renpy.pop_call()
+                    jump Player_Room
+                    
             call Remove_Girl("Emma") 
             $ E_DailyActions.append("noticed girl")     
             if not Silent:

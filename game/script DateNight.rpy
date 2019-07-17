@@ -1071,7 +1071,7 @@ label Date_Movies:
                     call Statup("Laura", "Love", 80, 3)
                     call Statup("Laura", "Obed", 50, 3)
                     call Statup("Laura", "Inbt", 60, 3)
-                    ch_e "This one looks. . . ok."   
+                    ch_l "This one looks. . . ok."   
                     call Date_Bonus("Laura",10)
     elif Line == "action":
             if "Rogue" in Party and Trigger != "Rogue":
@@ -1857,6 +1857,7 @@ label Date_Ditched(Girls=0):
         $ L_Loc = "bg laura"
         $ Girls += 1
     
+    $ Party = []
     return
         
 label Readytogo(R=0):    

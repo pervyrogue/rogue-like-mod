@@ -1373,7 +1373,7 @@ label Laura_Love(Shipping=[],Shipshape=0,Topics=[]):
                     call Statup("Laura", "Obed", 90, 20)          
                     ch_l "Bitch."
                     $ L_RecentActions.append("angry")
-                    call GirlLikesGirl("Laura",Line,80,-50,1)                    
+                    call GirlLikesGirl("Laura",Line,800,-50,1)                    
     ch_l "Well, if that's the way you feel about it. . ."
     ch_l "I'll. . . see you later."
     ch_l "This. . . hurt."
@@ -2469,7 +2469,7 @@ label Laura_Dressup3:
     
                 call AnyFace("Laura","sad",2,Brows="surprised")  
                 "Laura stares at you, as if she's not sure what she's seeing."
-                call AnyFace("Laura","sadside",2,Brows="confused",Eyes="leftside")  
+                call AnyFace("Laura","sad",2,Brows="confused",Eyes="leftside")  
                 ch_l "So you just let him come into your room whenever?"
     
         "Walk away":

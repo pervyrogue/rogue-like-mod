@@ -382,13 +382,16 @@ image Rogue:
             ),                           
         (0,0), ConditionSwitch(                                                                         
             #hand spunk
-            "not R_Spunk", Null(), 
             "'hand' in R_Spunk and Rogue_Arms == 2", "images/RogueSprite/Rogue_spunkhand.png",                
             "True", Null(), 
             ),
         (0,0), ConditionSwitch(                                                                        
+            #tits spunk
+            "'tits' in R_Spunk", "images/RogueSprite/Rogue_spunktits.png",
+            "True", Null(), 
+            ),      
+        (0,0), ConditionSwitch(                                                                        
             #face spunk
-            "not R_Spunk", Null(), 
             "'facial' in R_Spunk", "images/RogueSprite/Rogue_facial.png",
             "True", Null(), 
             ),                
@@ -489,7 +492,7 @@ image Rogue:
             ),   
         (0,0), ConditionSwitch(  
             #UI tool for Trigger3(lesbian) actions (ie Kitty's hand on her when Rogue is secondary)
-            "not Trigger3 or Ch_Focus == 'Rogue'", Null(),
+            "Trigger != 'lesbian' or not Trigger3 or Ch_Focus == 'Rogue'", Null(),
             "Trigger3 == 'fondle pussy' and Trigger != 'sex' and R_Lust >= 70", "GirlFingerPussy",
             "Trigger3 == 'fondle pussy'", "GirlGropePussy",            
             "Trigger3 == 'lick pussy'", "Lickpussy",
@@ -2982,6 +2985,7 @@ label Rogue_HJ_Reset: # The sequence to the Rogue animations from handjob to def
     
 # All Reset ////////////////////////////////////////////////////////////////////////////////////
 label AllReset(chr = "Rogue"): 
+    #call AllReset("all")
     if chr == "Rogue" or chr == "all":
         if renpy.showing("Rogue_Doggy"): 
             call Rogue_Doggy_Reset
@@ -3866,11 +3870,13 @@ label R_Pussy_Launch(T = Trigger):
 label R_Pos_Reset(Pose = 0):    
     call Rogue_Hide 
     show Rogue at SpriteLoc(R_SpriteLoc) zorder RogueLayer:
-        ease .5 offset (0,0) anchor (0.6, 0.0) zoom 1 alpha 1
+        ease .5 offset (0,0) anchor (0.6, 0.0) zoom 1 alpha 1 xzoom 1 yzoom 1
     show Rogue zorder RogueLayer:
         offset (0,0) 
         anchor (0.6, 0.0)
-        zoom 1   
+        zoom 1  
+        xzoom 1 
+        yzoom 1
         alpha 1
         pos (R_SpriteLoc,50)
     $ Trigger = Pose
@@ -4112,7 +4118,113 @@ label Display_Gwen(DLoc = 350, YLoc=50):
             anchor (0.5, 0.0)  
             pos (DLoc,YLoc)  
     return
+
+
+label Close_Launch(GirlA=0,GirlB=0,XLoc=0,YLoc=0,XZoom=0):  
+    # Launches the girls close to player
+    # Girl is the lead, Partner is the other girl
+    # the Loc and Zoom values are generated based on which is which
+    if GirlA == "Rogue" or GirlB == "Rogue":            
+            if GirlA == "Rogue":
+                #If Rogue is lead
+                $ Rogue_Arms = 2
+                $ RogueLayer = 100
+                $ XLoc = 550
+                $ YLoc = 100
+                $ XZoom = -1.3
+            else:
+                #If the other girl is lead
+                $ Rogue_Arms = 2
+                $ RogueLayer = 75
+                $ XLoc = 715
+                $ YLoc = 100
+                $ XZoom = 1.3
+            call Rogue_Hide  
+            show Rogue at SpriteLoc(XLoc,YLoc) zorder RogueLayer:
+                    alpha 1
+                    zoom 1
+                    xzoom XZoom
+                    yzoom 1.3
+                    offset (0,0)
+                    anchor (0.6, 0.0)
+            
+    if GirlA == "Kitty" or GirlB == "Kitty":  
+            if GirlA == "Kitty":
+                $ Kitty_Arms = 1
+                $ KittyLayer = 100               
+                $ XLoc = 450
+                $ YLoc = 100
+                $ XZoom = -1.3
+            else:
+                $ Kitty_Arms = 1
+                $ KittyLayer = 75
+                $ XLoc = 715
+                $ YLoc = 100
+                $ XZoom = 1.3
+            call Kitty_Hide  
+            show Kitty_Sprite at SpriteLoc(XLoc,YLoc) zorder KittyLayer:
+                    alpha 1
+                    zoom 1
+                    xzoom XZoom
+                    yzoom 1.3
+                    offset (0,0)
+                    anchor (0.5, 0.0)
+        
+    if GirlA == "Emma" or GirlB == "Emma": 
+            if GirlA == "Emma":
+                $ Emma_Arms = 2
+                $ EmmaLayer = 100
+                $ XLoc = 500
+                $ YLoc = 100
+                $ XZoom = 1.3
+            else:
+                $ Emma_Arms = 2
+                $ EmmaLayer = 75
+                $ XLoc = 700
+                $ YLoc = 100
+                $ XZoom = 1.3
+            call Emma_Hide  
+            show Emma_Sprite at SpriteLoc(XLoc,YLoc) zorder EmmaLayer:
+                    alpha 1
+                    zoom 1
+                    xzoom XZoom
+                    yzoom 1.3
+                    offset (0,0)
+                    anchor (0.5, 0.0)
     
+    if GirlA == "Laura" or GirlB == "Laura": 
+            if GirlA == "Laura":
+                $ Laura_Arms = 1
+                $ LauraLayer = 100
+                $ XLoc = 500
+                $ YLoc = 100
+                $ XZoom = 1.3
+            else:
+                $ Laura_Arms = 1
+                $ LauraLayer = 75
+                $ XLoc = 700
+                $ YLoc = 100
+                $ XZoom = 1.3
+            call Laura_Hide  
+            show Laura_Sprite at SpriteLoc(XLoc,YLoc) zorder LauraLayer:
+                    alpha 1
+                    zoom 1
+                    xzoom XZoom
+                    yzoom 1.3
+                    offset (0,0)
+                    anchor (0.5, 0.0)
+    return
+    
+label QuickReset(Girl=0):
+    if "Rogue" == Girl:
+        call R_Pos_Reset
+    if "Kitty" == Girl:
+        call K_Pos_Reset
+    if "Emma" == Girl:
+        call E_Pos_Reset
+    if "Laura" == Girl:
+        call L_Pos_Reset
+    return
     
 label Les_Launch(Girl=0,XLoc=0,YLoc=0,XZoom=0):  
     # Launches the lesbian sex positions
@@ -4153,7 +4265,7 @@ label Les_Launch(Girl=0,XLoc=0,YLoc=0,XZoom=0):
     if Girl == "Kitty" or Partner == "Kitty":  
             if Girl == "Kitty":
                 if "unseen" not in K_RecentActions:
-                    $ K_Eyes = "side"
+                    $ K_Eyes = "leftside"
                 $ Kitty_Arms = 1
                 $ KittyLayer = 100               
                 $ XLoc = 450

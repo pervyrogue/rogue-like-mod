@@ -948,14 +948,14 @@ image Laura_Sex_Legs:
 
 image Laura_Sex_Foot:
     #her vertical foot in the sex poses
-    contains:
-            # base
-            "images/LauraSex/Laura_Sex_FootHigh.png"
+#    contains:
+#            # base
+#            "images/LauraSex/Laura_Sex_FootHigh.png"
     contains:
             # hose/foot
         ConditionSwitch(    
             "L_Hose == 'stockings and garterbelt' or L_Hose == 'stockings'", "images/LauraSex/Laura_Sex_Stockings_Up.png", 
-            "True", Null()
+            "True", "images/LauraSex/Laura_Sex_FootHigh.png" #base
             )              
     contains:
             # legs
@@ -1874,10 +1874,7 @@ image Laura_Sex_Zero_Anim_H2:
     
 # End H2 (fast) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
                 
-                
-                    
-
-
+             
 image Laura_AnalMask:                    
     transform_anchor True
     contains:
@@ -2085,9 +2082,9 @@ label Laura_Sex_Launch(Line = "solo"):
                 $ L_Upskirt = 1
             if L_Panties:       #temporary, change or remove when other clothing options are available
                 $ L_PantiesDown = 1
-                
+                        
     show Laura_SexSprite zorder 150:
-        pos (450,500) #(400,300) #(575,470)
+        pos (450,500)
     with dissolve
     return
     
@@ -3499,11 +3496,13 @@ label L_Pussy_Launch(T = Trigger):
 label L_Pos_Reset(Pose = 0):    
     call Laura_Hide 
     show Laura_Sprite at SpriteLoc(L_SpriteLoc) zorder LauraLayer:
-        ease .5 offset (0,0) anchor (0.5, 0.0) zoom 1 alpha 1
+        ease .5 offset (0,0) anchor (0.5, 0.0) zoom 1 alpha 1 xzoom 1 yzoom 1
     show Laura_Sprite zorder LauraLayer:
         offset (0,0) 
         anchor (0.5, 0.0)
         zoom 1  
+        xzoom 1 
+        yzoom 1 
         alpha 1
         pos (L_SpriteLoc,50)
     $ Trigger = Pose
@@ -3852,33 +3851,33 @@ image GirlFingerPussy_L:
         subpixel True
         "UI_GirlFinger"       
         zoom .6
-        pos (220,640)#(220,635)
+        pos (140,605)#(220,640)
         anchor (0.5,0.5)
         alpha 0.5
         rotate 200
         block:
             choice: #fast rub
-                ease .75 rotate 210 pos (220,645)
+                ease .75 rotate 210 pos (140,610)
                 ease .5 rotate 195 
                 ease .75 rotate 210 
                 ease .5 rotate 195 
             choice: #slow rub
-                ease .5 rotate 210 pos (220,645)
+                ease .5 rotate 210 pos (140,610)
                 ease 1 rotate 195
                 pause .25
                 ease .5 rotate 210
                 ease 1 rotate 195
                 pause .25
             choice: #slow stroke
-                ease .5 rotate 205 pos (220,655)
-                ease .75 rotate 200 pos (220,660)
-                ease .5 rotate 205 pos (220,655)
-                ease .75 rotate 200 pos (220,660)
+                ease .5 rotate 205 ypos 620
+                ease .75 rotate 200 ypos 625
+                ease .5 rotate 205 ypos 620
+                ease .75 rotate 200 ypos 625
             choice: #Fast stroke
-                ease .3 rotate 205 pos (220,655)
-                ease .3 rotate 200 pos (220,665)
-                ease .3 rotate 205 pos (220,655)
-                ease .3 rotate 200 pos (220,665)
+                ease .3 rotate 205 ypos 620
+                ease .3 rotate 200 ypos 630
+                ease .3 rotate 205 ypos 620
+                ease .3 rotate 200 ypos 630
             repeat
 
 # Start Laura Faces / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /

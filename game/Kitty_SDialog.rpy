@@ -2421,6 +2421,9 @@ label Kitty_Threeway_Set(Preset = 0, Mode = 0, Action = Trigger4, ActiveGirl = P
 #                    $ Options.append("vibrator") 
         
             if State == "hetero" or State == "threeway":
+                if Trigger == "anal":
+                    $ Options.extend(("hand","kiss you","kiss you"))   
+                else:
                     $ Options.extend(("hand","blow","kiss you")) 
             $ renpy.random.shuffle(Options)
             

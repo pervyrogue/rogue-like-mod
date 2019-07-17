@@ -1537,10 +1537,12 @@ label Shower_Room:
                 "Back":
                             pass                              
         "Leave" if not TravelMode:
-                call QuickEvents          
+                call QuickEvents  
+                call No_Towels        
                 call Worldmap
         "Leave [[Go to Campus Square]" if TravelMode:
-                call QuickEvents          
+                call QuickEvents   
+                call No_Towels       
                 jump Campus_Entry
                     
     jump Shower_Room
@@ -1550,7 +1552,7 @@ label No_Towels:
     #Removes their towels if playher is leaving the showers
     if R_Over == "towel":
             $ R_Outfit = R_OutfitDay
-            call RougeOutfit
+            call RogueOutfit
             $ R_Water = 0
     elif K_Over == "towel":
             $ K_Outfit = K_OutfitDay
@@ -2167,52 +2169,55 @@ label Showering(Occupants = [], StayCount=[] , Showered = 0, Line = 0):
     $ Trigger = 0
     
     if StayCount:
-            #If at least one stays
-            if len(StayCount) > 1:
-                    #If both stay
-                    $ Line = "You take a quick shower with " + StayCount[0] + " and " + StayCount[1] + "."
-                    call Shift_Focus(StayCount[0], StayCount[1]) 
-            else:
-                    $ Line = "You take a quick shower with " + StayCount[0] + "."
-                    call Shift_Focus(StayCount[0]) 
+                #If at least one stays
+                if len(StayCount) > 1:
+                        #If both stay
+                        call Shift_Focus(StayCount[0], StayCount[1]) 
+                        "You take a quick shower with [StayCount[0]] and [StayCount[1]]."
+                else:
+                        call Shift_Focus(StayCount[0]) 
+                        "You take a quick shower with [StayCount[0]]."
+                        
+                call Shower_Sex
+                
+                if StayCount[0] == "Rogue":                                
+                    #Rogue agreed
+                    ch_r "That was real nice, [R_Petname]."                                            
+                elif StayCount[0] == "Kitty":                               
+                    #Kitty agreed
+                    ch_k "That was. . . nice."                                                       
+                elif StayCount[0] == "Emma":                               
+                    #Emma agreed
+                    ch_e "That was. . . distracting."                                
+                elif StayCount[0] == "Laura":                               
+                    #Laura agreed
+                    ch_l "Well that was fun."
+
+                if len(StayCount) > 1:
+                        #if there are multiple girls      
+                        if StayCount[1] == "Rogue":                               
+                            #Rogue too
+                            ch_r "Yeah."                                      
+                        elif StayCount[1] == "Kitty":                               
+                            #Kitty too
+                            ch_k "Yeah, I had fun."                            
+                        elif StayCount[1] == "Emma":                               
+                            #Emma too
+                            ch_e "Indeed."
+                        elif StayCount[1] == "Laura":                               
+                            #Laura too
+                            ch_l "Yup."   
+                                                                                       
     else:        
+                #solo shower
                 $ Line = "You take a quick shower" + renpy.random.choice([". It was fairly uneventful.", 
                         ". A few people came and went as you did so.", 
-                        ". That was refreshing."])   
-                
+                        ". That was refreshing."])  
+                "[Line]"    
     #insert random events here
-    "[Line]"    
+    $ P_RecentActions.append("showered")
     $ P_DailyActions.append("showered")
-          
-    if StayCount:                    
-        if StayCount[0] == "Rogue":                                
-            #Rogue agreed
-            ch_r "That was real nice, [R_Petname]."                                            
-        elif StayCount[0] == "Kitty":                               
-            #Kitty agreed
-            ch_k "That was. . . nice."                                                       
-        elif StayCount[0] == "Emma":                               
-            #Emma agreed
-            ch_e "That was. . . distracting."                                
-        elif StayCount[0] == "Laura":                               
-            #Laura agreed
-            ch_l "Well that was fun."
-
-        if len(StayCount) > 1:
-                #if there are multiple girls      
-                if StayCount[1] == "Rogue":                               
-                    #Rogue too
-                    ch_r "Yeah."                                      
-                elif StayCount[1] == "Kitty":                               
-                    #Kitty too
-                    ch_k "Yeah, I had fun."                            
-                elif StayCount[1] == "Emma":                               
-                    #Emma too
-                    ch_e "Indeed."
-                elif StayCount[1] == "Laura":                               
-                    #Laura too
-                    ch_l "Yup."    
-                        
+                   
     call Get_Dressed
     if R_Loc == bg_current:  
             call RogueOutfit("towel")
@@ -2222,18 +2227,435 @@ label Showering(Occupants = [], StayCount=[] , Showered = 0, Line = 0):
             call EmmaOutfit("towel")
     if L_Loc == bg_current:
             call LauraOutfit("towel")
-    if Round < 5:
-        if Current_Time != "Night":
-                call Wait
-                call Girls_Location
-                call Set_The_Scene
-        else:
-                $ renpy.pop_call()
-                "After the shower, it's getting late, you head back to your room."
-                jump Player_Room
     $ Options = []
+#    if Round < 5:
+#        if Current_Time != "Night":
+#                call Wait
+#                call Girls_Location
+#                call Set_The_Scene
+#        else:
+#                $ renpy.pop_call()
+#                "After the shower, it's getting late, you head back to your room."
+#                jump Player_Room
     return
 # End Showering / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+
+
+# Start Shower Sex / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+label Shower_Sex(Options=0,Line=0):
+        #called from showering if sex is on the table. 
+        if len(StayCount) > 1 and (ApprovalCheck(StayCount[1], 1800,Check=1) > ApprovalCheck(StayCount[0], 1800,Check=1)):
+                $ renpy.random.shuffle(StayCount) #swaps girls if second girl likes you more
+        call Shift_Focus(StayCount[0])
+                
+        $ D20 = renpy.random.randint(1,20)  
+        $ D20 += 5 if ApprovalCheck(StayCount[0], 1800) else 0 #bonus if girl really likes you
+        
+        if "showered" in P_RecentActions:
+                $ D20 = 0
+                
+        call AnyFace(StayCount[0],"sly")  
+        #A set
+        if len(StayCount) > 1 and D20 >= 10:
+            "As you do so, both girls press their bodies body up against yours."
+            $ Line = StayCount[0]
+            call Close_Launch(StayCount[0],StayCount[1])
+        elif D20 >= 5:
+            "As you do so, [StayCount[0]] presses her body up against you."
+            $ Line = "She"
+            call Close_Launch(StayCount[0])
+        else:
+            $ Line = renpy.random.choice(["It was fairly uneventful.", 
+                "A few people came and went as you did so.", 
+                "That was refreshing."]) 
+            "[Line]"
+            if len(StayCount) > 1: 
+                    call Statup(StayCount[0], "Lust", 50, 15)
+                    call Statup(StayCount[1], "Lust", 50, 15)
+                    call Statup(StayCount[0], "Lust", 90, 10)
+                    call Statup(StayCount[1], "Lust", 90, 10)
+                    "You got a good look at them washing off, and they didn't seem to mind the view either."
+                    call GirlLikesGirl(StayCount[0],StayCount[1],600,4,1)
+                    call GirlLikesGirl(StayCount[1],StayCount[0],600,4,1)
+                    call GirlLikesGirl(StayCount[0],StayCount[1],800,2,1)
+                    call GirlLikesGirl(StayCount[1],StayCount[0],800,2,1) 
+            else: 
+                    call Statup(StayCount[0], "Lust", 50, 15)
+                    call Statup(StayCount[0], "Lust", 90, 10)
+                    "You got a good look at her washing off, and she didn't seem to mind the view either."
+            return
+            
+        if Line:
+            if len(StayCount) > 1: 
+                    call Statup(StayCount[0], "Lust", 50, 5)
+                    call Statup(StayCount[0], "Lust", 70, 3)
+                    call Statup(StayCount[1], "Lust", 50, 5)
+                    call Statup(StayCount[1], "Lust", 70, 3)
+            else:
+                    call Statup(StayCount[0], "Lust", 50, 6)
+                    call Statup(StayCount[0], "Lust", 70, 3)
+            call Statup("Player", "Focus", 50, 5)
+            call Statup("Player", "Focus", 80, 2)
+            menu:
+                extend ""
+                "Continue?":
+                    pass
+                "Stop her." if len(StayCount) < 2: #if one
+                    $Line = 0
+                    call QuickReset(StayCount[0])  
+                    "You take a step back, pulling away from her."
+                    call Statup(StayCount[0], "Love", 80, -1)
+                    call Statup(StayCount[0], "Obed", 80, 5)
+                    call Statup(StayCount[0], "Inbt", 80, -1)
+                    call AnyFace(StayCount[0],"sad")  
+                    "She seems a bit disappointed."
+                "Stop them." if len(StayCount) > 1: #if both
+                    $Line = 0 
+                    call QuickReset(StayCount[1])  
+                    call QuickReset(StayCount[0])  
+                    "You take a step back, pulling away from them."
+                    call Statup(StayCount[0], "Love", 80, -1)
+                    call Statup(StayCount[0], "Obed", 80, 5)
+                    call Statup(StayCount[0], "Inbt", 80, -1)
+                    call Statup(StayCount[1], "Obed", 80, 5)
+                    call Statup(StayCount[1], "Inbt", 80, -1)
+                    call AnyFace(StayCount[0],"sad")  
+                    call AnyFace(StayCount[1],"sad") 
+                    "They seem a bit disappointed."
+        if Line:            
+            #B set     
+            $ Options = [1]
+            
+            if len(StayCount) > 1: 
+                    if ApprovalCheck(StayCount[0], 1300) and GirlLikeCheck(StayCount[0],StayCount[1]) >= 800:
+                        $ Options.append(2)     #"She reaches over to [StayCount[1]] and begins soaping up her pussy."
+                    if ApprovalCheck(StayCount[0], 1200) and GirlLikeCheck(StayCount[0],StayCount[1]) >= 700:
+                        $ Options.append(3)     #"She reaches over to [StayCount[1]] and begins soaping up her chest."
+                
+            if ApprovalCheck(StayCount[0], 1300): 
+                $ Options.append(4)     #"She reaches down and takes your cock in her hand, soaping it up."
+            if ApprovalCheck(StayCount[0], 1400): 
+                $ Options.append(5)     #"She kneels down and wraps her breasts around your cock, soaping it up."
+            
+            if ApprovalCheck(StayCount[0], 1300): 
+                $ Options.append(6)     #"She reaches down and begins fondling her own pussy, building a nice lather." 
+            if ApprovalCheck(StayCount[0], 1200): 
+                $ Options.append(7)     #"She begins rubbing her own breasts in circles, building a nice lather." 
+                
+            if not ApprovalCheck(StayCount[0], 1400):
+                #only adds these if there's not much in there. 
+                if ApprovalCheck(StayCount[0], 1000): 
+                    $ Options.append(8)         #"She draws her breasts up and down your arm, the soap bubbles squirting out."
+                if ApprovalCheck(StayCount[0], 1100): 
+                    $ Options.append(9)         #"She kneels down and rubs her breasts against your leg, soaping it up."
+                if ApprovalCheck(StayCount[0], 1000): 
+                    $ Options.append(10)        #"She presses against your back, her soapy breasts rubbing back and forth against it."
+                if ApprovalCheck(StayCount[0], 1100): 
+                    $ Options.append(11)        #"She presses against your chest, her soapy breasts rubbing back and forth against it."
+            
+            $ renpy.random.shuffle(Options) 
+            
+            #"Line" will be either the first girl's name, or "She" 
+            #lesbian
+            if Options[0] == 2:
+                    call Statup(StayCount[0], "Lust", 50, 5)
+                    call Statup(StayCount[0], "Lust", 70, 2)
+                    call Statup(StayCount[1], "Lust", 50, 7)
+                    call Statup(StayCount[1], "Lust", 70, 3)
+                    call Statup("Player", "Focus", 50, 8)
+                    call Statup("Player", "Focus", 80, 4)
+                    "[Line] reaches over to [StayCount[1]] and begins soaping up her chest."
+            elif Options[0] == 3:
+                    call Statup(StayCount[0], "Lust", 50, 7)
+                    call Statup(StayCount[0], "Lust", 70, 3)
+                    call Statup(StayCount[1], "Lust", 50, 8)
+                    call Statup(StayCount[1], "Lust", 70, 4)
+                    call Statup("Player", "Focus", 50, 8)
+                    call Statup("Player", "Focus", 80, 5)
+                    "[Line] reaches over to [StayCount[1]] and begins soaping up her pussy."
+            
+            #fondling you
+            elif Options[0] == 4:
+                    if len(StayCount) > 1: 
+                            call Statup(StayCount[0], "Lust", 50, 10)
+                            call Statup(StayCount[0], "Lust", 70, 7)
+                    else:
+                            call Statup(StayCount[0], "Lust", 50, 8)
+                            call Statup(StayCount[0], "Lust", 70, 5)
+                    call Statup("Player", "Focus", 50, 10)
+                    call Statup("Player", "Focus", 80, 6)
+                    "[Line] reaches down and takes your cock in her hand, soaping it up."
+            elif Options[0] == 5:
+                    if len(StayCount) > 1: 
+                            call Statup(StayCount[0], "Lust", 50, 12)
+                            call Statup(StayCount[0], "Lust", 70, 8)
+                    else:
+                            call Statup(StayCount[0], "Lust", 50, 9)
+                            call Statup(StayCount[0], "Lust", 70, 6)
+                    call Statup("Player", "Focus", 50, 10)
+                    call Statup("Player", "Focus", 80, 4)
+                    "[Line] kneels down and wraps her breasts around your cock, soaping it up."
+                    
+            #msturbation
+            elif Options[0] == 6:
+                    if len(StayCount) > 1: 
+                            call Statup(StayCount[0], "Lust", 50, 11)
+                            call Statup(StayCount[0], "Lust", 70, 6)
+                    else:
+                            call Statup(StayCount[0], "Lust", 50, 9)
+                            call Statup(StayCount[0], "Lust", 70, 5)
+                    call Statup("Player", "Focus", 50, 9)
+                    call Statup("Player", "Focus", 80, 4)
+                    "[Line] reaches down and begins fondling her own pussy, building a nice lather." 
+            elif Options[0] == 7:
+                    if len(StayCount) > 1: 
+                            call Statup(StayCount[0], "Lust", 50, 10)
+                            call Statup(StayCount[0], "Lust", 70, 5)
+                    else:
+                            call Statup(StayCount[0], "Lust", 50, 9)
+                            call Statup(StayCount[0], "Lust", 70, 4)
+                    call Statup("Player", "Focus", 50, 8)
+                    call Statup("Player", "Focus", 80, 3)
+                    "[Line] begins rubbing her own breasts in circles, building a nice lather." 
+            
+            #gentle tease
+            elif Options[0] == 8:
+                    call Statup(StayCount[0], "Lust", 50, 6)
+                    call Statup(StayCount[0], "Lust", 70, 3)
+                    call Statup("Player", "Focus", 50, 7)
+                    call Statup("Player", "Focus", 80, 3)
+                    "[Line] draws her breasts up and down your arm, the soap bubbles squirting out."
+            elif Options[0] == 9:
+                    call Statup(StayCount[0], "Lust", 50, 8)
+                    call Statup(StayCount[0], "Lust", 70, 3)
+                    call Statup("Player", "Focus", 50, 8)
+                    call Statup("Player", "Focus", 80, 3)
+                    "[Line] kneels down and rubs her breasts against your leg, soaping it up."
+            elif Options[0] == 10:
+                    call Statup(StayCount[0], "Lust", 50, 7)
+                    call Statup(StayCount[0], "Lust", 70, 3)
+                    call Statup("Player", "Focus", 50, 6)
+                    call Statup("Player", "Focus", 80, 3)
+                    "[Line] presses against your back, her soapy breasts rubbing back and forth against it."
+            elif Options[0] == 11:
+                    call Statup(StayCount[0], "Lust", 50, 7)
+                    call Statup(StayCount[0], "Lust", 70, 3)
+                    call Statup("Player", "Focus", 50, 8)
+                    call Statup("Player", "Focus", 80, 4)
+                    "[Line] presses against your chest, her soapy breasts rubbing back and forth against it."
+            elif Options[0] == 1:
+                    call Statup(StayCount[0], "Lust", 50, 5)
+                    call Statup(StayCount[0], "Lust", 70, 2)
+                    call Statup("Player", "Focus", 50, 6)
+                    call Statup("Player", "Focus", 80, 3)
+                    "[Line] stares silently at you as she moves her hands along her soapy body. . ."
+                    $ Line = 0
+             
+        if Line and len(StayCount) > 1:
+            #C Set, check what the other girl thinks. . .
+            $ D20 += 5 if ApprovalCheck(StayCount[1], 1800) else 0
+            if GirlLikeCheck(StayCount[1],StayCount[0]) <= 800 and 2 <= Options[0] <=3: 
+                $ D20 -= 5
+            if GirlLikeCheck(StayCount[1],StayCount[0]) <= 600: 
+                $ D20 -= 5
+                
+            if 2 <= Options[0] <= 3:
+                # if it's lesbian stuff. . .
+                if ApprovalCheck(StayCount[1], 1300) and GirlLikeCheck(StayCount[1],StayCount[0]) >= 800:
+                    call AnyFace(StayCount[1],"sexy",1)  
+                    call Statup(StayCount[0], "Lust", 50, 5)
+                    call Statup(StayCount[0], "Lust", 70, 5)
+                    call Statup(StayCount[1], "Lust", 50, 12)
+                    call Statup(StayCount[1], "Lust", 70, 12)
+                    call Close_Launch(0,StayCount[1])
+                    "[StayCount[1]] seems really into this, and returns the favor."  
+                    call Statup("Player", "Focus", 50, 7)
+                    call Statup("Player", "Focus", 80, 3) 
+                    $ Line = 4
+                elif ApprovalCheck(StayCount[1], 1200) and GirlLikeCheck(StayCount[1],StayCount[0]) >= 700: 
+                    call AnyFace(StayCount[1],"sexy",2,Eyes="closed")  
+                    call Statup(StayCount[1], "Lust", 50, 10)
+                    call Statup(StayCount[1], "Lust", 70, 10)
+                    call Statup("Player", "Focus", 50, 5)
+                    call Statup("Player", "Focus", 80, 3)
+                    call Close_Launch(0,StayCount[1])
+                    "[StayCount[1]] seems really into this, and leans into it."
+                else:                         
+                    call Statup(StayCount[1], "Lust", 50, 10)
+                    call AnyFace(StayCount[1],"sadside",Brows="confused")  
+                    "[StayCount[1]] doesn't really seem to appreciate this."
+                    "She pulls away."
+                    $ Line = 3
+            else:
+                # if it's not lesbian stuff. . .
+                if (ApprovalCheck(StayCount[1], 1300) and GirlLikeCheck(StayCount[1],StayCount[0]) >= 700) or ApprovalCheck(StayCount[1], 2000):
+                    if Options[0] == 5: #titjob
+                        call Statup(StayCount[1], "Lust", 50, 10)
+                        call Statup(StayCount[1], "Lust", 70, 5)
+                        call Statup("Player", "Focus", 50, 6)
+                        call Statup("Player", "Focus", 80, 3)
+                        call Close_Launch(0,StayCount[1])
+                        "[StayCount[1]] seems really into this, slowly rubbing against you as she watches."  
+                    else:
+                        call Statup(StayCount[1], "Lust", 50, 10)
+                        call Statup(StayCount[1], "Lust", 70, 5)
+                        call Statup("Player", "Focus", 50, 5)
+                        call Statup("Player", "Focus", 80, 3)
+                        call Close_Launch(0,StayCount[1])
+                        "[StayCount[1]] seems really into this, and joins her on the other side."  
+                    $ Line = 4
+                elif ((ApprovalCheck(StayCount[1], 1200) and GirlLikeCheck(StayCount[1],StayCount[0]) >= 600)) or ApprovalCheck(StayCount[1], 1600): 
+                    call AnyFace(StayCount[1],"sexy",2,Eyes="down")  
+                    call Statup(StayCount[1], "Lust", 50, 10)
+                    call Statup(StayCount[1], "Lust", 70, 5)
+                    "[StayCount[1]] seems really into this, and watches her do it."
+                else:                       
+                    call AnyFace(StayCount[1],"sadside",Brows="confused")  
+                    call Statup(StayCount[1], "Lust", 50, 5)
+                    "[StayCount[1]] doesn't really seem to appreciate this."
+                    $ Line = 3
+                    
+        if Line:
+            menu:
+                extend ""
+                "Continue?":
+                    pass
+                "Stop her." if len(StayCount) < 2: #if one
+                    $Line = 0
+                    call QuickReset(StayCount[0])     
+                    "You take a step back, pulling away from her."
+                    call Statup(StayCount[0], "Love", 80, -2)
+                    call Statup(StayCount[0], "Obed", 80, 5)
+                    call Statup(StayCount[0], "Inbt", 80, -2)
+                    call AnyFace(StayCount[0],"sad")  
+                    "She seems a bit disappointed."
+                "Stop them." if len(StayCount) > 1: #if both
+                    $Line = 0
+                    call QuickReset(StayCount[1])  
+                    call QuickReset(StayCount[0])  
+                    "You take a step back, pulling away from them."
+                    call AnyFace(StayCount[0],"sad")  
+                    call Statup(StayCount[0], "Love", 80, -2)
+                    call Statup(StayCount[0], "Obed", 80, 5)
+                    call Statup(StayCount[0], "Inbt", 80, -2)
+                    if Line == 3:
+                        call Statup(StayCount[1], "Love", 80, 4)
+                        call Statup(StayCount[1], "Obed", 80, 5)
+                        call AnyFace(StayCount[1],"bemused")  
+                        "[StayCount[0]] seems a bit disappointed, but [StayCount[1]] seems pleased."
+                    else:
+                        call Statup(StayCount[1], "Love", 80, -1)
+                        call Statup(StayCount[1], "Obed", 80, 5)
+                        call Statup(StayCount[1], "Inbt", 80, -1)
+                        call AnyFace(StayCount[1],"sad")  
+                        "They seem a bit disappointed."
+                     
+        if Line: 
+            #D set, wrap-up  
+            if len(StayCount) > 1 and Line != 3: #if second didn't disapprove
+                    call GirlLikesGirl(StayCount[0],StayCount[1],600,4,1)
+                    call GirlLikesGirl(StayCount[1],StayCount[0],600,4,1)
+                    call GirlLikesGirl(StayCount[0],StayCount[1],800,3,1)
+                    call GirlLikesGirl(StayCount[1],StayCount[0],800,3,1)
+                    call GirlLikesGirl(StayCount[0],StayCount[1],900,1,1)
+                    call GirlLikesGirl(StayCount[1],StayCount[0],900,1,1)                  
+            if 2 <= Options[0] <= 3 and D20 >= 15:
+                    #if it's lesbian. . .       
+                    call GirlLikesGirl(StayCount[1],StayCount[0],900,4,1)    
+                    call Statup("Player", "Focus", 50, 10)
+                    call Statup("Player", "Focus", 80, 5)                 
+                    "After a few minutes of this, it looks like [StayCount[1]] gets off."
+                    call Quick_O(StayCount[0])
+                    if Line == 4:                                
+                        call GirlLikesGirl(StayCount[0],StayCount[1],900,3,1)
+                        "It looks like [StayCount[0]] is reacting positively to it as well. . ."
+                        call Quick_O(StayCount[1])
+                    if len(StayCount) > 1:
+                            "The girls take a step back."
+                            call QuickReset(StayCount[1]) 
+                    else:
+                            "[StayCount[0]] takes a step back."
+                    call QuickReset(StayCount[0])   
+                                                        
+            elif 4 <= Options[0] <= 5 and D20 >= 10:
+                    #if it's her fondling you
+                    $ P_Focus = 15
+                    if Options[0] == 5: #if it was titjob
+                            if StayCount[0] == "Rogue":
+                                    $ R_Spunk.append("tits")
+                            elif StayCount[0] == "Kitty":
+                                    $ K_Spunk.append("tits")
+                            elif StayCount[0] == "Emma":
+                                    $ E_Spunk.append("tits")
+                            elif StayCount[0] == "Laura":
+                                    $ L_Spunk.append("tits")
+                        
+                    if Line == 4:
+                        call Statup(StayCount[0], "Inbt", 90, 7) 
+                        call Statup(StayCount[1], "Inbt", 90, 4) 
+                        call GirlLikesGirl(StayCount[0],StayCount[1],900,3,1)
+                        call GirlLikesGirl(StayCount[1],StayCount[0],900,3,1)                                
+                        "After a few minutes of this, the two of them manage to get you off."                                 
+                    else:
+                        call Statup(StayCount[0], "Inbt", 90, 5) 
+                        "After a few minutes of this, she manages to get you off." 
+                    "A little more work is needed to clean up the mess." 
+                    if Options[0] == 5: #if it was titjob
+                            if StayCount[0] == "Rogue":
+                                    $ R_Spunk = []
+                            elif StayCount[0] == "Kitty":
+                                    $ K_Spunk = []
+                            elif StayCount[0] == "Emma":
+                                    $ E_Spunk = []
+                            elif StayCount[0] == "Laura":
+                                    $ L_Spunk = []
+                    if len(StayCount) > 1:
+                            "The girls take a step back."
+                            call QuickReset(StayCount[1]) 
+                    else:
+                            "[StayCount[0]] takes a step back."
+                    call QuickReset(StayCount[0])   
+                    
+            elif 6 <= Options[0] <= 7 and D20 >= 15:
+                    #if it's her masturbation. . .         
+                    call Statup(StayCount[0], "Inbt", 90, 7)   
+                    call Statup("Player", "Focus", 50, 15)
+                    call Statup("Player", "Focus", 80, 5)             
+                    "After a few minutes of this, it looks like [StayCount[0]] gets off."
+                    call Quick_O(StayCount[0])
+                    if Line == 4:
+                        call Statup(StayCount[1], "Inbt", 90, 6) 
+                        call GirlLikesGirl(StayCount[0],StayCount[1],900,3,1)
+                        "It looks like [StayCount[1]] is enjoying herself as well. . ."
+                        call Quick_O(StayCount[1])
+                    if len(StayCount) > 1:
+                            call GirlLikesGirl(StayCount[1],StayCount[0],900,3,1)
+                            "The girls take a step back."
+                            call QuickReset(StayCount[1]) 
+                    else:
+                            "[StayCount[0]] takes a step back."
+                    call QuickReset(StayCount[0])   
+            else:
+                #nobody got off
+                if len(StayCount) > 1:
+                        call QuickReset(StayCount[1])    
+                call QuickReset(StayCount[0])      
+                call Statup("Player", "Focus", 50, 15)
+                call Statup("Player", "Focus", 80, 5)
+                if D20 >= 15:
+                    "After a minute or two, it sounds like someone is coming, so you scramble apart."   
+                    "Disappointing. . ."
+                elif D20 >= 10:
+                    "After a minute or two, she seems satisfied with her efforts, and pulls back."
+                    if 4 <= Options[0] <= 5:
+                            "You're left pretty hard."
+                else:
+                    "After a minute or so of this, she draws back and finshes washing herself off."
+                    if 4 <= Options[0] <= 5:
+                            "You're left pretty hard." 
+        call Shift_Focus(StayCount[0])  
+        return
+# End Shower Sex / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
 
 
 

@@ -260,8 +260,13 @@ label Emma_Chat_Minimal:
                     ch_e "Well that certainly doesn't seem appropriate."
                 
         "Never mind.":
-                    "She seems a bit reserved. Maybe you need something to break the ice."
-                    "Maybe you should check in on her after classes are over and the students leave."
+                    if Current_Time == "Evening":
+                            ch_e "Now if that will be all, please clear out of here."
+                            call EmmaFace("bemused",2)
+                            ch_e "I have some. . . business to attend to." 
+                    else:
+                            "She seems a bit reserved. Maybe you need something to break the ice."
+                            "Maybe you should check in on her after classes are over and the students leave."
                     return
     jump Emma_Chat_Minimal
 
@@ -1558,7 +1563,8 @@ label Emma_Flirt:
         menu:        
 #            "Compliment her":
                 
-#            "Say you love her":
+            "Say you love her":
+                        call Love_You("Emma")
                 
             "Touch her cheek.":                                                                                 #Touch her cheek 
                     call E_TouchCheek
@@ -4336,9 +4342,9 @@ label Emma_Clothes(Public=0,Bonus=0):
             menu:          
                 "You could lose the hose." if E_Hose:     
                                 $ E_Hose = 0  
-                "The thigh-high hose would look good with that." if E_Hose != "stockings" and E_Legs != "pants":     
+                "The thigh-high hose would look good with that." if E_Hose != "stockings" and "stockings and garterbelt" in E_Inventory:    
                                 $ E_Hose = "stockings"  
-                "The pantyhose would look good with that." if E_Hose != "pantyhose" and E_Legs != "pants":     
+                "The pantyhose would look good with that." if E_Hose != "pantyhose" and "pantyhose" in E_Inventory:    
                                 $ E_Hose = "pantyhose" 
                 "The stockings and garterbelt would look good with that." if E_Hose != "stockings and garterbelt" and "stockings and garterbelt" in E_Inventory:     
                                 $ E_Hose = "stockings and garterbelt"  

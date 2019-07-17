@@ -1265,7 +1265,7 @@ label LauraLust(Extreme = 0, Kissing = 0):
 
 #  Laura Orgasm //////////////////////////
 
-label L_Cumming:
+label L_Cumming(Quick=0):
     $ L_Eyes = "surprised"
     $ L_Brows = "sad"
     $ L_Mouth = "tongue"
@@ -1292,8 +1292,12 @@ label L_Cumming:
                 "Laura grabs on tightly as her body shakes with pleasure.", 
                 "Laura stiffens and lets out a low moan.",
                 "Laura's body quivers and suddenly goes still."])
-    "[Line]"
-    
+    "[Line]"    
+    if Quick:
+            call AnyFace("Laura","sexy",2)  
+            $ L_Lust = 20
+            return
+            
     $ L_Eyes = "closed"
     $ L_Brows = "sad"
     $ L_Mouth = "tongue"

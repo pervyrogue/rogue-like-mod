@@ -1280,6 +1280,22 @@ label VersionNumber:
             
         if SaveVersion < 983:        
             $ Kitty_Arms = K_Arms   
+            call Clothing_Schedule_Check("Rogue",3,1)  
+            call Clothing_Schedule_Check("Rogue",4,1) 
+            call Clothing_Schedule_Check("Rogue",5,1) 
+            call Clothing_Schedule_Check("Rogue",6,1) 
+            call Clothing_Schedule_Check("Kitty",3,1)  
+            call Clothing_Schedule_Check("Kitty",4,1) 
+            call Clothing_Schedule_Check("Kitty",5,1) 
+            call Clothing_Schedule_Check("Kitty",6,1) 
+            call Clothing_Schedule_Check("Emma",3,1)  
+            call Clothing_Schedule_Check("Emma",4,1) 
+            call Clothing_Schedule_Check("Emma",5,1) 
+            call Clothing_Schedule_Check("Emma",6,1) 
+            call Clothing_Schedule_Check("Laura",3,1)  
+            call Clothing_Schedule_Check("Laura",4,1) 
+            call Clothing_Schedule_Check("Laura",5,1) 
+            call Clothing_Schedule_Check("Laura",6,1) 
 #            $ K_Arms = 0
 #            $ SaveVersion = 983
             #end Save 983 prep          
