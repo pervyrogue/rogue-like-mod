@@ -6022,7 +6022,7 @@ label RogueWardrobe:
                         if not renpy.showing("Rogue_Doggy"):
                             call Rogue_Doggy_Launch
                         else:
-                            call Rogue_Doggy_Reset
+                            call Rogue_Sex_Reset
                     "Back":
                         jump RogueWardrobe 
         # Outfits
