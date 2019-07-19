@@ -1492,7 +1492,7 @@ label Rogue_Chitchat(O=0, Options = ["default","default","default"]):
             $ R_Upskirt = 0      
         ch_r "Y'know what I'm sayin', [R_Petname]?"        
         $ R_Upskirt = 0      
-        call Rogue_Doggy_Reset
+        call Rogue_Sex_Reset
 
         
     elif Options[0] == "luv": # love maxed out
@@ -4090,6 +4090,8 @@ label Rogue_Clothes:
     call RogueFace
     menu:
         ch_r "So what did you want to tell me about my clothes again?"
+        "Let's talk about your modded clothes.":
+                    jump Rogue_Modded_Clothes_Menu
         "Let's talk about your outfits.":
                 jump Rogue_Clothes_Outfits        
         "Let's talk about your over shirts.":
@@ -5155,6 +5157,8 @@ label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
             #If she's wearing a bra of some kind
             if Custom == 20 and R_Uptop: 
                 $ Count = 0
+            elif IsOutfitModdedRogue("Chest"):
+                $ Count = Mod_Rogue_OutfitShame("Chest")
             elif R_Chest == "tank":                                              
                 $ Count = 20
             elif R_Chest == "buttoned tank":
@@ -5176,6 +5180,8 @@ label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
             #If she's wearing an overshirt
             if Custom == 20 and R_Uptop: 
                 $ Count = 0
+            elif IsOutfitModdedRogue("Over"):
+                $ Count += Mod_Rogue_OutfitShame("Over")
             elif R_Over == "pink top":                                             
                 $ Count += 15
             elif R_Over == "hoodie":      
@@ -5218,8 +5224,12 @@ label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
             else: #If she's missing something on her legs   
                         if R_Legs == "pants":                   #If wearing pants commando
                             $ Count = 25
+                        elif IsOutfitModdedRogue("Legs"):
+                            $ Count = Mod_Rogue_OutfitShame("Legs")
                         elif R_Legs:                            #If wearing a skirt commando
                             $ Count = 20
+                        elif IsOutfitModdedRogue("Panties"):
+                            $ Count = Mod_Rogue_OutfitShame("Panties")
                         elif R_Panties == "shorts":             #If wearing shorts
                             $ Count = 25  
                         elif R_Panties == "bikini bottoms":      #If wearing only bikini bottoms

@@ -164,6 +164,7 @@ init -1:
     default P_Cock = "out"
     default P_Spunk = 0
     default P_Wet = 0
+    call mod_default_Variables
 #Rogue Stats   
     default R_Loc = "bg rogue"
     default R_Love = 500
@@ -684,41 +685,6 @@ label start:
     show screen R_Status_screen    
     show screen Inventorybutton            
         
-    if config.developer:
-#        show screen roguebutton
-#        show screen statbutton
-            # Testing settings
-            $ P_Cash = 200
-            $ Cheat = 1
-            $ R_Kissed = 5
-            $ Digits.append("Rogue") 
-            $ Keys.append("Rogue") 
-            $ K_Kissed = 5      
-            $ Digits.append("Kitty")
-            $ Keys.append("Kitty")
-            $ K_History.append("met")
-            $ E_Kissed = 5      
-            $ E_Petname = "Mr. Zero"
-            $ Digits.append("Emma")
-            $ Keys.append("Emma")
-            $ E_History.append("met")
-            $ E_History.append("classcaught")         
-            $ Digits.append("Laura")
-            $ Keys.append("Laura")
-            $ L_History.append("met")
-            $ P_Traits.append("focus")
-            $ R_Event[1] = 1 
-            $ R_Addictionrate = 10
-            #$ R_Resistance = 1 #how fast her rate falls
-            $ Day = 16
-            $ Time_Options = ["Morning", "Midday", "Evening", "Night"]
-            $ Time_Count = 4
-            $ Current_Time = "Midday"   
-            $ Week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-            $ Weekday = 6
-            $ DayofWeek = Week[Weekday]
-            call Wait
-            jump Rogue_Room_Test             
         
     jump Prologue
 
@@ -3651,6 +3617,8 @@ label Wait (Outfit = 1, Lights = 1):
                         $ R_Inbt += 10   
                     
         # Things about Kitty when you sleep:
+                if K_DynamicTan[0]:
+                    $ K_DynamicTan[0] -= 1
                 if K_Loc == "hold":
                         $ K_Loc = "bg kitty"  
                 if K_Todo:
