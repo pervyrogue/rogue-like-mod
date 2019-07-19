@@ -112,3 +112,6 @@ game/images/
 game/cache/
 game/saves/
 *.TTF
+
+# UnRen specific ignores
+unren*
