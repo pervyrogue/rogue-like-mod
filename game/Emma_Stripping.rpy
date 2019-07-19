@@ -588,7 +588,7 @@ label Emma_Top_Off(Intro = 1, Line = 0, Cnt = 0):                               
     if "no topless" in E_RecentActions: 
         $ Tempmod -= 10
                      
-    if Intro:
+    if Intro and not E_Uptop:
         if E_Over:
                 ch_p "This might be easier without your [E_Over] on."
         elif E_Chest:
@@ -596,42 +596,27 @@ label Emma_Top_Off(Intro = 1, Line = 0, Cnt = 0):                               
 
     $ Approval = ApprovalCheck("Emma", 1200, TabM = 4) # 110, 125, 140, 300 taboo, -20 if already seen
     
-    if Situation == "auto":  
-        $Line = 0
-        if E_Over: # If she's in a top
-            if E_Chest and ApprovalCheck("Emma", 800, TabM = 1):
-                call Statup("Emma", "Inbt", 40, 1)
-            elif Approval >= 2 or (E_SeenChest and ApprovalCheck("Emma", 600) and not Taboo):
-                call Statup("Emma", "Inbt", 70, 1)
-            else:
-                return
-            $ Line = E_Over
-            $ E_Over = 0
-            "Emma scowls in irritation, and shrugs off her [Line]."
-            if not E_Chest:
-                if Taboo:
-                    call Statup("Emma", "Inbt", 90, (int(Taboo/20)))   
-                call Emma_First_Topless(1)
-                
-        if E_Chest:
-            if Approval >= 2 or (E_SeenChest and ApprovalCheck("Emma", 600) and not Taboo):
-                call Statup("Emma", "Inbt", 70, 1)
-                if Taboo:
-                    call Statup("Emma", "Inbt", 90, (int(Taboo/20)))  
-                if Line:
-                    $ Line = E_Chest
-                    $ E_Chest = 0
-                    call Emma_Tits_Up
-                    "As it hits the floor, she unfastens her [Line] and allows it to drop as well."  
-                else:
-                    $ Line = E_Chest
-                    $ E_Chest = 0
-                    call Emma_Tits_Up
-                    "Emma scowls in irritation, she unfastens her [Line] and allows it to drop to the floor."                     
-                call Emma_First_Topless(1) 
-                ch_e "Sometimes only direct contact will do."  
-        return
-    
+    if Situation == "auto" and  (E_Over or E_Chest) and not E_Uptop:   
+            $ Line = 0
+            if ApprovalCheck("Emma", 1100, TabM = 1) or (E_SeenChest and ApprovalCheck("Emma", 500) and not Taboo):
+                    #if she'd go topless
+                    call Statup("Emma", "Inbt", 70, 1)
+                    $ E_Uptop = 1
+                    $ Line = E_Over if E_Over else E_Chest
+                    "Emma scowls in irritation, and pulls her [Line] tits out."
+                    ch_e "Sometimes only direct contact will do."  
+                    if Taboo:
+                        call Statup("Emma", "Inbt", 90, (int(Taboo/20)))   
+                    call Emma_First_Topless(1)
+            elif E_Over and E_Chest and ApprovalCheck("Emma", 600, TabM = 1):
+                    #if she won't go topless, but has a bra on. . .
+                    call Statup("Emma", "Inbt", 40, 1)
+                    $ Line = E_Over
+                    $ E_Over = 0
+                    "Emma scowls in irritation, and pulls her [Line] off, throwing it aside."
+                    ch_e "I just wasn't getting much out of it that way."   
+            $ Line = 0
+            return     
     
     if Approval >= 2:                                                                               # Does she assume top off?            
         if "no topless" in E_DailyActions:
@@ -670,6 +655,10 @@ label Emma_Top_Off(Intro = 1, Line = 0, Cnt = 0):                               
                     $ E_Chest = 0      
                     call Emma_Tits_Up           
                     "Emma unfastens her [Line] and allows it to drop to the floor." 
+                "Just pull it up." if (E_Over or E_Chest) and not E_Uptop:
+                    call EmmaFace("bemused", 1)
+                    $ E_Uptop = 1
+                    "Emma smiles and pulls out her tits. . ."   
                 "Lose both tops." if E_Over and E_Chest:
                     call EmmaFace("bemused", 1)  
                     $ Line = E_Over
@@ -684,7 +673,7 @@ label Emma_Top_Off(Intro = 1, Line = 0, Cnt = 0):                               
                     call EmmaFace("bemused", 1)
                     ch_e "Very well. . ."    
                     $ Cnt = 0
-        if not E_Chest and not E_Over:             
+        if (not E_Chest and not E_Over) or E_Uptop:             
             call Statup("Emma", "Obed", 40, 2)
             call Statup("Emma", "Obed", 90, 1)
             call Emma_First_Topless  
@@ -793,20 +782,9 @@ label Emma_Top_Off(Intro = 1, Line = 0, Cnt = 0):                               
                 if "no topless" in E_RecentActions:     
                     ch_e "Fine, I can't take your constant begging."
                 else:
-                    ch_e "Well, I suppose if you ask nicely . . ." 
-                if E_Over:
-                    $ Line = E_Over
-                    $ E_Over = 0
-                    call Emma_Tits_Up
-                    "Emma shrugs off her [Line]. . ."   
-                    $ Line = E_Chest
-                    $ E_Chest = 0 
-                    call Emma_Tits_Up
-                    ". . .and then her [Line] as well."
-                else: 
-                    $ Line = E_Chest
-                    $ E_Chest = 0 
-                    "Emma shrugs off her [Line]." 
+                    ch_e "Well, I suppose if you ask nicely . . ."                 
+                $ E_Uptop = 1
+                "Emma just pulls her tits out."
                 call Statup("Emma", "Inbt", 30, 1)  
                 call Statup("Emma", "Inbt", 60, 1)
                 call Emma_First_Topless 
@@ -876,26 +854,8 @@ label Emma_ToplessorNothing:
             ch_e "Fine."                
         call Statup("Emma", "Obed", 60, 5)
         call Statup("Emma", "Obed", 90, 2)
-        if E_Over:
-            if E_Chest:        
-                $ Line = E_Over
-                $ E_Over = 0 
-                call Emma_Tits_Up
-                "Emma shrugs off her [Line]. . ."    
-                $ Line = E_Chest
-                $ E_Chest = 0
-                call Emma_Tits_Up
-                ". . .and then her [Line] as well."
-            else:
-                $ Line = E_Over
-                $ E_Over = 0
-                call Emma_Tits_Up
-                "Emma shrugs off her [Line]. . ."                    
-        elif E_Chest:
-            $ Line = E_Chest
-            $ E_Chest = 0    
-            call Emma_Tits_Up
-            "Emma unfastens her [Line] and lets it drop to the floor. . ."   
+        $ E_Uptop = 1
+        "Emma grudgingly pulls her tits out of her top."
         if E_Arms:            
             $ E_Arms = 0    
             "She pulls off her gloves and drops them to the floor."
@@ -915,7 +875,10 @@ label Emma_ToplessorNothing:
         $ E_DailyActions.append("angry")   
     return              
     
-label Emma_First_Topless(Silent = 0, TempLine = 0):          
+label Emma_First_Topless(Silent = 0, TempLine = 0):    
+    if ChestNum("Emma") > 1 or OverNum("Emma") > 2:
+        #if she's wearing substantial clothing. . .
+        return      
     $ E_RecentActions.append("topless")                      
     $ E_DailyActions.append("topless")
     call DrainWord("Emma","no topless")      
@@ -1076,9 +1039,9 @@ label Emma_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
         $ Tempmod -= 20
     
     if Intro:
-        if E_Legs:
+        if E_Legs and not E_Upskirt:
                 ch_p "This might be easier without your [E_Legs] on."
-        elif E_Panties:
+        elif E_Panties and not E_PantiesDown:
                 ch_p "This might be easier without your [E_Panties] on."
                 
     $ Approval = ApprovalCheck("Emma", 1300, TabM = 5) # 120, 135, 150, -200(320) taboo, -25 if already seen
@@ -1086,7 +1049,7 @@ label Emma_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
     if Situation == "auto":
             $ Cnt = 0
             
-            if not E_Upskirt:                      
+            if not E_Upskirt and not E_PantiesDown:                      
                 if E_Legs == "skirt" and not E_Upskirt:                                          
                     #If she's in a skirt with panties, hike it up?
                     if Approval >= 2 or (E_SeenPussy and ApprovalCheck("Emma", 700) and not Taboo):
@@ -1109,10 +1072,7 @@ label Emma_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
                     call Statup("Emma", "Inbt", 60, 1)
                     $ E_Upskirt = 1
                     "Emma shrugs, and then tugs her [Line] down." 
-                    if E_Panties:
-                        $ E_SeenPanties = 1
-                    else:
-                        call Emma_First_Bottomless(1)  
+                    call Emma_First_Bottomless(1)  
                         
                     if Taboo:
                         call Statup("Emma", "Inbt", 90, (int(Taboo/10)))  
@@ -1341,8 +1301,7 @@ label Emma_Bottoms_Off_Legs:
                         "Emma pulls down her [Line]."                        
                         $ E_SeenPanties = 1 if not E_SeenPanties else E_SeenPanties
                     call EmmaFace("bemused", 1)
-            
-            
+                        
             "Lose the [E_Panties]." if E_Panties:
                     if Approval < 2:
                         ch_e "I'm afraid not."
@@ -1360,43 +1319,57 @@ label Emma_Bottoms_Off_Legs:
                         "She pulls down her [E_Legs], then pulls her [Line] off and puts them back on."    
                     else:
                         "She reaches down and pulls her [Line] off."
-                    if not E_Legs:
-                        call Emma_First_Bottomless 
+                    call Emma_First_Bottomless 
             
             "Lose the [E_Boots]." if E_Boots:
                     ch_e "Of course."   
                     $ E_Boots = 0                      
                     "She reaches down and pulls her boots off."
-                        
             
-#            "Lose the [E_Hose]." if E_Hose:                                    #make sure to update this mess if I add hose to her
-#                    call EmmaFace("bemused", 1) 
-#                    if E_Legs:
-#                        ch_e "All right, fine."                         
-#                    elif Approval < 2 and not E_Panties and HoseNum("Emma") >= 10:
-#                        call Emma_NoPanties                            
-#                    elif not Approval and HoseNum("Emma") >= 6:
-#                        ch_e "Sorry, no, [E_Petname]."
-#                        return                            
-#                    else:
-#                        ch_e "Fine, [E_Petname]."                 
+            "Just give me a clear view. . ." if (E_Panties and not E_PantiesDown) or (E_Legs and not E_Upskirt):
+                    if Approval >= 2:
+                        ch_e "Fine."
+                        $ E_PantiesDown = 1 if E_Panties else 0
+                        $ E_Upskirt = 1 if E_Legs else 0
+                        "She shifts her [E_Legs] out of the way."
+                    elif Approval >= 1 and E_Legs and E_Panties and not E_PantiesDown:
+                        ch_e "I'll give at least give a little view. . ."
+                        $ E_Upskirt = 1
+                    else:
+                        ch_e "No."
+                        $ E_RecentActions.append("no bottomless")                      
+                        $ E_DailyActions.append("no bottomless")   
+                        return   
+                    call Emma_First_Bottomless                     
+            
+            "Lose the [E_Hose]." if E_Hose:                                    #make sure to update this mess if I add hose to her
+                    call EmmaFace("bemused", 1) 
+                    if E_Legs:
+                        ch_e "All right, fine."                         
+                    elif Approval < 2 and not E_Panties and HoseNum("Emma") >= 10:
+                        call Emma_NoPanties                            
+                    elif not Approval and HoseNum("Emma") >= 6:
+                        ch_e "Sorry, no, [E_Petname]."
+                        return                            
+                    else:
+                        ch_e "Fine, [E_Petname]."                 
                         
-#                    $ Line = E_Hose   
-#                    $ E_Hose = 0  
-#                    if E_Legs:
-#                        "She reaches under her [E_Legs] and pulls her [Line] down."
-#                    elif HoseNum("Emma") < 10:
-#                        "Emma pulls her [Line] off." 
-#                    elif not E_Panties:
-#                        call EmmaFace("sly", 2)  
-#                        "She blushes and looks at you slyly before removing her [Line]." 
-#                        $ E_Blush = 1
-#                        call Emma_First_Bottomless   
-#                    elif not E_SeenPanties:
-#                        "Emma shyly removes her [Line]."
-#                        $ E_SeenPanties = 1
-#                    else:
-#                        "Emma pulls her [Line] off." 
+                    $ Line = E_Hose   
+                    $ E_Hose = 0  
+                    if E_Legs:
+                        "She reaches under her [E_Legs] and pulls her [Line] down."
+                    elif HoseNum("Emma") < 10:
+                        "Emma pulls her [Line] off." 
+                    elif not E_Panties:
+                        call EmmaFace("sly", 2)  
+                        "She looks at you slyly before removing her [Line]." 
+                        $ E_Blush = 1
+                        call Emma_First_Bottomless   
+                    elif not E_SeenPanties:
+                        "Emma slowly removes her [Line]."
+                        $ E_SeenPanties = 1
+                    else:
+                        "Emma pulls her [Line] off." 
                         
             "Keep it all on for now." if Cnt == 1:
                 $ E_Mouth = "smile"
@@ -1475,6 +1448,9 @@ label Emma_Bottoms_Off_Refused:
     return   
 
 label Emma_First_Bottomless(Silent = 0): 
+    if PantiesNum("Emma") > 1 or PantsNum("Emma") > 2 or HoseNum("Emma") > 9:
+        #if she's wearing substantial clothing. . .  
+        return     
     $ E_RecentActions.append("bottomless")                      
     $ E_DailyActions.append("bottomless")
     call DrainWord("Emma","no bottomless")

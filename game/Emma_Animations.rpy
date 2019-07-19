@@ -6,7 +6,18 @@ image Emma_Sprite:
 #            "not E_Hair", Null(),
 #            "E_Hair == 'wet' or E_Water", "images/EmmaSprite/EmmaSprite_Head_HairBackWet.png",
 #            "True", Null(),        
-#            ),        
+#            ),   
+(0,0), ConditionSwitch(                                                                         
+            #cape layer       
+            "E_Uptop or E_Over == 'jacket' or E_Chest != 'corset'", Null(),  
+            "Emma_Arms == 2", "images/EmmaSprite/EmmaSprite_Cape2.png",              
+            "True", "images/EmmaSprite/EmmaSprite_Cape1.png",   
+            ), 
+        (0,0), ConditionSwitch(                                                                         
+            #Overshirt back layer       
+            "E_Over and E_Uptop and E_Over == 'jacket'", "images/EmmaSprite/EmmaSprite_Jacket_Back.png",  
+            "True", Null(), 
+            ), 
         (0,0), ConditionSwitch(
             #hair back 
             "not E_Hair", Null(),
@@ -23,6 +34,7 @@ image Emma_Sprite:
             #panties down back 
             "not E_Panties or not E_PantiesDown or (E_Legs == 'pants' and not E_Upskirt)", Null(), 
             "E_Panties == 'sports panties'", "images/EmmaSprite/EmmaSprite_Panties_Sports_DownBack.png",   
+            "E_Panties == 'bikini bottoms'", "images/EmmaSprite/EmmaSprite_Panties_Bikini_DownBack.png",  
             "True", "images/EmmaSprite/EmmaSprite_Panties_DownBack.png",   
             ),  
         (0,0), ConditionSwitch(
@@ -62,9 +74,9 @@ image Emma_Sprite:
             "'in' not in E_Spunk and 'anal' not in E_Spunk", Null(),
             "E_Legs == 'pants' and not E_Upskirt", Null(),   
             "True", ConditionSwitch( #Wet = 2+
-                    "E_Panties and E_PantiesDown", AlphaMask("Spunk_Dripp","Emma_Drip_MaskP"), #"Wet_Drip2",# 
-                    "E_Legs == 'pants'", AlphaMask("Spunk_Dripp","Emma_Drip_MaskP"),
-                    "True", AlphaMask("Spunk_Dripp","Emma_Drip_Mask"), #only plays if nothing is in the way
+                    "E_Panties and E_PantiesDown", AlphaMask("Spunk_Drip","Emma_Drip_MaskP"), #"Wet_Drip2",# 
+                    "E_Legs == 'pants'", AlphaMask("Spunk_Drip","Emma_Drip_MaskP"),
+                    "True", AlphaMask("Spunk_Drip","Emma_Drip_Mask"), #only plays if nothing is in the way
                     ),
             ),    
         (0,0), ConditionSwitch(
@@ -85,10 +97,17 @@ image Emma_Sprite:
             #Water effect 
             "E_Water", "images/EmmaSprite/EmmaSprite_Water_Legs.png",   
             "True", Null(),        
-            ),                    
+            ),               
+        (0,0), ConditionSwitch(
+            # stockings
+            "E_Hose == 'stockings'", "images/EmmaSprite/EmmaSprite_Stockings.png",   
+            "E_Hose == 'stockings and garterbelt'", "images/EmmaSprite/EmmaSprite_StockingsGarter.png",   
+            "E_Hose == 'garterbelt'", "images/EmmaSprite/EmmaSprite_Garter.png",   
+            "True", Null(),        
+            ),                  
         (0,0), ConditionSwitch(
             #boots    
-            "E_Boots == 'thigh boots' and (E_Legs == 'skirt' or not E_Legs)", "images/EmmaSprite/EmmaSprite_Boots.png",    
+            "E_PantiesDown and E_Boots == 'thigh boots' and (E_Legs == 'skirt' or not E_Legs)", "images/EmmaSprite/EmmaSprite_Boots.png",    
             "True", Null(), 
             ),     
         (0,0), ConditionSwitch(
@@ -98,6 +117,7 @@ image Emma_Sprite:
             "E_Panties == 'sports panties'", "images/EmmaSprite/EmmaSprite_Panties_Sports_Down.png",              
             "E_Panties == 'lace panties' and E_Wet", "images/EmmaSprite/EmmaSprite_Panties_Lace_DownWet.png",  
             "E_Panties == 'lace panties'", "images/EmmaSprite/EmmaSprite_Panties_Lace_Down.png",   
+            "E_Panties == 'bikini bottoms'", "images/EmmaSprite/EmmaSprite_Panties_Bikini_Down.png",  
 #            "E_Wet", "images/EmmaSprite/EmmaSprite_Panties_DownWet.png",  
             "True", "images/EmmaSprite/EmmaSprite_Panties_Down.png",  
             ),                
@@ -107,10 +127,16 @@ image Emma_Sprite:
 #            "E_Panties == 'sports panties' and E_Wet", "images/EmmaSprite/EmmaSprite_Panties_Sports_Wet.png",     
             "E_Panties == 'sports panties'", "images/EmmaSprite/EmmaSprite_Panties_Sports.png",  
             "E_Panties == 'lace panties' and E_Wet", "images/EmmaSprite/EmmaSprite_Panties_Lace_Wet.png", 
-            "E_Panties == 'lace panties'", "images/EmmaSprite/EmmaSprite_Panties_Lace.png", 
+            "E_Panties == 'lace panties'", "images/EmmaSprite/EmmaSprite_Panties_Lace.png",  
+            "E_Panties == 'bikini bottoms'", "images/EmmaSprite/EmmaSprite_Panties_Bikini.png",  
 #            "E_Wet", "images/EmmaSprite/EmmaSprite_Panties_Wet.png", #readd when sprite works 
             "True", "images/EmmaSprite/EmmaSprite_Panties.png",  
-            ),           
+            ),              
+        (0,0), ConditionSwitch(
+            # pantyhose
+            "E_Hose == 'pantyhose' and not E_PantiesDown", "images/EmmaSprite/EmmaSprite_Hose.png",   
+            "True", Null(),        
+            ),    
         (0,0), ConditionSwitch(
             #pussy spunk 
             "E_Legs and E_Legs != 'skirt' and not E_Upskirt", Null(),
@@ -123,6 +149,9 @@ image Emma_Sprite:
             "E_Upskirt", ConditionSwitch(                   
                         #if the skirt's up or pants down 
                         "E_Legs == 'skirt'", "images/EmmaSprite/EmmaSprite_SkirtUp.png", 
+                        "E_Boots", Null(),
+                        "E_Legs == 'pants'", "images/EmmaSprite/EmmaSprite_Pants_Down.png",   
+                        "E_Legs == 'yoga pants'", "images/EmmaSprite/EmmaSprite_Pants_Yoga_Down.png",   
                         "True", Null(),
                         ),                    
             "True", ConditionSwitch(                
@@ -142,7 +171,12 @@ image Emma_Sprite:
                         "True", Null(),
                         ),                    
                     ),    
-            ),    
+            ),                   
+        (0,0), ConditionSwitch(
+            #boots    
+            "not E_PantiesDown and E_Boots == 'thigh boots'", "images/EmmaSprite/EmmaSprite_Boots.png",    
+            "True", Null(), 
+            ),     
         (0,0), ConditionSwitch(
             #clothed lower piercings         
             "E_Legs == 'skirt'", Null(),
@@ -162,13 +196,14 @@ image Emma_Sprite:
             ),    
         (0,0), ConditionSwitch(
             #Chest underlayer
-            "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Bra_Sports_Under.png",   
+            "E_Chest == 'sports bra' and not E_Uptop", "images/EmmaSprite/EmmaSprite_Bra_Sports_Under.png",   
             "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Bra_Lace_Under.png",   
             "E_Chest == 'corset'", "images/EmmaSprite/EmmaSprite_CorsetUnder.png",   
+            "E_Chest == 'bikini top'", "images/EmmaSprite/EmmaSprite_Bra_Bikini_Under.png",   
             "True", Null(),              
             ), 
         (0,0), ConditionSwitch(
-            #Towel underlayer
+            #Over underlayer
             "E_Over == 'nighty'", "images/EmmaSprite/EmmaSprite_Nighty_Under.png", 
             "E_Over == 'towel'", "images/EmmaSprite/EmmaSprite_Towel_Under.png",   
             "True", Null(),              
@@ -195,11 +230,17 @@ image Emma_Sprite:
             "Emma_Arms == 2", "images/EmmaSprite/EmmaSprite_Gloves_Arms2.png",   
             "True", "images/EmmaSprite/EmmaSprite_Gloves_Arms1.png", #if E_Arms == 1         
             ),   
+        
+        (0,0), ConditionSwitch(                                                                         
+            # jacket arms in "up" pose  
+            "not E_Uptop or E_Over != 'jacket'", Null(),  
+            "Emma_Arms == 2", "images/EmmaSprite/EmmaSprite_Jacket_2Arm_Up.png",              
+            "True", "images/EmmaSprite/EmmaSprite_Jacket_1Arm_Up.png",   
+            ), 
         (0,0), ConditionSwitch(
             #tits
-            "Emma_Arms == 1 or E_Chest == 'corset'", "images/EmmaSprite/EmmaSprite_TitsUp.png",   # E_TitsUp = 1
-            "E_Chest == 'sports bra' or E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_TitsUp.png",   # E_TitsUp = 1
-
+            "Emma_Arms == 1", "images/EmmaSprite/EmmaSprite_TitsUp.png",   # E_TitsUp = 1
+            "E_Chest in ('corset','lace bra','sports bra','bikini top')", "images/EmmaSprite/EmmaSprite_TitsUp.png",   # E_TitsUp = 1
             "True", "images/EmmaSprite/EmmaSprite_TitsDown.png",   # E_TitsUp = 0
             ), 
         (0,0), ConditionSwitch(
@@ -209,17 +250,17 @@ image Emma_Sprite:
             "E_Pierce == 'barbell'", ConditionSwitch(   
                     #if it's the barbell pericings
                     "Emma_Arms == 1", "images/EmmaSprite/EmmaSprite_Pierce_Up_Barbell.png",                     
-                    "E_Chest == 'corset'", "images/EmmaSprite/EmmaSprite_Pierce_Up_Barbell.png",   
-                    "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_Barbell.png",    
-                    "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_Barbell.png",  
+                    "E_Chest in ('corset','lace bra','sports bra','bikini top')", "images/EmmaSprite/EmmaSprite_Pierce_Up_Barbell.png",   
+#                    "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_Barbell.png",    
+#                    "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_Barbell.png",  
                     "True", "images/EmmaSprite/EmmaSprite_Pierce_Down_Barbell.png",        
                     ),                        
             "E_Pierce == 'ring'", ConditionSwitch(                      
                     #if it's the ring pericings                                 
                     "Emma_Arms == 1", "images/EmmaSprite/EmmaSprite_Pierce_Up_Ring.png", 
-                    "E_Chest == 'corset'", "images/EmmaSprite/EmmaSprite_Pierce_Up_Ring.png",                          
-                    "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_Ring.png", 
-                    "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_Ring.png", 
+                    "E_Chest in ('corset','lace bra','sports bra','bikini top')", "images/EmmaSprite/EmmaSprite_Pierce_Up_Ring.png",                          
+#                    "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_Ring.png", 
+#                    "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_Ring.png", 
                     "True", "images/EmmaSprite/EmmaSprite_Pierce_Down_Ring.png", 
                     ),       
             "True", Null(),  
@@ -236,8 +277,17 @@ image Emma_Sprite:
             "True", "images/EmmaSprite/EmmaSprite_Water_TitsDown.png", #if E_Arms == 1      
             ), 
         (0,0), ConditionSwitch(                                                                         #Chest layer
+            "E_Uptop and E_Chest", ConditionSwitch(   
+                            #if her top is up. . .
+                            "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Bra_Sports_Up.png",   
+                            "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Bra_Lace_Up.png",   
+                            "E_Chest == 'bikini top'", "images/EmmaSprite/EmmaSprite_Bra_Bikini_Up.png",      
+                            "E_Chest == 'corset'", "images/EmmaSprite/EmmaSprite_CorsetTits_Up.png",  
+                            "True", Null(), 
+                            ),    
             "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Bra_Sports.png",   
             "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Bra_Lace.png",   
+            "E_Chest == 'bikini top'", "images/EmmaSprite/EmmaSprite_Bra_Bikini.png",   
             "E_Chest == 'corset' and E_Over", "images/EmmaSprite/EmmaSprite_CorsetTitsX.png",   
             "E_Chest == 'corset'", "images/EmmaSprite/EmmaSprite_CorsetTits.png",   
             "True", Null(),              
@@ -247,56 +297,69 @@ image Emma_Sprite:
 #            "True", Null(),                 
 #            ),
         (0,0), ConditionSwitch(                                                                         #cape layer       
-            "E_Over == 'jacket' or E_Chest != 'corset'", Null(),  
+            "E_Uptop or E_Over == 'jacket' or E_Chest != 'corset'", Null(),  
             "Emma_Arms == 2", "images/EmmaSprite/EmmaSprite_Cape2.png",              
             "True", "images/EmmaSprite/EmmaSprite_Cape1.png",   
             ), 
         (0,0), ConditionSwitch(                                                                         #Overshirt layer       
             "not E_Over", Null(),  
             "Emma_Arms == 2", ConditionSwitch(   
-                    #if her arms are down, allowing her breasts to sink
-                    "E_Over == 'jacket'", ConditionSwitch(   
-                            "E_Chest == 'corset'", "images/EmmaSprite/EmmaSprite_Jacket_2Up.png",   
-                            "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Jacket_2Up.png",    
-                            "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Jacket_2Up.png",  
-                            "True", "images/EmmaSprite/EmmaSprite_Jacket_2Down.png", 
-                            ),    
-                    "E_Over == 'nighty'", ConditionSwitch(   
-                            "E_Chest == 'corset'", "images/EmmaSprite/EmmaSprite_Nighty_2Up.png",   
-                            "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Nighty_2Up.png",    
-                            "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Nighty_2Up.png",  
-                            "True", "images/EmmaSprite/EmmaSprite_Nighty_2Down.png", 
+                    #if her arms are down, allowing her breasts to sink                    
+                    "E_Uptop", ConditionSwitch(   
+                                    "E_Chest in ('corset','lace bra','sports bra','bikini top')", ConditionSwitch(   
+                                            #If she's wearing a supporting bra. . .
+                                            "E_Over == 'jacket'", "images/EmmaSprite/EmmaSprite_Jacket_2Up_Up.png",  
+                                            "E_Over == 'nighty'", "images/EmmaSprite/EmmaSprite_Nighty_Up2_Up.png",   
+                                            "True", Null(), 
+                                            ),  
+                                    #if she's not wearing a supporting bra. . .
+                                    "E_Over == 'jacket'", "images/EmmaSprite/EmmaSprite_Jacket_2Down_Up.png",  
+                                    "E_Over == 'nighty'", "images/EmmaSprite/EmmaSprite_Nighty_Up2_Up.png", 
+                                    "True", Null(), 
+                                    ),    
+                    #if not Uptop. . .
+                    "E_Chest in ('corset','lace bra','sports bra','bikini top')", ConditionSwitch(   
+                            #If she's wearing a supporting bra. . .
+                            "E_Over == 'jacket'", "images/EmmaSprite/EmmaSprite_Jacket_2Up.png",  
+                            "E_Over == 'nighty'", "images/EmmaSprite/EmmaSprite_Nighty_2Up.png",      
+                            "E_Over == 'towel'", "images/EmmaSprite/EmmaSprite_Towel_Up2.png",  
+                            "True", Null(), 
                             ),  
-                    "E_Over == 'towel'", ConditionSwitch(   
-                            "E_Chest == 'corset'", "images/EmmaSprite/EmmaSprite_Towel_Up2.png",   
-                            "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Towel_Up2.png",  
-                            "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Towel_Up2.png",    
-                            "True", "images/EmmaSprite/EmmaSprite_Towel_Down2.png", 
-                            ),        
+                    #if she's not wearing a supporting bra. . .
+                    "E_Over == 'jacket'", "images/EmmaSprite/EmmaSprite_Jacket_2Down.png",  
+                    "E_Over == 'nighty'", "images/EmmaSprite/EmmaSprite_Nighty_2Down.png",      
+                    "E_Over == 'towel'", "images/EmmaSprite/EmmaSprite_Towel_Down2.png",  
                     "True", Null(), 
-                    ),         
+                    ),   
             #if her arms are up, preventng her breasts from sinking
+            "E_Uptop", ConditionSwitch(   
+                            #if her top is up. . .
+                            "E_Over == 'jacket'", "images/EmmaSprite/EmmaSprite_Jacket_1Up_Up.png",  
+                            "E_Over == 'nighty'", "images/EmmaSprite/EmmaSprite_Nighty_Up1_Up.png",   
+                            "True", Null(), 
+                            ),    
+            #if her top is not up. . .
             "E_Over == 'jacket'", "images/EmmaSprite/EmmaSprite_Jacket_1Up.png",  
             "E_Over == 'nighty'", "images/EmmaSprite/EmmaSprite_Nighty_1Up.png",      
             "E_Over == 'towel'", "images/EmmaSprite/EmmaSprite_Towel_Up1.png",               
             "True", Null(), 
             ), 
         (0,0), ConditionSwitch(                                                                         #clothed peircings        
-            "not E_Pierce or (not E_Over and not E_Chest)", Null(),  
+            "not E_Pierce or E_Uptop or (not E_Over and not E_Chest)", Null(),  
             "E_Pierce == 'barbell'", ConditionSwitch(   
                     #if it's the barbell pericings
                     "Emma_Arms == 1", "images/EmmaSprite/EmmaSprite_Pierce_Up_BarOut.png",  
-                    "E_Chest == 'corset'", "images/EmmaSprite/EmmaSprite_Pierce_Up_BarOut.png",   
-                    "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_BarOut.png",    
-                    "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_BarOut.png",  
+                    "E_Chest in ('corset','lace bra','sports bra','bikini top')", "images/EmmaSprite/EmmaSprite_Pierce_Up_BarOut.png",   
+#                    "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_BarOut.png",    
+#                    "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_BarOut.png",  
                     "True", "images/EmmaSprite/EmmaSprite_Pierce_Down_BarOut.png", 
                     ),    
             "E_Pierce == 'ring'", ConditionSwitch(   
                     #if it's the ring pericings
                     "Emma_Arms == 1", "images/EmmaSprite/EmmaSprite_Pierce_Up_RingOut.png",  
-                    "E_Chest == 'corset'", "images/EmmaSprite/EmmaSprite_Pierce_Up_RingOut.png",   
-                    "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_RingOut.png",    
-                    "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_RingOut.png",  
+                    "E_Chest in ('corset','lace bra','sports bra','bikini top')", "images/EmmaSprite/EmmaSprite_Pierce_Up_RingOut.png",   
+#                    "E_Chest == 'lace bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_RingOut.png",    
+#                    "E_Chest == 'sports bra'", "images/EmmaSprite/EmmaSprite_Pierce_Up_RingOut.png",  
                     "True", "images/EmmaSprite/EmmaSprite_Pierce_Down_RingOut.png", 
                     ),                 
             "True", Null(), 
@@ -701,7 +764,7 @@ image Emma_Drip_MaskP:
 
 
 # Start Emma Sex Animations / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
-# Core Emma Sex element ///////////////////////////////////////////////////////////////////////////                                     Core Emma BJ element
+# Core Emma Sex element ///////////////////////////////////////////////////////////////////////////      
 
 image Emma_SexSprite:
     #core sex animation   
@@ -3396,11 +3459,13 @@ label E_Pussy_Launch(T = Trigger):
 label E_Pos_Reset(Pose = 0):    
     call Emma_Hide 
     show Emma_Sprite at SpriteLoc(E_SpriteLoc) zorder EmmaLayer:
-        ease .5 offset (0,0) anchor (0.5, 0.0) zoom 1 alpha 1
+        ease .5 offset (0,0) anchor (0.5, 0.0) zoom 1 alpha 1 xzoom 1 yzoom 1
     show Emma_Sprite zorder EmmaLayer:
         offset (0,0) 
         anchor (0.5, 0.0)
-        zoom 1  
+        zoom 1   
+        xzoom 1 
+        yzoom 1
         alpha 1
         pos (E_SpriteLoc,50)
     $ Trigger = Pose
@@ -3925,6 +3990,16 @@ label EmmaWardrobe:
                         $ E_Over = "towel" 
                     "Add nighty":
                         $ E_Over = "nighty"   
+                    "Toggle up-top":
+                        if E_Uptop:
+                            $ E_Uptop = 0
+                        else:
+                            $ E_Uptop = 1  
+                    "Toggle Arms":
+                        if Emma_Arms == 1:
+                            $ Emma_Arms = 2
+                        else:
+                            $ Emma_Arms = 1 
                     "Back":
                         jump EmmaWardrobe                
         "Tops":            
@@ -3941,15 +4016,27 @@ label EmmaWardrobe:
 #                        $ E_Chest = "buttoned tank"
                     "Add lace bra":
                         $ E_Chest = "lace bra"
+                    "Add bikini":
+                        $ E_Chest = "bikini top"
 #                    "Add bra":
 #                        $ E_Chest = "bra"                            
-#                    "Toggle Piercings":
-#                        if E_Pierce == "ring":
-#                            $ E_Pierce = "barbell"
-#                        elif E_Pierce == "barbell":
-#                            $ E_Pierce = 0
-#                        else:
-#                            $ E_Pierce = "ring"
+                    "Toggle Piercings":
+                        if E_Pierce == "ring":
+                            $ E_Pierce = "barbell"
+                        elif E_Pierce == "barbell":
+                            $ E_Pierce = 0
+                        else:
+                            $ E_Pierce = "ring"   
+                    "Toggle up-top":
+                        if E_Uptop:
+                            $ E_Uptop = 0
+                        else:
+                            $ E_Uptop = 1 
+                    "Toggle Arms":
+                        if Emma_Arms == 1:
+                            $ Emma_Arms = 2
+                        else:
+                            $ Emma_Arms = 1
                     "Back":
                         jump EmmaWardrobe             
         
@@ -3961,6 +4048,9 @@ label EmmaWardrobe:
                         $ E_Legs = 0
                     "Add pants":
                         $ E_Legs = "pants"
+                        $ E_Upskirt = 0
+                    "Add yoga pants":
+                        $ E_Legs = "yoga pants"
                         $ E_Upskirt = 0
                     "Add skirt":
                         $ E_Legs = "skirt"
@@ -3977,16 +4067,16 @@ label EmmaWardrobe:
             while True:
                 menu:
                     # Underwear
-#                    "Hose":
-#                        menu:
-#                            "Add hose":     
-#                                $ E_Hose = "stockings"  
-#                            "Add garter":     
-#                                $ E_Hose = "garterbelt"  
-#                            "Add stockings and garter":     
-#                                $ E_Hose = "stockings and garterbelt"  
-#                            "Add pantyhose":     
-#                                $ E_Hose = "pantyhose"   
+                    "Hose":
+                        menu:
+                            "Add hose":     
+                                $ E_Hose = "stockings"  
+                            "Add garter":     
+                                $ E_Hose = "garterbelt"  
+                            "Add stockings and garter":     
+                                $ E_Hose = "stockings and garterbelt"  
+                            "Add pantyhose":     
+                                $ E_Hose = "pantyhose"   
 #                            "Add tights":     
 #                                $ E_Hose = "tights"   
 #                            "Add ripped hose":     
@@ -3995,8 +4085,8 @@ label EmmaWardrobe:
 #                                $ E_Hose = "ripped tights"   
 #                            "Add tights":     
 #                                $ E_Hose = "tights"    
-#                            "Remove hose" if E_Hose:     
-#                                $ E_Hose = 0  
+                            "Remove hose" if E_Hose:     
+                                $ E_Hose = 0  
 
                     "toggle boots":    
                         if not E_Boots:
@@ -4012,8 +4102,10 @@ label EmmaWardrobe:
 #                        $ E_Panties = "shorts"
                     "Add sports panties":
                         $ E_Panties = "sports panties"  
-#                    "Add lace panties":
-#                        $ E_Panties = "lace panties"    
+                    "Add bikini panties":
+                        $ E_Panties = "bikini bottoms"  
+                    "Add lace panties":
+                        $ E_Panties = "lace panties"    
                     "pull down-up panties":
                         if E_PantiesDown:
                             $ E_PantiesDown = 0

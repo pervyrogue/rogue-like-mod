@@ -61,7 +61,7 @@ label Kitty_SexMenu:
     $ Trigger3 = 0
     $ Situation = 0
     call Kitty_Hide    
-    $ K_Arms = 1
+    $ Kitty_Arms = 1
     call Set_The_Scene(1,0,0,0,1)
     if not P_Semen:
         "You're a little out of juice at the moment, you might want to wait a bit." 
@@ -178,6 +178,23 @@ label Kitty_SexMenu:
                                     call K_Sex_A    
                                 else:
                                     "The spirit is apparently willing, but the flesh is spongy and bruised." 
+#MOD MARKER doggy position menu choices
+                        "Turn around, I've got something in mind. . . \[DoggyStyle\]":
+                                if P_Semen:
+                                    call K_Doggy_H   
+                                else:
+                                    "The spirit is apparently willing, but the flesh is spongy and bruised."
+                        "Fuck your pussy. \[DoggyStyle\]":    
+                                if P_Semen:                    
+                                    call K_Doggy_P  
+                                else:
+                                    "The spirit is apparently willing, but the flesh is spongy and bruised."          
+                        "Fuck your ass. \[DoggyStyle\]":     
+                                if P_Semen:                   
+                                    call K_Doggy_A    
+                                else:
+                                    "The spirit is apparently willing, but the flesh is spongy and bruised."
+
                         "How about some toys? [[Pussy]":                        
                                 call K_Dildo_Pussy     
                         "How about some toys? [[Anal]":                        
@@ -647,15 +664,211 @@ label K_TouchCheek:
     $ K_RecentActions.append("cheek")
     $ K_DailyActions.append("cheek")
     return
-    
+
+
+label K_Headpat:  
+    call Shift_Focus("Kitty")
+    call KittyFace("surprised", 1)
+    if "no headpat" in K_DailyActions:
+        "You reach out to pat Kitty on the head, but she slips away before staring at you with a raised eyebrow."
+        call KittyFace("angry")
+        ch_k "I told you, weird."
+        ch_k "Weirdo."
+        call Statup("Kitty", "Love", 50, -2)
+        return
+    else:
+        "You reach out and pat Kitty on the head."
+    call Statup("Kitty", "Obed", 50, 2)    
+
+    if ApprovalCheck("Kitty", 1200):
+        call KittyFace("sexy", 1)
+        ch_k "Mmmmm. . ."
+        call Statup("Kitty", "Love", 85, 1)
+    elif ApprovalCheck("Kitty", 900) or ApprovalCheck("Kitty", 750, "L"):
+        call KittyFace("smile", 1)
+        ch_k "Mmmmmm. . ."      
+    elif "headpat" in K_DailyActions:        
+        call KittyFace("angry", 1)
+        ch_k "Hey, cut it out."
+        call Statup("Kitty", "Love", 50, -2)
+        $ K_DailyActions.append("no headpat")
+    elif ApprovalCheck("Kitty", 400):
+        $ K_Mouth = "smile"
+        $ K_Brows = "normal"
+        ch_k "Um, okay..."
+    else:
+        call KittyFace("angry", 1)
+        "She slaps your hand aside and glares at you."
+        ch_k "Knock it off!"  
+        call Statup("Kitty", "Love", 50, -3)
+        call Statup("Kitty", "Obed", 50, 1)
+        call Statup("Kitty", "Inbt", 30, 1)
+   
+    if "no headpat" in K_DailyActions:
+        menu:
+            "Sorry, sorry, won't happen again.":
+                if ApprovalCheck("Kitty", 300):
+                    call KittyFace("sexy", 1)
+                    call Statup("Kitty", "Love", 80, 2)
+                    ch_k "Uh-huh."     
+                else:
+                    call KittyFace("angry", 1)
+                    $ K_Eyes = "side" 
+                    call Statup("Kitty", "Obed", 20, 1)  
+                    ch_k "It'd better not."          
+
+            "You know you wanted it.":
+                if ApprovalCheck("Kitty", 400, "OI") or ApprovalCheck("Kitty", 800):
+                    call KittyFace("normal", 1)
+                    $ K_Eyes = "squint"
+                    ch_k "Maaaaybe..." 
+                    call Statup("Kitty", "Love", 60, -1)
+                    call Statup("Kitty", "Obed", 30, 2)                        
+                    call Statup("Kitty", "Inbt", 40, 2)
+                else:
+                    call KittyFace("sexy", 2)
+                    $ K_Eyes = "squint"
+                    ch_k "Um. . ."
+                    $ K_Blush = 1
+                    call Statup("Kitty", "Love", 60, -3)
+                    call Statup("Kitty", "Obed", 30, 3)                        
+                    call Statup("Kitty", "Inbt", 40, 2)
+       
+    else:
+        menu:
+            "Sorry, you looked so cute there.":
+                if ApprovalCheck("Kitty", 850, "LI"):
+                    call KittyFace("sexy", 1)
+                    "She leans into it."
+                    ch_k "Purrrrr. . ."
+                    call Statup("Kitty", "Love", 80, 2)  
+                    $ Count = 7
+                elif ApprovalCheck("Kitty", 500, "LI"):
+                    call KittyFace("smile", 1)
+                    ch_k "Tell me something I don't know."
+                    call Statup("Kitty", "Love", 80, 2)
+                    $ Count = 5
+                else:
+                    call KittyFace("angry", 1)
+                    $ K_Eyes = "side"
+                    ch_k "Yeah, right. Pull the other one."                
+                    call Statup("Kitty", "Obed", 20, 1)
+                    $ Count = 1  
+                   
+            "You had a loose hair going on.":
+                if ApprovalCheck("Kitty", 700, "LI"):
+                    call KittyFace("sexy", 1)
+                    ch_k "Loose hair? Me?"
+                    call Statup("Kitty", "Love", 60, 1)                        
+                    call Statup("Kitty", "Inbt", 40, 1)
+                    $ Count = 4
+                elif ApprovalCheck("Kitty", 700):
+                    call KittyFace("normal")
+                    ch_k "A hair, right. . ."
+                    $ Count = 3
+                else:
+                    call KittyFace("angry", 1)
+                    ch_k "Uhuh, just... just watch it, okay?"
+                    call Statup("Kitty", "Obed", 50, 2)  
+                    $ Count = 1  
+                   
+            "Are you sure you didn't enjoy that?":
+                if ApprovalCheck("Kitty", 850):
+                    call KittyFace("sexy", 1)
+                    $ K_Eyes = "side"
+                    ch_k "Hmmm... maybe, maybe not."
+                    call Statup("Kitty", "Obed", 50, 2)  
+                    call Statup("Kitty", "Obed", 30, 1)                        
+                    call Statup("Kitty", "Inbt", 40, 1)
+                    $ Count = 4
+                elif ApprovalCheck("Kitty", 500, "OI"):
+                    call KittyFace("normal", 1)
+                    ch_k "Well. . . I guess, maybe. . . nah, nope."
+                    call Statup("Kitty", "Love", 60, -1)
+                    call Statup("Kitty", "Obed", 50, 2)  
+                    call Statup("Kitty", "Obed", 30, 2)                        
+                    call Statup("Kitty", "Inbt", 40, 2)
+                    $ Count = 2
+                else:
+                    call KittyFace("angry", 1)
+                    $ K_Eyes = "side"
+                    ch_k "Grrrr. . ."  
+                    call Statup("Kitty", "Love", 60, -3)
+                    call Statup("Kitty", "Obed", 50, 2)  
+                    call Statup("Kitty", "Obed", 30, 3)                        
+                    call Statup("Kitty", "Inbt", 40, 2)
+                    $ Count = 1
+        while Count > 0 and Round >= 10:
+            $ Count -= 1 if Count != 3 else 0
+            $ Round -= 1
+            menu:
+                "Continue?"
+                "Yes":
+                    "You continue to hold your hand on top of Kitty's head, rubbing it softly."                    
+                    if not Count:
+                        if ApprovalCheck("Kitty", 800):
+                            call KittyFace("bemused", 2)
+                            call Statup("Kitty", "Love", 80, 2)                      
+                            call Statup("Kitty", "Inbt", 40, 2)
+                            ch_k "Hey, okay, I think that's enough. . ."
+                            "She ducks out from under your hand."
+                            call KittyFace("bemused", 1)
+                        else:
+                            call KittyFace("angry", 2)
+                            call Statup("Kitty", "Love", 60, -5)                      
+                            call Statup("Kitty", "Inbt", 40, 3)
+                            ch_k "Ok, I think that's enough now. . ."
+                            "She knocks your hand away."
+                            call KittyFace("angry", 1)
+                    elif Count == 1:
+                        if ApprovalCheck("Kitty", 800):
+                            call KittyFace("bemused", 1)
+                            call Statup("Kitty", "Love", 80, 1)
+                            call Statup("Kitty", "Obed", 50, 2)                        
+                            call Statup("Kitty", "Inbt", 40, 2)
+                            ch_k "We should probably do something else. . ."
+                        else:
+                            call KittyFace("angry", 2)
+                            call Statup("Kitty", "Love", 60, -2)
+                            call Statup("Kitty", "Obed", 60, 2)  
+                            call Statup("Kitty", "Obed", 30, 2)  
+                            ch_k "This Kitty has claws, you know."
+                    else:
+                        if ApprovalCheck("Kitty", 900):
+                            call KittyFace("bemused", 2,Eyes="closed")
+                            if Count > 3:
+                                call Statup("Kitty", "Love", 90, 1)
+                                call Statup("Kitty", "Love", 70, 1)
+                                call Statup("Kitty", "Obed", 50, 1)
+                                ch_k "Mmmmm. . ."
+                                "She's practically purring."
+                        else:
+                            call KittyFace("angry", 1)
+                            call Statup("Kitty", "Love", 60, -1)
+                            call Statup("Kitty", "Obed", 50, 2)  
+                            call Statup("Kitty", "Obed", 30, 2)                        
+                            call Statup("Kitty", "Inbt", 40, 2)
+                            ch_k "Um. . ."
+                            $ Count -= 1 if Count > 2 else 0
+                "No":
+                    $ Count = 0
+    $ Count = 0                
+    $ K_RecentActions.append("headpat")
+    $ K_DailyActions.append("headpat")
+    return
 
 # Slap Ass
 
+#MOD MARKER SLAP
 label K_Slap_Ass:
     call Shift_Focus("Kitty")
     # fix add sound here?
     if renpy.showing("Kitty_SexSprite"):
             show Kitty_SexSprite #fix, test this
+            with vpunch
+#MOD Kitty Doggy Slap
+    elif renpy.showing("Kitty_Doggy"):
+            show Kitty_Doggy #fix, test this
             with vpunch
     elif renpy.showing("Kitty_BJ_Animation"):           #fix, make this animation work better when paused for this effect.
             show Kitty_BJ_Animation
@@ -1148,7 +1361,7 @@ label K_Masturbate: #(Situation = Situation):
     
     if Situation == "Kitty":                                                                  #Kitty auto-starts   
                 if Approval > 2:                                                      # fix, add kitty auto stuff here
-                        if K_Legs == "skirt":
+                        if K_Legs == "blue skirt":
                             "Kitty's hand snakes down her body, and hikes up her skirt."
                             $ K_Upskirt = 1
                         elif K_Legs == "pants":

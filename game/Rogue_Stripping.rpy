@@ -963,7 +963,7 @@ label Rogue_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
         $ Tempmod -= 10
             
    
-    if Intro:
+    if Intro and not R_Uptop:
         if R_Over:
                 ch_p "This might be easier without your [R_Over] on."
         elif R_Chest:
@@ -972,41 +972,27 @@ label Rogue_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
 
     $ Approval = ApprovalCheck("Rogue", 1100, TabM = 4) # 110, 125, 140, 300 taboo, -20 if already seen
     
-    if Situation == "auto":     
-        $ Line = 0
-        if R_Over: # If she's in a top
-            if R_Chest and ApprovalCheck("Rogue", 800, TabM = 1):
-                call Statup("Rogue", "Inbt", 40, 1)
-            elif Approval >= 2 or (R_SeenChest and ApprovalCheck("Rogue", 500) and not Taboo):
-                call Statup("Rogue", "Inbt", 70, 1)
-            else:
-                return
-            $ Line = R_Over
-            $ R_Over = 0
-            "Rogue sighs in frustration, and pulls her [Line] over her head, throwing it aside."
-            if not R_Chest:
-                if Taboo:
-                    call Statup("Rogue", "Inbt", 90, (int(Taboo/20)))   
-                call Rogue_First_Topless(1)
-                
-        if R_Chest:
-            if Approval >= 2 or (R_SeenChest and ApprovalCheck("Rogue", 500) and not Taboo):
-                call Statup("Rogue", "Inbt", 70, 1)
-                if Taboo:
-                    call Statup("Rogue", "Inbt", 90, (int(Taboo/20))) 
-                if Line:
-                    $ Line = R_Chest
-                    $ R_Chest = 0
-                    "After that, she also tears off her [Line]."  
-                else:
-                    $ Line = R_Chest
-                    $ R_Chest = 0
-                    "Rogue sighs in frustration, and pulls off her [Line]."  
-
-                call Rogue_First_Topless(1) 
-                ch_r "I just wasn't getting much out of it that way."  
-        return
-    
+    if Situation == "auto" and  (R_Over or R_Chest) and not R_Uptop:   
+            $ Line = 0
+            if ApprovalCheck("Rogue", 1250, TabM = 1) or (R_SeenChest and ApprovalCheck("Rogue", 500) and not Taboo):
+                    #if she'd go topless
+                    call Statup("Rogue", "Inbt", 70, 1)
+                    $ R_Uptop = 1
+                    $ Line = R_Over if R_Over else R_Chest
+                    "Rogue sighs in frustration, and pulls her [Line] up over her breasts."
+                    ch_r "I just wasn't getting much out of it that way."  
+                    if Taboo:
+                        call Statup("Rogue", "Inbt", 90, (int(Taboo/20)))   
+                    call Rogue_First_Topless(1)
+            elif R_Over and R_Chest and ApprovalCheck("Rogue", 800, TabM = 1):
+                    #if she won't go topless, but has a bra on. . .
+                    call Statup("Rogue", "Inbt", 40, 1)
+                    $ Line = R_Over
+                    $ R_Over = 0
+                    "Rogue sighs in frustration, and pulls her [Line] over her head, throwing it aside."
+                    ch_r "I just wasn't getting much out of it that way."   
+            $ Line = 0
+            return    
     
     if Approval >= 2: #(R_Love + R_Obed + R_Inbt + (2*Tempmod) - (4*Taboo)) >= 1250:                              # Does she assume top off?            
         if "no topless" in R_DailyActions:
@@ -1042,6 +1028,13 @@ label Rogue_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
                         $ Line = R_Chest
                         $ R_Chest = 0                 
                         "Rogue throws off her [Line]."   
+                "Just pull it up." if (R_Over or R_Chest) and not R_Uptop:
+                    call RogueFace("bemused", 1)
+                    $ R_Uptop = 1
+                    if R_Over and R_Chest:
+                            "Rogue smiles and lifts up her tops. . ."   
+                    else:
+                            "Rogue smiles and lifts up her top. . ."   
                 "Lose both tops." if R_Over and R_Chest:
                         call RogueFace("bemused", 1)
                         $ Line = R_Over
@@ -1060,7 +1053,7 @@ label Rogue_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
                         call RogueFace("bemused", 1)
                         ch_r "All right, [R_Petname]."    
                         $ Cnt = 0
-        if not R_Chest and not R_Over:             
+        if (not R_Chest and not R_Over) or R_Uptop:             
             call Statup("Rogue", "Obed", 50, 1)
             call Statup("Rogue", "Obed", 90, 1)
             call Rogue_First_Topless  
@@ -1167,17 +1160,8 @@ label Rogue_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
                     ch_r "You're pretty persistent, [R_Petname]. I guess this time it'll be rewarded. . ."
                 else:
                     ch_r "Heh, I suppose I can hardly refuse ya when you use the magic words . . ." 
-                if R_Over:
-                    $ Line = R_Over
-                    $ R_Over = 0
-                    "Rogue tosses the [Line] over her head. . ."   
-                    $ Line = R_Chest
-                    $ R_Chest = 0 
-                    ". . .and then the [Line] as well."
-                else:                    
-                    $ Line = R_Chest
-                    $ R_Chest = 0 
-                    "Rogue tosses her [Line] over her head."   
+                $ R_Uptop = 1
+                "Rogue just pulls her top up over her tits."
                 $ R_Arms = 0          
                 call Statup("Rogue", "Inbt", 30, 2)  
                 call Statup("Rogue", "Inbt", 60, 1)
@@ -1253,18 +1237,8 @@ label Rogue_ToplessorNothing:
             ch_r "Fine, if that's what you want."                
         call Statup("Rogue", "Obed", 60, 4)
         call Statup("Rogue", "Obed", 90, 2)
-        if R_Over:
-            $ Line = R_Over
-            $ R_Over = 0
-            "Rogue haltingly pulls the [Line] over her head. . ."
-            if R_Chest:
-                $ Line = R_Chest
-                $ R_Chest = 0 
-                ". . .and then the [Line] as well."
-        elif R_Chest:
-            $ Line = R_Chest
-            $ R_Chest = 0 
-            "Rogue haltingly pulls the [Line] over her head. . ."
+        $ R_Uptop = 1
+        "Rogue slowly pulls her top up over her tits."
         call Rogue_First_Topless                       
     else:  
         call Statup("Rogue", "Love", 200, -10)                
@@ -1280,10 +1254,13 @@ label Rogue_ToplessorNothing:
         $ R_DailyActions.append("angry")   
     return              
     
-label Rogue_First_Topless(Silent = 0, TempLine=0):          
+label Rogue_First_Topless(Silent = 0, TempLine=0):     
+    if ChestNum("Rogue") > 1 or OverNum("Rogue") > 2:
+        #if she's wearing substantial clothing. . .
+        return     
     $ R_RecentActions.append("topless")                      
     $ R_DailyActions.append("topless")
-    call DrainWord("Rogue","no topless")    
+    call DrainWord("Rogue","no topless")   
     $ R_SeenChest += 1 
     if R_SeenChest > 1:     
         return                  #ends portion if you've already seen them
@@ -1415,9 +1392,9 @@ label Rogue_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
         $ Tempmod -= 20
         
     if Intro:
-        if R_Legs:
+        if R_Legs and not R_Upskirt:
                 ch_p "This might be easier without your [R_Legs] on."
-        elif R_Panties:
+        elif R_Panties and not R_PantiesDown:
                 ch_p "This might be easier without your [R_Panties] on."
         
     $ Approval = ApprovalCheck("Rogue", 1200, TabM = 5) # 120, 135, 150, -200(320) taboo, -25 if already seen
@@ -1425,7 +1402,7 @@ label Rogue_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
     if Situation == "auto":
         $ Cnt = 0
         
-        if not R_Upskirt:                     
+        if not R_Upskirt and not R_PantiesDown:                    
             if R_Legs == "skirt":                                          
                 #If she's in a skirt with panties, hike it up?
                 if Approval >= 2 or (R_SeenPussy and not Taboo):
@@ -1703,6 +1680,22 @@ label Rogue_Bottoms_Off_Legs:
                     if not R_Legs:
                         call Rogue_First_Bottomless  
             
+            "Just give me a clear view. . ." if (R_Panties and not R_PantiesDown) or (R_Legs and not R_Upskirt):
+                    if Approval >= 2:
+                        ch_r "Fine."
+                        $ R_PantiesDown = 1 if R_Panties else 0
+                        $ R_Upskirt = 1 if R_Legs else 0
+                        "She shifts her [R_Legs] out of the way."
+                    elif Approval >= 1 and R_Legs and R_Panties and not R_PantiesDown:
+                        ch_r "I'll show you a little bit. . ."
+                        $ R_Upskirt = 1
+                    else:
+                        ch_r "No."
+                        $ R_RecentActions.append("no bottomless")                      
+                        $ R_DailyActions.append("no bottomless")   
+                        return   
+                    call Rogue_First_Bottomless    
+                    
             "Lose the [R_Hose]." if R_Hose:
                     call RogueFace("bemused", 1) 
                     if R_Legs:
@@ -1804,7 +1797,10 @@ label Rogue_Bottoms_Off_Refused:
     $ Tempmod = 0
     return   
     
-label Rogue_First_Bottomless(Silent = 0): 
+label Rogue_First_Bottomless(Silent = 0):   
+    if PantiesNum("Rogue") > 1 or PantsNum("Rogue") > 2 or HoseNum("Rogue") > 9:
+        #if she's wearing substantial clothing. . .
+        return     
     $ R_RecentActions.append("bottomless")                      
     $ R_DailyActions.append("bottomless")
     call DrainWord("Rogue","no bottomless")

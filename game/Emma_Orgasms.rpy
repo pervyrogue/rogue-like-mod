@@ -1187,7 +1187,7 @@ label EmmaLust(Extreme = 0, Kissing = 0):
 
 #  Emma Orgasm //////////////////////////
 
-label E_Cumming:
+label E_Cumming(Quick=0):
     $ E_Eyes = "surprised"
     $ E_Brows = "sad"
     $ E_Mouth = "tongue"
@@ -1214,8 +1214,11 @@ label E_Cumming:
                 "Emma grabs on tightly as her body shakes with pleasure.", 
                 "Emma stiffens and lets out a low moan.",
                 "Emma's body quivers and suddenly goes still."])
-    "[Line]"
-    
+    "[Line]"    
+    if Quick:
+            call AnyFace("Emma","sexy",2)  
+            $ E_Lust = 20
+            return
     $ E_Eyes = "closed"
     $ E_Brows = "sad"
     $ E_Mouth = "tongue"

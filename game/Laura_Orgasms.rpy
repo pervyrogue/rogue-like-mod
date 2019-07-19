@@ -74,7 +74,7 @@ label PL_Cumming:
                 jump L_Facial   
                 
         "Cum on her tits":
-                jump L_No_Cum           #fix, temporary
+#                jump L_No_Cum           #fix, temporary
                 jump L_TitSpunk   
                 
         "Cum on her belly" if Trigger == "sex" or Trigger == "anal" or Trigger == "hotdog":
@@ -84,14 +84,14 @@ label PL_Cumming:
             if renpy.showing("Laura_BJ_Animation"):
                     if L_Addict >= 60 and ApprovalCheck("Laura", 1000, "I", Bonus = ((L_Addict*10)- L_Obed)) and L_Swallow:
                             $ L_Eyes = "manic"
-                            $ Speed = 0
+                            call Speed_Shift(0)
                             "You pull out of her mouth with a pop, and her eyes widen in surprise."
                             $ L_Mouth = "sucking"
                             $ L_Spunk.append("mouth")
                             $ L_Spunk.append("chin")
-                            $ Speed = 4
+                            call Speed_Shift(4)
                             "She leaps at your cock and sucks it deep, draining your fluids hungrily." 
-                            $ Speed = 0
+                            call Speed_Shift(0)
                             $ L_Mouth = "lipbite"
                             "When she finishes, she draws her hand across her lips."
                             call LauraFace("bemused")
@@ -109,7 +109,7 @@ label PL_Cumming:
             if ApprovalCheck("Laura", 500, "I", Bonus = ((L_Addict*10)- L_Obed)) and L_Addict > 50 and L_Swallow: #If addict + Inbt is > obedience + 50. . .
                     $ L_Eyes = "manic"
                     $ L_Mouth = "kiss"
-                    $ Speed = 0
+                    call Speed_Shift(0)
                     "Her eyes widen in panic."
                     ch_l "You wouldn't reconsider, [L_Petname]?" 
                     $ L_Blush = 2
@@ -119,14 +119,14 @@ label PL_Cumming:
                                 if Trigger != "blow": 
                                     call Laura_BJ_Launch("cum")
                                 call LauraFace("sucking") 
-                                $ Speed = 4
+                                call Speed_Shift(4)
                                 "She nods and puts the tip into her mouth. as you release she gulps it down hungrily."
                                 call LauraFace("sexy")                      
                                 $ L_Mouth = "sucking"
                                 $ L_Spunk.append("mouth")
                                 $ L_Spunk.append("chin")
                                 ". . ."
-                                $ Speed = 0
+                                call Speed_Shift(0)
                                 call LauraFace("sad")                       
                                 $ L_Mouth = "lipbite"
                                 ch_l "Yum."  
@@ -143,9 +143,9 @@ label PL_Cumming:
                                         call Statup("Laura", "Inbt", 70, 3)
                                         if Trigger != "blow":
                                             call Laura_BJ_Launch("cum")
-                                            $ Speed = 4
+                                            call Speed_Shift(4)
                                         "She dives down on you and you can't resist filling her throat."
-                                        $ Speed = 0
+                                        call Speed_Shift(0)
                                         ch_l "Now we are."
                                         jump L_Swallowed                                
                                 else:                         
@@ -200,10 +200,10 @@ label L_Warn_Her:
                 if renpy.showing("Laura_SexSprite"):
                     call Laura_BJ_Launch("cum")   
                     "She grins and pulls out with a pop, and begins to suck you off."
-                $ Speed = 4
+                call Speed_Shift(4)
                 call LauraFace("sucking")       
                 ". . ."
-                $ Speed = 0
+                call Speed_Shift(0)
                 $ L_Spunk.append("mouth")
                 $ L_Spunk.append("chin")
                 if not renpy.showing("Laura_BJ_Animation"):
@@ -222,7 +222,7 @@ label L_Warn_Her:
                 $ P_Cock = "in"
                 $ L_Spunk.append("in")
                 $ P_Spunk = "in"
-                $ Speed = 0
+                call Speed_Shift(4)
                 "She smiles and speeds up her actions, causing you to erupt inside her."   
                 if L_Lust >= 85: 
                     call L_Cumming  
@@ -234,7 +234,7 @@ label L_Warn_Her:
                 $ P_Cock = "in"
                 $ L_Spunk.append("in")
                 $ P_Spunk = "in"
-                $ Speed = 0
+                call Speed_Shift(4)
                 "She gets a michevious look and speeds up, you burst inside her."          
                 if L_Lust >= 85: 
                     call L_Cumming  
@@ -246,7 +246,7 @@ label L_Warn_Her:
                 $ P_Cock = "anal"
                 $ L_Spunk.append("anal")
                 $ P_Spunk = "anal"
-                $ Speed = 0
+                call Speed_Shift(4)
                 "She smiles and speeds up her actions, causing you to erupt inside her."         
                 if L_Lust >= 85: 
                     call L_Cumming  
@@ -258,7 +258,7 @@ label L_Warn_Her:
                 $ P_Cock = "anal"
                 $ L_Spunk.append("anal")
                 $ P_Spunk = "anal"
-                $ Speed = 0
+                call Speed_Shift(4)
                 "She gets a michevious look and speeds up, you burst inside her."    
                 if L_Lust >= 85: 
                     call L_Cumming          
@@ -269,7 +269,7 @@ label L_Warn_Her:
                 if renpy.showing("Laura_TJ_Animation"):  
                         if L_Blow >= 5 or Speed >= 3:          
                                 call LauraFace("tongue")
-                                $ Speed = 5 #shallow animation
+                                call Speed_Shift(5) #shallow animation
                                 $ L_Spunk.append("mouth")
                                 $ L_Spunk.append("chin")
                                 "She makes a little humming sound, but keeps sucking."
@@ -279,20 +279,23 @@ label L_Warn_Her:
                         call LauraFace("sucking")
                         $ L_Spunk.append("mouth")
                         $ L_Spunk.append("chin")
-                        $ Speed = 6 if Speed == 4 else 5 #6 if deep throating, 5 if not
+                        if Speed == 4: #6 if deep throating, 5 if not
+                                call Speed_Shift(6)
+                        else:
+                                call Speed_Shift(5)
                         "She makes a little humming sound, but keeps sucking."
-                        $ Speed = 0
+                        call Speed_Shift(0)
                         "When you finish filling her mouth, she quickly gulps it down and wipes her lips."
                 else:
                         call Laura_BJ_Launch("cum")
-                        $ Speed = 2
+                        call Speed_Shift(2)
                         call LauraFace("sucking")
                         $ L_Spunk.append("mouth")
                         $ L_Spunk.append("chin")
                         "She smiles and then puts your tip in her mouth."
-                        $ Speed = 5
+                        call Speed_Shift(5)
                         "When you finish filling her mouth, she quickly gulps it down and wipes her lips."                
-                $ Speed = 0
+                call Speed_Shift(0)
                 call LauraFace("sexy")
                 $ L_Mouth = "smile"
                 ch_l "Yum, thanks for the heads up."  
@@ -303,12 +306,12 @@ label L_Warn_Her:
                 if renpy.showing("Laura_SexSprite"):
                     call Laura_HJ_Launch("cum") 
                     "She grins and pulls out with a pop, and begins to stroke you off."
-                $ Speed = 2
+                call Speed_Shift(2)
                 if renpy.showing("Laura_TJ_Animation") or renpy.showing("Laura_BJ_Animation"): 
                     if renpy.showing("Laura_TJ_Animation"): 
                         if L_Blow >= 5 or Speed >= 3:          
                                 call LauraFace("tongue")
-                                $ Speed = 5 #shallow animation
+                                call Speed_Shift(5) #shallow animation
                                 $ L_Spunk.append("mouth")
                                 $ L_Spunk.append("chin")
                         else: 
@@ -318,10 +321,13 @@ label L_Warn_Her:
                             call LauraFace("sucking")
                             $ L_Spunk.append("mouth")
                             $ L_Spunk.append("chin")
-                    $ Speed = 6 if Speed == 4 else 5 #6 if deep throating, 5 if not
+                    if Speed == 4: #6 if deep throating, 5 if not
+                            call Speed_Shift(6)
+                    else:
+                            call Speed_Shift(5)
                     "She makes a little humming sound, but keeps sucking."
                     "When you finish filling her mouth, she gags a little, but manages to swallow it."
-                    $ Speed = 0
+                    call Speed_Shift(0)
                     call LauraFace("sexy")
                     $ L_Mouth = "smile"
                     if L_Addict > 50:
@@ -389,7 +395,10 @@ label L_In_Mouth:
                 elif not renpy.showing("Laura_BJ_Animation"):
                         call Laura_BJ_Launch("cum")
                 $ L_Eyes = "down"
-                $ Speed = 6 if Speed == 4 else 5 #6 if deep throating, 5 if not
+                if Speed == 4: #6 if deep throating, 5 if not
+                        call Speed_Shift(6)
+                else:
+                        call Speed_Shift(5)
                 "You grab her head and cum in her mouth"  
                 $L_Eyes = "closed"      
                 if renpy.showing("Laura_TJ_Animation"): 
@@ -403,7 +412,7 @@ label L_In_Mouth:
                         call LauraFace("bemused")
                         $ L_Spunk.append("mouth")
                         $ L_Spunk.append("chin")
-                        $ Speed = 0
+                        call Speed_Shift(0)
                         "She gags a little, but manages to swallow it."
                         $ L_Spunk.remove("mouth")
                         ch_l "Hmm. . . I'm kinda full. . ."
@@ -416,14 +425,14 @@ label L_In_Mouth:
                         $ L_Spunk.append("chin")
                         "She quickly gulps it down and wipes her mouth."
                         $ L_Spunk.remove("mouth")
-                        $ Speed = 0
+                        call Speed_Shift(0)
                         ch_l "Yum."
                         call LauraFace
                 elif L_Swallow:
                         call LauraFace("bemused")
                         $ L_Spunk.append("mouth")
                         $ L_Spunk.append("chin")
-                        $ Speed = 0
+                        call Speed_Shift(0)
                         "She gags a little, but manages to swallow it."
                         $ L_Spunk.remove("mouth")
                         ch_l "Your. . . flavor is. . . distinct, but maybe a heads up?"
@@ -435,7 +444,7 @@ label L_In_Mouth:
                         ". . ."            
                         $ L_Spunk.remove("mouth")
                         $ L_Spunk.append("hand")
-                        $ Speed = 0
+                        call Speed_Shift(0)
                         "She gags and spits it into her palm. Then she licks her lips, looks down at her dripping hand, blushes, and quickly wipes it off."
                         $ L_Spunk.remove("hand")
                         ch_l "That certainly is. . . intense. . ."
@@ -452,7 +461,7 @@ label L_In_Mouth:
                         ". . ."
                         $ L_Spunk.remove("mouth")
                         $ L_Spunk.append("hand")
-                        $ Speed = 0
+                        call Speed_Shift(0)
                         "She gags and spits it into her palm. Then she licks her lips, looks down, and drinks up what's in her palm."
                         $ L_Spunk.remove("hand")
                         ch_l "I should be mad, but. . ."
@@ -469,7 +478,7 @@ label L_In_Mouth:
                         $ L_Spunk.append("chin")
                         ". . ."
                         $ L_Spunk.append("hand")
-                        $ Speed = 0
+                        call Speed_Shift(0)
                         "She gags and spits it into her palm."   
                         menu:
                             ch_l "What's the deal just cumming in my mouth like that?"
@@ -541,24 +550,30 @@ label L_In_Mouth:
             # If she's swallowed 5 times, 
             if renpy.showing("Laura_TJ_Animation"):         
                 call LauraFace("tongue",Eyes="down")
-                $ Speed = 5 #shallow animation
+                call Speed_Shift(5) #shallow animation
                 "She nods and bends down to put the tip between her lips."
             elif not renpy.showing("Laura_BJ_Animation"):
                 call Laura_BJ_Launch("cum")           
                 call LauraFace("tongue",Eyes="down")
-                $ Speed = 6 if Speed == 4 else 5 #6 if deep throating, 5 if not
+                if Speed == 4: #6 if deep throating, 5 if not
+                        call Speed_Shift(6)
+                else:
+                        call Speed_Shift(5)
                 "She nods and bends down to put the tip between her lips."
             else:                 
                 call LauraFace("tongue",Eyes="down")
                 $ L_Brows = "confused"
-                $ Speed = 6 if Speed == 4 else 5 #6 if deep throating, 5 if not
+                if Speed == 4: #6 if deep throating, 5 if not
+                        call Speed_Shift(6)
+                else:
+                        call Speed_Shift(5)
                 "She nods and hums a \"yes\" sound."   
             $ L_Spunk.append("mouth")
             $ L_Spunk.append("chin")
             "After you cum, she quickly gulps it down and wipes her mouth."
             ". . ."
             call LauraFace("sexy")            
-            $ Speed = 0
+            call Speed_Shift(0)
             ch_l "Yum."
             $ L_Spunk.remove("mouth")
             jump L_Swallowed
@@ -567,23 +582,29 @@ label L_In_Mouth:
             #addicted           
             if renpy.showing("Laura_TJ_Animation"):         
                 call LauraFace("tongue",Eyes="down")
-                $ Speed = 5 #shallow animation
+                call Speed_Shift(5) #shallow animation
                 "She gently puts the tip to her lips, just as you blow."
             elif not renpy.showing("Laura_BJ_Animation"):
                 call Laura_BJ_Launch("cum")           
                 call LauraFace("tongue",Eyes="down")
-                $ Speed = 6 if Speed == 4 else 5 #6 if deep throating, 5 if not
+                if Speed == 4: #6 if deep throating, 5 if not
+                        call Speed_Shift(6)
+                else:
+                        call Speed_Shift(5)
                 "She gently puts the tip to her lips, just as you blow."
             else:                 
                 call LauraFace("tongue",Eyes="down")
                 $ L_Brows = "confused"
-                $ Speed = 6 if Speed == 4 else 5 #6 if deep throating, 5 if not
+                if Speed == 4: #6 if deep throating, 5 if not
+                        call Speed_Shift(6)
+                else:
+                        call Speed_Shift(5)
                 "She nods and hums a \"yes\" sound."                    
             $ L_Spunk.append("mouth")
             $ L_Spunk.append("chin")
             "She gags a little, but quickly swallows it."
             ". . ."
-            $ Speed = 0
+            call Speed_Shift(0)
             call LauraFace("sexy")
             $ L_Mouth = "smile"
             ch_l "Can't say I didn't enjoy that . ."
@@ -595,24 +616,30 @@ label L_In_Mouth:
             if ApprovalCheck("Laura", 900):
                 if renpy.showing("Laura_TJ_Animation"):         
                     call LauraFace("tongue",Eyes="down")
-                    $ Speed = 5 #shallow animation
+                    call Speed_Shift(5) #shallow animation
                     "She gently puts the tip to her lips, just as you blow."
                 elif not renpy.showing("Laura_BJ_Animation"):
                     call Laura_BJ_Launch("cum")           
                     call LauraFace("tongue",Eyes="down")
-                    $ Speed = 6 if Speed == 4 else 5 #6 if deep throating, 5 if not
+                    if Speed == 4: #6 if deep throating, 5 if not
+                            call Speed_Shift(6)
+                    else:
+                            call Speed_Shift(5)
                     "She gently puts the tip to her lips, just as you blow."
                 else:                 
                     call LauraFace("tongue",Eyes="down")
                     $ L_Brows = "confused"
-                    $ Speed = 6 if Speed == 4 else 5 #6 if deep throating, 5 if not
+                    if Speed == 4: #6 if deep throating, 5 if not
+                            call Speed_Shift(6)
+                    else:
+                            call Speed_Shift(5)
                     "She tilts her head and hums a \"hmm?\" sound."
                 $ L_Spunk.append("mouth")
                 $ L_Spunk.append("chin")
                 $ L_Brows = "normal"
                 $ L_Eyes = "sexy"
                 ". . ."
-                $ Speed = 0
+                call Speed_Shift(0)
                 call LauraFace("sexy")
                 $ L_Spunk.append("mouth")
                 $ L_Spunk.append("chin")
@@ -628,7 +655,7 @@ label L_In_Mouth:
     else:
         call LauraFace("angry")
         
-    $ Speed = 0    
+    call Speed_Shift(0)   
     
     if "full" in L_RecentActions:
             ch_l "I'm stuffed, [L_Petname]. . ." 
@@ -691,20 +718,23 @@ label L_In_Mouth:
                         return      
                 if renpy.showing("Laura_TJ_Animation"):         
                     call LauraFace("tongue")
-                    $ Speed = 5 #shallow animation
+                    call Speed_Shift(5) #shallow animation
                 else:
                     $ L_Mouth = "sucking"
                     call Laura_BJ_Launch("cum")            
-                    $ Speed = 5 
+                    call Speed_Shift(5)
                 call Statup("Laura", "Obed", 50, 10)
                 call Statup("Laura", "Obed", 70, 5)
     
     if renpy.showing("Laura_TJ_Animation"):          
         call LauraFace("tongue")
-        $ Speed = 5 #shallow animation                         
+        call Speed_Shift(5) #shallow animation                         
     elif not renpy.showing("Laura_BJ_Animation"):
         call Laura_BJ_Launch("cum")     
-        $ Speed = 6 if Speed == 4 else 5 #6 if deep throating, 5 if not
+        if Speed == 4: #6 if deep throating, 5 if not
+                call Speed_Shift(6)
+        else:
+                call Speed_Shift(5)
     $ L_Spunk.append("mouth")
     $ L_Spunk.append("chin")
     if ApprovalCheck("Laura", 1200):            
@@ -718,7 +748,7 @@ label L_In_Mouth:
             call Statup("Laura", "Love", 80, -4, 1)        
     $ L_Mouth = "sucking"
     ". . ."   
-    $ Speed = 0            
+    call Speed_Shift(0)         
     call LauraFace("sexy") 
     
     if ApprovalCheck("Laura", 1000) and L_Swallow >= 3:
@@ -743,6 +773,7 @@ label L_Creampie_P:
                 $ L_Spunk.append("in")
                 $ P_Spunk = "in"
                 $ Speed = 4
+#                call Speed_Shift(4) 
                 if ApprovalCheck("Laura", 1300) or L_CreamP:              
                         call LauraFace("surprised", Eyes="down")
                         "You come in her pussy. Her eyes widen in surprise, but she takes it in stride."  
@@ -755,6 +786,8 @@ label L_Creampie_P:
                             call L_Cumming                
                     else:
                             "You come in her pussy. Her eyes widen in surprise and she pulls out."
+                    $ Speed = 0
+#                    call Speed_Shift(0) 
                     $ P_Cock = "out"
                     call LauraFace("angry")
                     ch_l "Hey, maybe a heads up?"
@@ -776,6 +809,7 @@ label L_Creampie_P:
                 $ L_Spunk.append("in")
                 $ P_Spunk = "in"
                 $ Speed = 4
+#                call Speed_Shift(4) 
                 if L_Lust >= 85: 
                     call L_Cumming  
                 call Statup("Laura", "Love", 90, 1) 
@@ -796,6 +830,7 @@ label L_Creampie_A:
                 $ L_Spunk.append("anal")
                 $ P_Spunk = "anal"
                 $ Speed = 4
+#                call Speed_Shift(4) 
                 if ApprovalCheck("Laura", 1200) or L_CreamP:              
                     call LauraFace("surprised", 1, Eyes="down")
                     "You come in her ass. Her eyes widen in surprise, but she takes it in stride."  
@@ -808,6 +843,8 @@ label L_Creampie_A:
                         call L_Cumming                
                     else:
                         "You come in her ass. Her eyes widen in surprise and she pulls out."
+                    $ Speed = 0
+#                    call Speed_Shift(0) 
                     $ P_Cock = "out"
                     call LauraFace("angry")
                     ch_l "No advanced warning, [L_Petname]?"
@@ -828,6 +865,7 @@ label L_Creampie_A:
                 $ L_Spunk.append("anal")
                 $ P_Spunk = "anal"
                 $ Speed = 4
+#                call Speed_Shift(4) 
                 if L_Lust >= 85: 
                     call L_Cumming  
                 call Statup("Laura", "Love", 90, 1) 
@@ -845,14 +883,14 @@ label L_Facial:
             if L_Addict >= 60 and ApprovalCheck("Laura", 1000, "I", Bonus = ((L_Addict*10)- L_Obed)) and L_Swallow:
                     $ L_Eyes = "manic"
                     $ L_Blush = 1
-                    $ Speed = 0
+                    call Speed_Shift(0)
                     "You pull out of her mouth with a pop, and her eyes widen in surprise." 
-                    $ Speed = 4
+                    call Speed_Shift(4)
                     $ L_Spunk.append("mouth")
                     $ L_Spunk.append("chin")
                     "She leaps at your cock and sucks it deep, draining your fluids hungrily."
                     $ L_Mouth = "lipbite"
-                    $ Speed = 0
+                    call Speed_Shift(0)
                     "When she finishes, she draws her hand across her lips."
                     call LauraFace("bemused")
                     $ L_Spunk.remove("mouth")
@@ -861,7 +899,7 @@ label L_Facial:
                     call Statup("Laura", "Inbt", 200, 10)
                     jump L_Swallowed
             call Laura_HJ_Launch("cum")
-            $ Speed = 2
+            call Speed_Shift(2)
             if "hair" in L_Spunk:
                 pass
             elif "facial" in L_Spunk:
@@ -869,12 +907,12 @@ label L_Facial:
             else:
                 $ L_Spunk.append("facial")
             "You pull out of her mouth with a pop, and she strokes you off. You spray all over her face."
-            $ Speed = 0
+            call Speed_Shift(0)
             jump L_Orgasm_After
     
     if not renpy.showing("Laura_TJ_Animation") and not renpy.showing("Laura_HJ_Animation"):      
             call Laura_HJ_Launch("cum")
-            $ Speed = 2
+            call Speed_Shift(2)
     if "hair" in L_Spunk:
         pass
     elif "facial" in L_Spunk:
@@ -882,7 +920,7 @@ label L_Facial:
     else:
         $ L_Spunk.append("facial")
     "As you're about to finish, you pull out, aim squarely at her face, and spray all over it."
-    $ Speed = 0
+    call Speed_Shift(0)
 
     if Situation == "warn":
         ch_l "Thanks for the warning. . . maybe not the mess though. . ." 
@@ -897,36 +935,47 @@ label L_TitSpunk:
             if L_Addict >= 60 and ApprovalCheck("Laura", 1000, "I", Bonus = ((L_Addict*10)- L_Obed)) and L_Swallow:
                     $ L_Eyes = "manic"
                     $ L_Blush = 1
-                    $ Speed = 0
+                    call Speed_Shift(0)
                     "You pull out of her mouth with a pop, and her eyes widen in surprise." 
-                    $ Speed = 4
+                    call Speed_Shift(4)
                     $ L_Spunk.append("mouth")
                     $ L_Spunk.append("chin")
                     "She leaps at your cock and sucks it deep, draining your fluids hungrily."
                     $ L_Mouth = "lipbite"
-                    $ Speed = 0
+                    call Speed_Shift(0)
                     "When she finishes, she draws her hand across her lips."
                     call LauraFace("bemused")
                     $ L_Spunk.remove("mouth")
-                    ch_l "I'm sorry, [L_Petname], but waste not want not."
+                    ch_l "Sorry, [L_Petname], too delicious."
                     call Statup("Laura", "Obed", 80, -5)
                     call Statup("Laura", "Inbt", 200, 10)
                     jump L_Swallowed
-               
-    if not renpy.showing("Laura_TJ_Animation") and not renpy.showing("Laura_HJ_Animation") and not renpy.showing("Laura_BJ_Animation"):      
-            call Laura_TJ_Launch("cum")
+    
+    if renpy.showing("Laura_SexSprite"):
+            $ P_Cock = "out"
+            $ P_Spunk = "out"     
+            $ Speed = 4
+    elif not renpy.showing("Laura_TJ_Animation") and not renpy.showing("Laura_HJ_Animation"): 
+            call Laura_HJ_Launch("cum")
+            $ Speed = 2
+#    if not renpy.showing("Laura_TJ_Animation") and not renpy.showing("Laura_HJ_Animation") and not renpy.showing("Laura_BJ_Animation"):      
+#            call Laura_TJ_Launch("cum")
+
     $ L_Spunk.append("tits")
     $ Speed = 0
-    "As you're about to finish, you speed up and spray all over her chest."
+    if renpy.showing("Laura_SexSprite"):
+            "As you're about to finish, you pull out and spray all over her chest."
+    else:
+            "As you're about to finish, you speed up and spray all over her chest."
 
     if Situation == "warn":
-        ch_l "Thanks for the warning. . . maybe not the mess though. . ." 
+        ch_l "That was sloppy." 
     else:
-        ch_l "What a mess, maybe a heads up next time?" 
+        ch_l "Ugh, a little warning?" 
                 
     jump L_Orgasm_After
     
-# Start Spunk back  / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+# Start Spunk belly  / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
 label L_SpunkBelly:   
     
     call Laura_Sex_Launch("hotdog")
@@ -948,8 +997,9 @@ label L_SpunkBelly:
             call Statup("Laura", "Inbt", 200, 10)
             jump L_Swallowed
     $ P_Cock = "out"
-    $ P_Spunk = "out"    
+    $ P_Spunk = "out"     
     $ Speed = 4
+#    call Speed_Shift(4) 
     $ L_Spunk.append("belly")
     if Trigger == "sex":
             "You pull out of her pussy with a pop and spray all over her belly."
@@ -985,12 +1035,12 @@ label L_Handy_Finish:
     if renpy.showing("Laura_SexSprite"):
         call Laura_Sex_Reset
     call Laura_HJ_Launch("cum")
-    $ Speed = 2        
+    $ Speed = 2
     $ L_Spunk.append("hand")  
     if renpy.showing("Laura_HJ_Animation"):                                  
             "She grins and speeds up her efforts, placing her left hand over your tip. You burst all over her hands." 
     else:
-            "She grins and starts jerking you off, placing her left hand over your tip. You burst all over her hands." 
+            "She grins and starts jerking you off, placing her left hand over your tip. You burst all over her hands."
     $ Speed = 0
     
     if L_Addict > 80 or "hungry" in L_Traits:
@@ -1064,7 +1114,7 @@ label L_Orgasm_After:
             $ Laura_Arms = 1
         $ P_Semen -= 1
         $ P_Focus = 0
-        $ Speed = 0  
+        call Speed_Shift(0)
         menu:
                 "Want her to clean you off?"
                 "Yes":
@@ -1086,7 +1136,7 @@ label L_CleanCock:
         if not renpy.showing("Laura_HJ_Animation"):
             $ Laura_Arms = 1
         $ P_Cock = "out"
-        $ Speed = 0    
+        call Speed_Shift(0)  
         if Trigger == "anal" and not ApprovalCheck("Laura", 1600, TabM=1) and not L_Addict >= 80:
                 "She wipes your cock clean."
         elif "classcaught" in L_RecentActions and bg_current == "bg classroom" and L_SEXP <= 10:
@@ -1095,7 +1145,7 @@ label L_CleanCock:
         elif L_Blow > 3 or L_Swallow: 
                 if ApprovalCheck("Laura", 1200, TabM=1) or L_Addict >= 60:
                         call Laura_BJ_Launch("cum")
-                        $ Speed = 1
+                        call Speed_Shift(1)
                         call LauraFace("sucking", 1) 
                         if ApprovalCheck("Laura", 1500, TabM=1):
                             if Partner and ApprovalCheck(Partner, 1500, TabM=1):
@@ -1215,13 +1265,13 @@ label LauraLust(Extreme = 0, Kissing = 0):
 
 #  Laura Orgasm //////////////////////////
 
-label L_Cumming:
+label L_Cumming(Quick=0):
     $ L_Eyes = "surprised"
     $ L_Brows = "sad"
     $ L_Mouth = "tongue"
     $ L_Blush = 1
     ch_l ". . . !"
-    $ Speed = 0
+    call Speed_Shift(0)
     if renpy.showing("Laura_SexSprite"):
             show Laura_SexSprite #fix, test this
             with vpunch
@@ -1237,13 +1287,17 @@ label L_Cumming:
     else:
             show Laura_Sprite
             with vpunch
-    $ Speed = 1
+    call Speed_Shift(1)
     $ Line = renpy.random.choice(["Laura is suddenly rocked with spasms, holding back a muffled scream.", 
                 "Laura grabs on tightly as her body shakes with pleasure.", 
                 "Laura stiffens and lets out a low moan.",
                 "Laura's body quivers and suddenly goes still."])
-    "[Line]"
-    
+    "[Line]"    
+    if Quick:
+            call AnyFace("Laura","sexy",2)  
+            $ L_Lust = 20
+            return
+            
     $ L_Eyes = "closed"
     $ L_Brows = "sad"
     $ L_Mouth = "tongue"

@@ -318,8 +318,19 @@ label Rogue_Relationship:
                     ch_r "I'm not ready for more heartbreak, [R_Petname]."
 
                 # End Back Together
-
-
+                    
+        "I wanted to ask about [[another girl]" if "Rogue" in P_Harem:
+                menu:
+                    "Have you reconsidered letting me date. . ."
+                    "Kitty" if "Kitty" not in P_Harem:
+                            call Poly_Start("Kitty",1)
+                    "Emma" if "Emma" not in P_Harem:
+                            call Poly_Start("Emma",1)
+                    "Laura" if "Laura" not in P_Harem:
+                            call Poly_Start("Laura",1)
+                    "Never mind":
+                            pass
+                            
         "I think we should break up." if "dating" in R_Traits: #ApprovalCheck("Rogue", 950, "L", Bonus = (B/3)):
             if "breakup talk" in R_RecentActions:
                 ch_r "We were {i}just{/i} over this, not even funny."
@@ -1476,12 +1487,12 @@ label Rogue_Chitchat(O=0, Options = ["default","default","default"]):
             elif ApprovalCheck("Rogue", 1400, TabM = 3):
                 call Rogue_First_Bottomless(1)
             else:
-                $ R_Upskirt = 0
-            pause 0.5
-            $ R_Upskirt = 0
-        ch_r "Y'know what I'm sayin', [R_Petname]?"
-        $ R_Upskirt = 0
-        call Rogue_Doggy_Reset
+                $ R_Upskirt = 0            
+            pause 0.5  
+            $ R_Upskirt = 0      
+        ch_r "Y'know what I'm sayin', [R_Petname]?"        
+        $ R_Upskirt = 0      
+        call Rogue_Sex_Reset
 
 
     elif Options[0] == "luv": # love maxed out
@@ -1621,10 +1632,11 @@ label Rogue_Flirt:
     $ R_Chat[5] = 1                                         #can only flirt once per cycle.
     menu:
 #            "Compliment her":
-
-#            "Say you love her":
-
-        "Touch her cheek.":                                                                                 #Touch her cheek
+            
+        "Say you love her":
+                    call Love_You("Rogue")
+            
+        "Touch her cheek.":                                                                                 #Touch her cheek 
                     call R_TouchCheek
 
         "Kiss her cheek":                                                                                   #Kiss her cheek
@@ -2646,296 +2658,411 @@ label Rogue_Gifts:
         return
     menu:
         "What would you like to give her?"
-        "Give her a dildo." if "dildo" in P_Inventory:
-            #If you have a Dildo, you'll give it.
-            $ Count = R_Inventory.count("dildo")
-            if "dildo" not in R_Inventory:
-                "You give Rogue the dildo."
-                $ R_Blush = 1
-                $ Rogue_Arms = 2
-                $ R_Held = "dildo"
-                if ApprovalCheck("Rogue", 800):
-                    call RogueFace("bemused")
-                    $ P_Inventory.remove("dildo")
-                    $ R_Inventory.append("dildo")
-                    call Statup("Rogue", "Love", 200, 30)
-                    call Statup("Rogue", "Obed", 200, 30)
-                    call Statup("Rogue", "Inbt", 200, 30)
-                    ch_r "Well, I've got some ideas in mind for this. . ."
-                    call Statup("Rogue", "Lust", 89, 10)
-                elif ApprovalCheck("Rogue", 500):
-                    call RogueFace("confused")
-                    $ P_Inventory.remove("dildo")
-                    $ R_Inventory.append("dildo")
-                    call Statup("Rogue", "Love", 200, 10)
-                    call Statup("Rogue", "Obed", 200, 10)
-                    call Statup("Rogue", "Inbt", 200, 10)
-                    ch_r "Huh, well I guess I can find a place for it. . ."
-                    call Statup("Rogue", "Lust", 89, 10)
-                    call RogueFace("surprised")
-                    ch_r "I- I mean. . . I'll just put it away."
-                    call RogueFace("bemused")
-                elif "offered gift" in R_DailyActions:
-                    call RogueFace("angry")
-                    "She hands it back to you."
-                    ch_r "Look, maybe you should just rethink your gift-giving choices?"
-                else:
-                    call RogueFace("angry")
-                    call Statup("Rogue", "Love", 50, -20)
-                    call Statup("Rogue", "Obed", 20, 10)
-                    call Statup("Rogue", "Inbt", 20, 20)
-                    ch_r "That's a pretty forward gift to be giving a lady. . ."
-                    call Statup("Rogue", "Lust", 89, 5)
-                    "She hands it back to you."
-                    $ R_DailyActions.append("offered gift")
-            elif Count == 1:
-                ch_r "Well, I suppose I could always use another. . ."
-            else:
-                ch_r "Honestly, [R_Petname], I already have enough of those."
-            $ R_Held = 0
-            $ Rogue_Arms = 2
-
-        "Give her the vibrator." if "vibrator" in P_Inventory:
-            #If you have a vibrator, you'll give it.
-            if "vibrator" not in R_Inventory:
-                "You give Rogue the Shocker Vibrator."
-                $ R_Blush = 1
-                $ Rogue_Arms = 2
-                $ R_Held = "vibrator"
-                if ApprovalCheck("Rogue", 700):
-                    call RogueFace("bemused")
-                    $ P_Inventory.remove("vibrator")
-                    $ R_Inventory.append("vibrator")
-                    call Statup("Rogue", "Love", 200, 30)
-                    call Statup("Rogue", "Obed", 200, 30)
-                    call Statup("Rogue", "Inbt", 200, 30)
-                    ch_r "Well, I've got some ideas in mind for this. . ."
-                    call Statup("Rogue", "Lust", 89, 10)
-                elif ApprovalCheck("Rogue", 400):
-                    call RogueFace("confused")
-                    $ P_Inventory.remove("vibrator")
-                    $ R_Inventory.append("vibrator")
-                    call Statup("Rogue", "Love", 200, 10)
-                    call Statup("Rogue", "Obed", 200, 10)
-                    call Statup("Rogue", "Inbt", 200, 10)
-                    ch_r "I guess I can use this to work the kinks out. . ."
-                    call Statup("Rogue", "Lust", 89, 10)
-                    call RogueFace("surprised")
-                    ch_r "Muscle knots, I mean!"
-                    call RogueFace("bemused", 1)
-                elif "offered gift" in R_DailyActions:
-                    call RogueFace("angry")
-                    "She hands it back to you."
-                    ch_r "Look, maybe you should just rethink your gift-giving choices?"
-                else:
-                    call RogueFace("angry")
-                    call Statup("Rogue", "Love", 50, -20)
-                    call Statup("Rogue", "Obed", 20, 10)
-                    call Statup("Rogue", "Inbt", 20, 20)
-                    ch_r "I don't think I have much use for that."
-                    call Statup("Rogue", "Lust", 89, 5)
-                    "She hands it back to you."
-                    $ R_DailyActions.append("offered gift")
-            else:
-                ch_r "[R_Petname], I only need the one."
-            $ R_Held = 0
-            $ Rogue_Arms = 2
-
-        "Give her the green nighty." if "r nighty" in P_Inventory:
-            #If you have a nighty, you'll give it.
-            if "nighty" not in R_Inventory:
-                "You give Rogue the nighty."
-                $ R_Blush = 1
-                if ApprovalCheck("Rogue", 600):
-                    call RogueFace("bemused")
-                    $ P_Inventory.remove("r nighty")
-                    $ R_Inventory.append("nighty")
-                    call Statup("Rogue", "Love", 200, 40)
-                    call Statup("Rogue", "Obed", 200, 20)
-                    call Statup("Rogue", "Inbt", 200, 30)
-                    ch_r "I bet I'd look good in this. . ."
-                    call Statup("Rogue", "Lust", 89, 10)
-                else:
-                    call RogueFace("confused")
-                    $ P_Inventory.remove("r nighty")
-                    $ R_Inventory.append("nighty")
-                    call Statup("Rogue", "Love", 200, 30)
-                    call Statup("Rogue", "Obed", 200, 20)
-                    call Statup("Rogue", "Inbt", 200, 20)
-                    ch_r "Well, it's a little revealing, but still pretty cute."
-                    call RogueFace("bemused")
-            else:
-                ch_r "I already have one of those."
-
-        "Give her the lace bra." if "r lace bra" in P_Inventory:
-            #If you have a bra, you'll give it.
-            if "lace bra" not in R_Inventory:
-                "You give Rogue the lace bra."
-                $ R_Blush = 1
-                if ApprovalCheck("Rogue", 1000):
-                    call RogueFace("bemused")
-                    $ P_Inventory.remove("r lace bra")
-                    $ R_Inventory.append("lace bra")
-                    call Statup("Rogue", "Love", 200, 30)
-                    call Statup("Rogue", "Obed", 200, 20)
-                    call Statup("Rogue", "Inbt", 200, 30)
-                    ch_r "Hmm, this really shows off the assets. . ."
-                    call Statup("Rogue", "Lust", 89, 10)
-                elif ApprovalCheck("Rogue", 700):
-                    call RogueFace("confused")
-                    $ P_Inventory.remove("r lace bra")
-                    $ R_Inventory.append("lace bra")
-                    call Statup("Rogue", "Love", 200, 25)
-                    call Statup("Rogue", "Obed", 200, 20)
-                    call Statup("Rogue", "Inbt", 200, 20)
-                    ch_r "I don't know that I'd wear this out, but maybe in private."
-                elif "no gift bra" in R_RecentActions:
-                    call RogueFace("angry",2)
-                    ch_r "I just told you, it's not happening!"
-                elif "no gift bra" in R_DailyActions:
-                    call RogueFace("angry",2)
-                    ch_r "You can't even give me 24 hours?!"
-                else:
-                    call RogueFace("angry")
-                    call Statup("Rogue", "Love", 50, -20)
-                    call Statup("Rogue", "Obed", 20, 10)
-                    call Statup("Rogue", "Inbt", 20, 20)
-                    if "no gift panties" in R_DailyActions:
-                        ch_r "I don't want these neither!"
-                    else:
-                        ch_r "I don't know why you would focus on my rack, [R_Petname]"
-                    call Statup("Rogue", "Lust", 89, 5)
-                    "She hands it back to you."
-                    $ R_RecentActions.append("no gift bra")
-                    $ R_DailyActions.append("no gift bra")
-                call RogueFace("bemused")
-            else:
-                ch_r "I already have one of those."
-
-        "Give her the lace panties." if "r lace panties" in P_Inventory:
-            #If you have panties, you'll give it.
-            if "lace panties" not in R_Inventory:
-                "You give Rogue the lace panties."
-                $ R_Blush = 1
-                if ApprovalCheck("Rogue", 1100):
-                    call RogueFace("bemused")
-                    $ P_Inventory.remove("r lace panties")
-                    $ R_Inventory.append("lace panties")
-                    call Statup("Rogue", "Love", 200, 30)
-                    call Statup("Rogue", "Obed", 200, 20)
-                    call Statup("Rogue", "Inbt", 200, 30)
-                    ch_r "Hmm, these really put the goods on display. . ."
-                    call Statup("Rogue", "Lust", 89, 10)
-                elif ApprovalCheck("Rogue", 800):
-                    call RogueFace("confused")
-                    $ P_Inventory.remove("r lace panties")
-                    $ R_Inventory.append("lace panties")
-                    call Statup("Rogue", "Love", 200, 25)
-                    call Statup("Rogue", "Obed", 200, 20)
-                    call Statup("Rogue", "Inbt", 200, 20)
-                    ch_r "These are a bit flimsy. . ."
-                elif "no gift panties" in R_RecentActions:
-                    call RogueFace("angry",2)
-                    ch_r "What did I {i}just{/i} tell you?!"
-                elif "no gift panties" in R_DailyActions:
-                    call RogueFace("angry",2)
-                    ch_r "Not today, [R_Petname]!"
-                else:
-                    call RogueFace("angry")
-                    call Statup("Rogue", "Love", 50, -20)
-                    call Statup("Rogue", "Obed", 20, 10)
-                    call Statup("Rogue", "Inbt", 20, 20)
-                    if "no gift bra" in R_DailyActions:
-                        ch_r "I don't want these neither!"
-                    else:
-                        ch_r "I think I'll pick out my own unmentionables, thank you."
-                    call Statup("Rogue", "Lust", 89, 5)
-                    "She hands them back to you."
-                    $ R_RecentActions.append("no gift panties")
-                    $ R_DailyActions.append("no gift panties")
-                call RogueFace("bemused")
-            else:
-                ch_r "I already have one of those."
-
-        "Give her the stockings and garterbelt." if "stockings and garterbelt" in P_Inventory:
-            #If you have a stockings, you'll give it.
-            if "stockings and garterbelt" not in R_Inventory:
-                "You give Rogue the stockings."
-                $ R_Blush = 1
-                call RogueFace("bemused")
-                $ P_Inventory.remove("stockings and garterbelt")
-                $ R_Inventory.append("stockings and garterbelt")
-                call Statup("Rogue", "Love", 200, 5)
-                call Statup("Rogue", "Obed", 200, 5)
-                call Statup("Rogue", "Inbt", 200, 5)
-                ch_r "These are pretty nice. . ."
-                call Statup("Rogue", "Lust", 89, 5)
-            else:
-                ch_r "I already have one of those."
-
-        "Give her the \"Dazzler and Longshot\" book." if "Dazzler and Longshot" in P_Inventory:
-            #If you have a vibrator, you'll give it.
-            if "Dazzler and Longshot" not in R_Inventory:
-                "You give Rogue the book."
-                $ R_Blush = 1
-                if ApprovalCheck("Rogue", 600, "L"):
-                    call RogueFace("smile")
-                    ch_r "Oh, I've heard of this one, very romantic!"
-                    call Statup("Rogue", "Lust", 89, 10)
-                else:
-                    call RogueFace("confused")
-                    ch_r "Hmph, well I guess i've heard good things about it, I'll give it a shot."
-                    call RogueFace("bemused")
-                $ P_Inventory.remove("Dazzler and Longshot")
-                $ R_Inventory.append("Dazzler and Longshot")
-                call Statup("Rogue", "Love", 200, 150)
-                if R_Love >= 1000:
-                    $ R_Love = 1000
-            else:
-                ch_r "I already have one of those."
-
-        "Give her the \"256 Shades of Grey\" book." if "256 Shades of Grey" in P_Inventory:
-            #If you have a book, you'll give it.
-            if "256 Shades of Grey" not in R_Inventory:
-                "You give Rogue the book."
-                $ R_Blush = 1
-                if ApprovalCheck("Rogue", 500, "O"):
-                    call RogueFace("bemused")
-                    ch_r "I'll research it thoroughly."
-                    call Statup("Rogue", "Lust", 89, 10)
-                else:
-                    call RogueFace("confused")
-                    ch_r "Hmm, I have heard some good things about this one. I'll give it a quick read."
-                    call RogueFace("bemused")
-                $ P_Inventory.remove("256 Shades of Grey")
-                $ R_Inventory.append("256 Shades of Grey")
-                call Statup("Rogue", "Obed", 200, 150)
-                if R_Obed >= 1000:
-                    $ R_Obed = 1000
-            else:
-                ch_r "I already have one of those."
-
-        "Give her the \"Avengers Tower Penthouse\" book." if "Avengers Tower Penthouse" in P_Inventory:
-            #If you have a book, you'll give it.
-            if "Avengers Tower Penthouse" not in R_Inventory:
-                "You give Rogue the book."
-                $ R_Blush = 1
-                if ApprovalCheck("Rogue", 500, "I"):
-                    call RogueFace("bemused")
-                    ch_r "Oh. . . I think I can work with this. . ."
-                    call Statup("Rogue", "Lust", 89, 10)
-                else:
-                    call RogueFace("confused")
-                    ch_r "Well. . . this is a bit. . . I think I'll keep this for research."
-                    call RogueFace("bemused")
-                $ P_Inventory.remove("Avengers Tower Penthouse")
-                $ R_Inventory.append("Avengers Tower Penthouse")
-                call Statup("Rogue", "Inbt", 200, 150)
-                if R_Inbt >= 1000:
-                    $ R_Inbt = 1000
-            else:
-                ch_r "I already have one of those."
-
+        "Toys and Books":
+            menu:
+                "Give her a dildo." if "dildo" in P_Inventory: 
+                    #If you have a Dildo, you'll give it.
+                    $ Count = R_Inventory.count("dildo")
+                    if "dildo" not in R_Inventory:                            
+                        "You give Rogue the dildo."
+                        $ R_Blush = 1
+                        $ Rogue_Arms = 2
+                        $ R_Held = "dildo"
+                        if ApprovalCheck("Rogue", 800):                    
+                            call RogueFace("bemused")
+                            $ P_Inventory.remove("dildo")
+                            $ R_Inventory.append("dildo")
+                            call Statup("Rogue", "Love", 200, 30)
+                            call Statup("Rogue", "Obed", 200, 30)
+                            call Statup("Rogue", "Inbt", 200, 30)
+                            ch_r "Well, I've got some ideas in mind for this. . ."
+                            call Statup("Rogue", "Lust", 89, 10)
+                        elif ApprovalCheck("Rogue", 500):
+                            call RogueFace("confused")
+                            $ P_Inventory.remove("dildo")
+                            $ R_Inventory.append("dildo")
+                            call Statup("Rogue", "Love", 200, 10)
+                            call Statup("Rogue", "Obed", 200, 10)
+                            call Statup("Rogue", "Inbt", 200, 10)
+                            ch_r "Huh, well I guess I can find a place for it. . ."  
+                            call Statup("Rogue", "Lust", 89, 10)
+                            call RogueFace("surprised")
+                            ch_r "I- I mean. . . I'll just put it away."
+                            call RogueFace("bemused")
+                        elif "offered gift" in R_DailyActions:
+                            call RogueFace("angry")
+                            "She hands it back to you."
+                            ch_r "Look, maybe you should just rethink your gift-giving choices?"                    
+                        else:
+                            call RogueFace("angry")
+                            call Statup("Rogue", "Love", 50, -20)
+                            call Statup("Rogue", "Obed", 20, 10)
+                            call Statup("Rogue", "Inbt", 20, 20)                    
+                            ch_r "That's a pretty forward gift to be giving a lady. . ."                     
+                            call Statup("Rogue", "Lust", 89, 5)
+                            "She hands it back to you."
+                            $ R_DailyActions.append("offered gift") 
+                    elif Count == 1:
+                        ch_r "Well, I suppose I could always use another. . ."
+                    else: 
+                        ch_r "Honestly, [R_Petname], I already have enough of those."
+                    $ R_Held = 0
+                    $ Rogue_Arms = 2
+                    
+                "Give her the vibrator." if "vibrator" in P_Inventory: 
+                    #If you have a vibrator, you'll give it.
+                    if "vibrator" not in R_Inventory:                            
+                        "You give Rogue the Shocker Vibrator."
+                        $ R_Blush = 1
+                        $ Rogue_Arms = 2
+                        $ R_Held = "vibrator"
+                        if ApprovalCheck("Rogue", 700):                    
+                            call RogueFace("bemused")
+                            $ P_Inventory.remove("vibrator")
+                            $ R_Inventory.append("vibrator")
+                            call Statup("Rogue", "Love", 200, 30)
+                            call Statup("Rogue", "Obed", 200, 30)
+                            call Statup("Rogue", "Inbt", 200, 30)
+                            ch_r "Well, I've got some ideas in mind for this. . ."
+                            call Statup("Rogue", "Lust", 89, 10)
+                        elif ApprovalCheck("Rogue", 400):
+                            call RogueFace("confused")
+                            $ P_Inventory.remove("vibrator")
+                            $ R_Inventory.append("vibrator")
+                            call Statup("Rogue", "Love", 200, 10)
+                            call Statup("Rogue", "Obed", 200, 10)
+                            call Statup("Rogue", "Inbt", 200, 10)
+                            ch_r "I guess I can use this to work the kinks out. . ."  
+                            call Statup("Rogue", "Lust", 89, 10)
+                            call RogueFace("surprised")
+                            ch_r "Muscle knots, I mean!"
+                            call RogueFace("bemused", 1)
+                        elif "offered gift" in R_DailyActions:
+                            call RogueFace("angry")
+                            "She hands it back to you."
+                            ch_r "Look, maybe you should just rethink your gift-giving choices?"    
+                        else:
+                            call RogueFace("angry")
+                            call Statup("Rogue", "Love", 50, -20)
+                            call Statup("Rogue", "Obed", 20, 10)
+                            call Statup("Rogue", "Inbt", 20, 20)                    
+                            ch_r "I don't think I have much use for that."                     
+                            call Statup("Rogue", "Lust", 89, 5)
+                            "She hands it back to you."
+                            $ R_DailyActions.append("offered gift") 
+                    else: 
+                        ch_r "[R_Petname], I only need the one."
+                    $ R_Held = 0
+                    $ Rogue_Arms = 2
+                "Give her the \"Dazzler and Longshot\" book." if "Dazzler and Longshot" in P_Inventory: 
+                    #If you have a vibrator, you'll give it.
+                    if "Dazzler and Longshot" not in R_Inventory:                            
+                        "You give Rogue the book."
+                        $ R_Blush = 1
+                        if ApprovalCheck("Rogue", 600, "L"):                    
+                            call RogueFace("smile")
+                            ch_r "Oh, I've heard of this one, very romantic!"
+                            call Statup("Rogue", "Lust", 89, 10)
+                        else:
+                            call RogueFace("confused")
+                            ch_r "Hmph, well I guess i've heard good things about it, I'll give it a shot."  
+                            call RogueFace("bemused")       
+                        $ P_Inventory.remove("Dazzler and Longshot")
+                        $ R_Inventory.append("Dazzler and Longshot") 
+                        call Statup("Rogue", "Love", 200, 150) 
+                        if R_Love >= 1000:
+                            $ R_Love = 1000
+                    else: 
+                        ch_r "I already have one of those."                
+                    
+                "Give her the \"256 Shades of Grey\" book." if "256 Shades of Grey" in P_Inventory: 
+                    #If you have a book, you'll give it.
+                    if "256 Shades of Grey" not in R_Inventory:                            
+                        "You give Rogue the book."
+                        $ R_Blush = 1
+                        if ApprovalCheck("Rogue", 500, "O"):                    
+                            call RogueFace("bemused")
+                            ch_r "I'll research it thoroughly."
+                            call Statup("Rogue", "Lust", 89, 10)
+                        else:
+                            call RogueFace("confused") 
+                            ch_r "Hmm, I have heard some good things about this one. I'll give it a quick read."  
+                            call RogueFace("bemused")             
+                        $ P_Inventory.remove("256 Shades of Grey")
+                        $ R_Inventory.append("256 Shades of Grey")                    
+                        call Statup("Rogue", "Obed", 200, 150)  
+                        if R_Obed >= 1000:
+                            $ R_Obed = 1000
+                    else: 
+                        ch_r "I already have one of those."                
+                    
+                "Give her the \"Avengers Tower Penthouse\" book." if "Avengers Tower Penthouse" in P_Inventory: 
+                    #If you have a book, you'll give it.
+                    if "Avengers Tower Penthouse" not in R_Inventory:                            
+                        "You give Rogue the book."
+                        $ R_Blush = 1
+                        if ApprovalCheck("Rogue", 500, "I"):                    
+                            call RogueFace("bemused")
+                            ch_r "Oh. . . I think I can work with this. . ."
+                            call Statup("Rogue", "Lust", 89, 10)
+                        else:
+                            call RogueFace("confused")
+                            ch_r "Well. . . this is a bit. . . I think I'll keep this for research."  
+                            call RogueFace("bemused")               
+                        $ P_Inventory.remove("Avengers Tower Penthouse")
+                        $ R_Inventory.append("Avengers Tower Penthouse")                    
+                        call Statup("Rogue", "Inbt", 200, 150)  
+                        if R_Inbt >= 1000:
+                            $ R_Inbt = 1000
+                    else: 
+                        ch_r "I already have one of those." 
+            
+                "Never mind":
+                    pass
+        "Clothing":    
+            menu:
+                "Give her the green nighty." if "r nighty" in P_Inventory: 
+                    #If you have a nighty, you'll give it.
+                    if "nighty" not in R_Inventory:                            
+                        "You give Rogue the nighty."
+                        $ R_Blush = 1
+                        if ApprovalCheck("Rogue", 600):                    
+                            call RogueFace("bemused")
+                            $ P_Inventory.remove("r nighty")
+                            $ R_Inventory.append("nighty")
+                            call Statup("Rogue", "Love", 200, 40)
+                            call Statup("Rogue", "Obed", 200, 20)
+                            call Statup("Rogue", "Inbt", 200, 30)
+                            ch_r "I bet I'd look good in this. . ."
+                            call Statup("Rogue", "Lust", 89, 10)
+                        else:
+                            call RogueFace("confused")
+                            $ P_Inventory.remove("r nighty")
+                            $ R_Inventory.append("nighty")
+                            call Statup("Rogue", "Love", 200, 30)
+                            call Statup("Rogue", "Obed", 200, 20)
+                            call Statup("Rogue", "Inbt", 200, 20)
+                            ch_r "Well, it's a little revealing, but still pretty cute."  
+                            call RogueFace("bemused")
+                    else: 
+                        ch_r "I already have one of those."                
+                    
+                "Give her the lace bra." if "r lace bra" in P_Inventory: 
+                    #If you have a bra, you'll give it.
+                    if "lace bra" not in R_Inventory:                            
+                        "You give Rogue the lace bra."
+                        $ R_Blush = 1
+                        if ApprovalCheck("Rogue", 1000):                    
+                            call RogueFace("bemused")
+                            $ P_Inventory.remove("r lace bra")
+                            $ R_Inventory.append("lace bra")
+                            call Statup("Rogue", "Love", 200, 30)
+                            call Statup("Rogue", "Obed", 200, 20)
+                            call Statup("Rogue", "Inbt", 200, 30)
+                            ch_r "Hmm, this really shows off the assets. . ."
+                            call Statup("Rogue", "Lust", 89, 10)
+                        elif ApprovalCheck("Rogue", 700):
+                            call RogueFace("confused")
+                            $ P_Inventory.remove("r lace bra")
+                            $ R_Inventory.append("lace bra")
+                            call Statup("Rogue", "Love", 200, 25)
+                            call Statup("Rogue", "Obed", 200, 20)
+                            call Statup("Rogue", "Inbt", 200, 20)
+                            ch_r "I don't know that I'd wear this out, but maybe in private." 
+                        elif "no gift bra" in R_RecentActions:
+                            call RogueFace("angry",2)
+                            ch_r "I just told you, it's not happening!"
+                        elif "no gift bra" in R_DailyActions:
+                            call RogueFace("angry",2)
+                            ch_r "You can't even give me 24 hours?!"  
+                        else:
+                            call RogueFace("angry")
+                            call Statup("Rogue", "Love", 50, -20)
+                            call Statup("Rogue", "Obed", 20, 10)
+                            call Statup("Rogue", "Inbt", 20, 20)  
+                            if "no gift panties" in R_DailyActions:                    
+                                ch_r "I don't want these neither!" 
+                            else:                  
+                                ch_r "I don't know why you would focus on my rack, [R_Petname]"                     
+                            call Statup("Rogue", "Lust", 89, 5)
+                            "She hands it back to you."
+                            $ R_RecentActions.append("no gift bra")                      
+                            $ R_DailyActions.append("no gift bra") 
+                        call RogueFace("bemused")
+                    else: 
+                        ch_r "I already have one of those."                
+                    
+                "Give her the lace panties." if "r lace panties" in P_Inventory: 
+                    #If you have panties, you'll give it.
+                    if "lace panties" not in R_Inventory:                            
+                        "You give Rogue the lace panties."
+                        $ R_Blush = 1
+                        if ApprovalCheck("Rogue", 1100):                    
+                            call RogueFace("bemused")
+                            $ P_Inventory.remove("r lace panties")
+                            $ R_Inventory.append("lace panties")
+                            call Statup("Rogue", "Love", 200, 30)
+                            call Statup("Rogue", "Obed", 200, 20)
+                            call Statup("Rogue", "Inbt", 200, 30)
+                            ch_r "Hmm, these really put the goods on display. . ."
+                            call Statup("Rogue", "Lust", 89, 10)
+                        elif ApprovalCheck("Rogue", 800):
+                            call RogueFace("confused")
+                            $ P_Inventory.remove("r lace panties")
+                            $ R_Inventory.append("lace panties")
+                            call Statup("Rogue", "Love", 200, 25)
+                            call Statup("Rogue", "Obed", 200, 20)
+                            call Statup("Rogue", "Inbt", 200, 20)
+                            ch_r "These are a bit flimsy. . ."       
+                        elif "no gift panties" in R_RecentActions:
+                            call RogueFace("angry",2)
+                            ch_r "What did I {i}just{/i} tell you?!"
+                        elif "no gift panties" in R_DailyActions:
+                            call RogueFace("angry",2)
+                            ch_r "Not today, [R_Petname]!"  
+                        else:
+                            call RogueFace("angry")
+                            call Statup("Rogue", "Love", 50, -20)
+                            call Statup("Rogue", "Obed", 20, 10)
+                            call Statup("Rogue", "Inbt", 20, 20)  
+                            if "no gift bra" in R_DailyActions:                    
+                                ch_r "I don't want these neither!" 
+                            else:
+                                ch_r "I think I'll pick out my own unmentionables, thank you."                     
+                            call Statup("Rogue", "Lust", 89, 5)
+                            "She hands them back to you."
+                            $ R_RecentActions.append("no gift panties")                      
+                            $ R_DailyActions.append("no gift panties") 
+                        call RogueFace("bemused")
+                    else: 
+                        ch_r "I already have one of those."                
+                      
+                "Give her the stockings and garterbelt." if "stockings and garterbelt" in P_Inventory: 
+                    #If you have a stockings, you'll give it.
+                    if "stockings and garterbelt" not in R_Inventory:                            
+                        "You give Rogue the stockings."
+                        $ R_Blush = 1                 
+                        call RogueFace("bemused")
+                        $ P_Inventory.remove("stockings and garterbelt")
+                        $ R_Inventory.append("stockings and garterbelt")
+                        call Statup("Rogue", "Love", 200, 5)
+                        call Statup("Rogue", "Obed", 200, 5)
+                        call Statup("Rogue", "Inbt", 200, 5)
+                        ch_r "These are pretty nice. . ."
+                        call Statup("Rogue", "Lust", 89, 5)
+                    else: 
+                        ch_r "I already have one of those."   
+                     
+                "Give her the bikini top." if "r bikini top" in P_Inventory: 
+                    #If you have a bra, you'll give it.
+                    if "bikini top" not in R_Inventory:                            
+                        "You give Rogue the bikini top."
+                        $ R_Blush = 1
+                        if ApprovalCheck("Rogue", 1200):                    
+                            call RogueFace("bemused")
+                            $ P_Inventory.remove("r bikini top")
+                            $ R_Inventory.append("bikini top")
+                            call Statup("Rogue", "Love", 200, 20)
+                            call Statup("Rogue", "Obed", 200, 10)
+                            call Statup("Rogue", "Inbt", 200, 10)
+                            ch_r "This is a nice color. . ."
+                        elif ApprovalCheck("Rogue", 900):
+                            call RogueFace("confused",1)
+                            $ P_Inventory.remove("r bikini top")
+                            $ R_Inventory.append("bikini top")
+                            call Statup("Rogue", "Love", 200, 20)
+                            call Statup("Rogue", "Obed", 200, 10)
+                            call Statup("Rogue", "Inbt", 200, 5)
+                            ch_r "A little skimpy. . ."                  
+                            call RogueFace("bemused",1)
+                        elif ApprovalCheck("Rogue", 700):
+                            call RogueFace("confused",2)
+                            $ P_Inventory.remove("r bikini top")
+                            $ R_Inventory.append("bikini top")
+                            call Statup("Rogue", "Love", 200, 10)
+                            call Statup("Rogue", "Obed", 200, 5)
+                            call Statup("Rogue", "Inbt", 200, 5)
+                            ch_r "I was thinking about a tan. . ."                  
+                            call RogueFace("bemused",1)
+                        elif "no gift bra" in R_RecentActions:
+                            call RogueFace("angry",2)
+                            ch_r "Don't make me say it again!"
+                        elif "no gift bra" in R_DailyActions:
+                            call RogueFace("angry",2)
+                            ch_r "My answer's still no, stop asking!"                      
+                        else:
+                            call RogueFace("angry",2)
+                            call Statup("Rogue", "Love", 50, -5)
+                            call Statup("Rogue", "Obed", 20, 5)
+                            call Statup("Rogue", "Inbt", 20, 10)
+                            if "no gift bra " in R_DailyActions:                    
+                                ch_r "I don't want this either!"                      
+                            else:
+                                ch_r "Don't you worry about my swimwear."    
+                            $ R_Blush = 1
+                            "She hands it back to you."
+                            $ R_RecentActions.append("no gift bra")                      
+                            $ R_DailyActions.append("no gift bra") 
+                    else: 
+                        ch_r "I already have one of those."
+                        
+               
+                "Give her the bikini bottoms." if "r bikini bottoms" in P_Inventory: 
+                    #If you have a bra, you'll give it.
+                    if "bikini bottoms" not in R_Inventory:                            
+                        "You give Rogue the bikini bottoms."
+                        $ R_Blush = 1
+                        if ApprovalCheck("Rogue", 1200):                    
+                            call RogueFace("bemused")
+                            $ P_Inventory.remove("r bikini bottoms")
+                            $ R_Inventory.append("bikini bottoms")
+                            call Statup("Rogue", "Love", 200, 20)
+                            call Statup("Rogue", "Obed", 200, 10)
+                            call Statup("Rogue", "Inbt", 200, 10)
+                            ch_r "These are pretty nice. . ."
+                        elif ApprovalCheck("Rogue", 900):
+                            call RogueFace("confused",1)
+                            $ P_Inventory.remove("r bikini bottoms")
+                            $ R_Inventory.append("bikini bottoms")
+                            call Statup("Rogue", "Love", 200, 20)
+                            call Statup("Rogue", "Obed", 200, 10)
+                            call Statup("Rogue", "Inbt", 200, 5)
+                            ch_r "Kinda tiny, aren't they. . ."                  
+                            call RogueFace("bemused",1)
+                        elif ApprovalCheck("Rogue", 700):
+                            call RogueFace("confused",2)
+                            $ P_Inventory.remove("r bikini bottoms")
+                            $ R_Inventory.append("bikini bottoms")
+                            call Statup("Rogue", "Love", 200, 10)
+                            call Statup("Rogue", "Obed", 200, 5)
+                            call Statup("Rogue", "Inbt", 200, 5)
+                            ch_r "I was thinking about a tan. . ."                   
+                            call RogueFace("bemused",1)
+                        elif "no gift panties" in R_RecentActions:
+                            call RogueFace("angry",2)
+                            ch_r "Don't make me say it again!"
+                        elif "no gift panties" in R_DailyActions:
+                            call RogueFace("angry",2)
+                            ch_r "My answer's still no, stop asking!"                      
+                        else:
+                            call RogueFace("angry",2)
+                            call Statup("Rogue", "Love", 50, -5)
+                            call Statup("Rogue", "Obed", 20, 5)
+                            call Statup("Rogue", "Inbt", 20, 10)
+                            if "no gift bra" in R_DailyActions:                    
+                                ch_r "I don't want these either!"                      
+                            else:
+                                ch_r "Don't you worry what I've got on down there."    
+                            $ R_Blush = 1
+                            "She hands them back to you."
+                            $ R_RecentActions.append("no gift panties")                      
+                            $ R_DailyActions.append("no gift panties") 
+                    else: 
+                        ch_r "I already have one of those."
+                              
+                "Never mind":
+                    pass 
+            
 #        "Give her a butt plug." if "buttplug" in P_Inventory:
 #            if "buttplug" not in R_Inventory:
 #                "You give Rogue the butt plug."
@@ -3963,6 +4090,8 @@ label Rogue_Clothes:
     call RogueFace
     menu:
         ch_r "So what did you want to tell me about my clothes again?"
+        "Let's talk about your modded clothes.":
+                    jump Rogue_Modded_Clothes_Menu
         "Let's talk about your outfits.":
                 jump Rogue_Clothes_Outfits
         "Let's talk about your over shirts.":
@@ -3993,7 +4122,9 @@ label Rogue_Clothes:
                     "Gym Clothes":
                                 call Rogue_OutfitShame(7,1)
                     "Sleepwear":
-                                call Rogue_OutfitShame(9,1)
+                                call Rogue_OutfitShame(9,1)                      
+                    "Swimwear":
+                                call Rogue_OutfitShame(10,1)   
                     "Never mind":
                                 pass
         "Switch to. . .":
@@ -4235,7 +4366,11 @@ label Rogue_Clothes:
         "How about throwing on your sleepwear?" if not Taboo:
                         #fix add conditions
                         call RogueOutfit("sleep")
-
+                        
+        "How about throwing on your swimwear?" if not Taboo or bg_current == "bg pool":
+            #fix add conditions
+            call RogueOutfit("swimwear")
+            
         "Let's talk about what you wear outside.":
                         call Rogue_Clothes_Schedule
 
@@ -4496,35 +4631,36 @@ label Rogue_Clothes:
             pass
     jump Rogue_Clothes
     #End of Rogue Pants
-
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-    menu Rogue_Clothes_Under:                                                                                                 # Tops
-        "How about you lose the [R_Chest]?" if R_Chest:
-                        call RogueFace("bemused", 1)
-                        if R_SeenChest and ApprovalCheck("Rogue", 1100, TabM=2):
-                            ch_r "Sure."
-                        elif ApprovalCheck("Rogue", 1100, TabM=2):
-                            ch_r "I guess I don't really mind if you see them. . ."
-                        elif R_Over == "hoodie" and ApprovalCheck("Rogue", 500, TabM=2):
-                            ch_r "I guess this covers enough. . ."
-                        elif R_Over == "pink top" and ApprovalCheck("Rogue", 950, TabM=2):
-                            ch_r "This look is a bit revealing. . ."
-                            call Rogue_First_Topless
-                        elif R_Over == "mesh top":
-                            ch_r "In this top? That would leave nothing to the imagination!"
-                            jump Rogue_Clothes
-                        elif not R_Over:
-                            ch_r "Not without a little coverage, for modesty."
-                            jump Rogue_Clothes
-                        else:
-                            ch_r "I don't think so, [R_Petname]."
-                            jump Rogue_Clothes
-                        $ R_Chest = 0
-                        if not R_Over or R_Over == "mesh top":
-                            call Rogue_First_Topless
+        
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+        
+    menu Rogue_Clothes_Under:                                                                                                 # Tops    
         "Tops":
             menu:
+                "How about you lose the [R_Chest]?" if R_Chest:
+                                call RogueFace("bemused", 1)
+                                if R_SeenChest and ApprovalCheck("Rogue", 1100, TabM=2):
+                                    ch_r "Sure."    
+                                elif ApprovalCheck("Rogue", 1100, TabM=2):
+                                    ch_r "I guess I don't really mind if you see them. . ."
+                                elif R_Over == "hoodie" and ApprovalCheck("Rogue", 500, TabM=2):
+                                    ch_r "I guess this covers enough. . ."  
+                                elif R_Over == "pink top" and ApprovalCheck("Rogue", 950, TabM=2):
+                                    ch_r "This look is a bit revealing. . ."  
+                                    call Rogue_First_Topless      
+                                elif R_Over == "mesh top":
+                                    ch_r "In this top? That would leave nothing to the imagination!" 
+                                    jump Rogue_Clothes
+                                elif not R_Over:
+                                    ch_r "Not without a little coverage, for modesty."
+                                    jump Rogue_Clothes                            
+                                else:
+                                    ch_r "I don't think so, [R_Petname]."
+                                    jump Rogue_Clothes 
+                                $ R_Chest = 0
+                                if not R_Over or R_Over == "mesh top":
+                                    call Rogue_First_Topless
+
                 "Try on that black tank top." if R_Chest != "tank":
                                 $ R_Chest = "tank"
                 "I like that buttoned tank top." if R_Chest != "buttoned tank" and R_Over != "mesh top":
@@ -4546,10 +4682,22 @@ label Rogue_Clothes:
 
                 "I like that lace bra." if "lace bra" in R_Inventory and R_Chest != "lace bra":
                                 if (R_SeenChest and ApprovalCheck("Rogue", 800)) or ApprovalCheck("Rogue", 1100, TabM=2):
-                                    ch_r "Sure."
-                                    $ R_Chest = "lace bra"
-                                else:
-                                    ch_r "That's a bit too revealing. . ."
+                                    ch_r "Sure."   
+                                    $ R_Chest = "lace bra"         
+                                else:                
+                                    ch_r "That's a bit too revealing. . ."  
+                
+                "I like that bikini top." if R_Chest != "bikini top" and "bikini top" in R_Inventory:
+                    if bg_current == "bg pool":
+                            ch_r "Sure."   
+                            $ R_Chest = "bikini top"         
+                    else:                
+                            if R_SeenChest or ApprovalCheck("Rogue", 1000, TabM=2):
+                                ch_r "Sure."   
+                                $ R_Chest = "bikini top"         
+                            else:                
+                                ch_r "I kinda don't feel right about that. . ."  
+                        
                 "Never mind":
                         pass
 
@@ -4569,40 +4717,40 @@ label Rogue_Clothes:
                 "Your ripped pantyhose would look good with that." if R_Hose != "ripped pantyhose" and "ripped pantyhose" in R_Inventory and R_Legs != "pants":
                                 $ R_Hose = "ripped pantyhose"
                 "Never mind":
-                        pass
-
-        "You could lose those panties. . ." if R_Panties and R_Panties != "shorts":
-                        call RogueFace("bemused", 1)
-                        if (R_SeenPussy and ApprovalCheck("Rogue", 900)) and not Taboo: # You've seen her pussy
-                            if ApprovalCheck("Rogue", 850, "L", TabM=2):
-                                ch_r "Well aren't you cheeky. . ."
-                            elif ApprovalCheck("Rogue", 500, "O", TabM=2):
-                                ch_r "Fine by me."
-                            elif ApprovalCheck("Rogue", 350, "I", TabM=2):
-                                ch_r "Oooh, naughty."
-                            else:
-                                ch_r "Oh, I guess I could."
-                        else:                       #You've never seen it
-                            if ApprovalCheck("Rogue", 1100, "LI", TabM=2):
-                                ch_r "Well aren't you cheeky. . . I suppose I could give you a show. . ."
-                            elif ApprovalCheck("Rogue", 750, "OI", TabM=2):
-                                ch_r "If that's what you want."
-                            elif ApprovalCheck("Rogue", 500, "I", TabM=2):
-                                ch_r "Oooh, naughty."
-                            elif ApprovalCheck("Rogue", 1400, TabM=3):
-                                ch_r "Oh, fine. You've been a good boy."
-                            else:
-                                call RogueFace("surprised")
-                                $ R_Brows = "angry"
-                                ch_r "Not with you around,[R_Petname]!"
-                                jump Rogue_Clothes
-
-                        $ R_Panties = 0
-                        if not R_Legs:
-                            call Rogue_First_Bottomless
-                            call Statup("Rogue", "Inbt", 50, 2)
+                        pass  
+        
         "Panties":
             menu:
+                
+                "You could lose those panties. . ." if R_Panties and R_Panties != "shorts":
+                                call RogueFace("bemused", 1)
+                                if (R_SeenPussy and ApprovalCheck("Rogue", 900)) and not Taboo: # You've seen her pussy
+                                    if ApprovalCheck("Rogue", 850, "L", TabM=2):               
+                                        ch_r "Well aren't you cheeky. . ."
+                                    elif ApprovalCheck("Rogue", 500, "O", TabM=2):
+                                        ch_r "Fine by me."
+                                    elif ApprovalCheck("Rogue", 350, "I", TabM=2):
+                                        ch_r "Oooh, naughty."                            
+                                    else:
+                                        ch_r "Oh, I guess I could."         
+                                else:                       #You've never seen it
+                                    if ApprovalCheck("Rogue", 1100, "LI", TabM=2):               
+                                        ch_r "Well aren't you cheeky. . . I suppose I could give you a show. . ."
+                                    elif ApprovalCheck("Rogue", 750, "OI", TabM=2):
+                                        ch_r "If that's what you want."
+                                    elif ApprovalCheck("Rogue", 500, "I", TabM=2):
+                                        ch_r "Oooh, naughty."
+                                    elif ApprovalCheck("Rogue", 1400, TabM=3):
+                                        ch_r "Oh, fine. You've been a good boy."
+                                    else: 
+                                        call RogueFace("surprised")
+                                        $ R_Brows = "angry"
+                                        ch_r "Not with you around,[R_Petname]!"
+                                        jump Rogue_Clothes  
+                                
+                                $ R_Panties = 0              
+                                call Rogue_First_Bottomless
+                                call Statup("Rogue", "Inbt", 50, 2)  
                 "You know, you could wear some panties with that. . ." if not R_Panties:
                                 call RogueFace("bemused", 1)
                                 if (R_Love+R_Obed) <= (1.5 * R_Inbt):
@@ -4665,6 +4813,17 @@ label Rogue_Clothes:
                                     ch_r "Heh, no, I think I'll stick with these, thanks."
                                 else:
                                     ch_r "I don't see how that's any business of yours, [R_Petname]."
+                                    
+                "I like those bikini bottoms." if R_Panties != "bikini bottoms" and "bikini bottoms" in R_Inventory:
+                    if bg_current == "bg pool":
+                            ch_r "Sure."   
+                            $ R_Panties = "bikini bottoms"         
+                    else:                
+                            if ApprovalCheck("Rogue", 1000, TabM=2):
+                                ch_r "Sure."   
+                                $ R_Panties = "bikini bottoms"         
+                            else:                
+                                ch_r "I kinda don't feel right about that. . ."  
                 "Never mind":
                         pass
         "Never mind":
@@ -4965,6 +5124,8 @@ label Rogue_Clothes_ScheduleB(Count = 0):
 #End Rogue Clothes Scheduling Check
 
 label R_AltClothes(Outfit=8):
+        #1 = "evo_green", 2 = "evo_pink"
+        #3 = "custom1", 5 = "custom2", 6 = "custom3", 7 = "sleep", 4 = "gym", 10 = "swimwear"
         #This selects her outfit when teaching if 8
         #This selects her private outfit if 9
 
@@ -4982,11 +5143,13 @@ label R_AltClothes(Outfit=8):
                     $ R_Outfit = "sleep"
         elif R_Schedule[Outfit] == 4:
                     $ R_Outfit = "gym"
+        elif R_Schedule[Outfit] == 10:
+                    $ R_Outfit = "swimwear"
         return
 
 label R_Private_Outfit:
     #sets Rogue's private outfit in private
-    if "comfy" in R_RecentActions or "comfy" in R_Traits:
+    if "comfy" in R_RecentActions or "comfy" in R_Traits or R_Outfit == R_Schedule[9]:
             call R_AltClothes(9)
             call RogueOutfit(Changed=1)
     elif "no comfy" in R_RecentActions:
@@ -5083,28 +5246,34 @@ label Rogue_Custom_Out(Custom = 3, Shame = 0, Agree = 1):
                             ch_r "It's kind of daring for me, sorry."
             return
 # End Rogue Custom Out
-
-
-label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree = 1):                                                                             #sets custom outfit
-            #Custom determines which custom outfit is being checked against.
-            #If Custom1 = 3, if custom2 = 5, if custom3 = 6, if gym = 7, if private = 9
+                                
+                                
+label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree = 1):                                                                             #sets custom outfit    
+            #Custom determines which custom outfit is being checked against.    
+            #If Custom1 = 3, if custom2 = 5, if custom3 = 6, if gym = 7, if private = 9, if swimwear = 10
             # Custom == 20 adjusts her current shame level
             #if not a check, then it is only applied if it's in a taboo area
             # Tempshame is a throwaway value, 0-50, Agree is whether she will wear it out, 2 if yes, 1 if only around you.
 
             if not Check and not Taboo and Custom != 20:
-                #if this is not a custom check and you're in a safe space,
-                if R_Schedule[9]:
-                    #if there is a "private outfit" set, ask to change.
-                    call R_Private_Outfit
-                return
-
+                    #if this is not a custom check and you're in a safe space,
+                    if R_Schedule[9]:
+                            #if there is a "private outfit" set, ask to change.
+                            call R_Private_Outfit
+                    return
+                            
             #If she's wearing a bra of some kind
-            if R_Chest == "tank":
+            if Custom == 20 and R_Uptop: 
+                $ Count = 0
+            elif IsOutfitModdedRogue("Chest"):
+                $ Count = Mod_Rogue_OutfitShame("Chest")
+            elif R_Chest == "tank":                                              
                 $ Count = 20
             elif R_Chest == "buttoned tank":
                 $ Count = 15
             elif R_Chest == "sports bra":
+                $ Count = 15
+            elif R_Chest == "bikini top":
                 $ Count = 15
             elif R_Chest == "bra":
                 $ Count = 10
@@ -5117,7 +5286,11 @@ label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                     $ Count = 0
 
             #If she's wearing an overshirt
-            if R_Over == "pink top":
+            if Custom == 20 and R_Uptop: 
+                $ Count = 0
+            elif IsOutfitModdedRogue("Over"):
+                $ Count += Mod_Rogue_OutfitShame("Over")
+            elif R_Over == "pink top":                                             
                 $ Count += 15
             elif R_Over == "hoodie":
                 $ Count += 15
@@ -5159,10 +5332,16 @@ label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
             else: #If she's missing something on her legs
                         if R_Legs == "pants":                   #If wearing pants commando
                             $ Count = 25
+                        elif IsOutfitModdedRogue("Legs"):
+                            $ Count = Mod_Rogue_OutfitShame("Legs")
                         elif R_Legs:                            #If wearing a skirt commando
                             $ Count = 20
+                        elif IsOutfitModdedRogue("Panties"):
+                            $ Count = Mod_Rogue_OutfitShame("Panties")
                         elif R_Panties == "shorts":             #If wearing shorts
-                            $ Count = 25
+                            $ Count = 25  
+                        elif R_Panties == "bikini bottoms":      #If wearing only bikini bottoms
+                            $ Count = 15
                         elif R_Panties == "green panties":      #If wearing only green panties
                             $ Count = 10
                         elif R_Panties == "lace panties":       #If wearing only lace panties
@@ -5250,6 +5429,10 @@ label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                             call RogueFace("bemused", 1)
                             ch_r "I think this looks is a bit daring to wear."
                             $ Agree = 0
+                    elif Custom == 10 and Tempshame <= 20:  
+                        #if it's a swimsuit. . .
+                        call RogueFace("bemused", 1)
+                        ch_r "Sure, I can swim in this. . ."
                     elif Tempshame <= 25:
                         if ApprovalCheck("Rogue", 2300, TabM=0, C = 0) or ApprovalCheck("Rogue", 700, "I", TabM=0, C = 0):
                             ch_r "Kinky, but I can rock this."
@@ -5275,7 +5458,8 @@ label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                         $ R_Custom2[6] = R_Panties
                         $ R_Custom2[8] = R_Hair
                         $ R_Custom2[9] = R_Hose
-                        $ R_Custom2[0] = 2 if Agree else 1
+                        $ R_Custom2[0] = 2 if Agree else 1   
+                        call Clothing_Schedule_Check("Rogue",5,1) #checks to make sure it's still SFW     
                     elif Custom == 6:
                         $ R_Custom3[1] = R_Arms
                         $ R_Custom3[2] = R_Legs
@@ -5286,46 +5470,7 @@ label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                         $ R_Custom3[8] = R_Hair
                         $ R_Custom3[9] = R_Hose
                         $ R_Custom3[0] = 2 if Agree else 1
-                    elif Custom == 10:
-                        $ R_Custom4[1] = R_Arms
-                        $ R_Custom4[2] = R_Legs
-                        $ R_Custom4[3] = R_Over
-                        $ R_Custom4[4] = R_Neck
-                        $ R_Custom4[5] = R_Chest
-                        $ R_Custom4[6] = R_Panties
-                        $ R_Custom4[8] = R_Hair
-                        $ R_Custom4[9] = R_Hose
-                        $ R_Custom4[0] = 2 if Agree else 1
-                    elif Custom == 11:
-                        $ R_Custom5[1] = R_Arms
-                        $ R_Custom5[2] = R_Legs
-                        $ R_Custom5[3] = R_Over
-                        $ R_Custom5[4] = R_Neck
-                        $ R_Custom5[5] = R_Chest
-                        $ R_Custom5[6] = R_Panties
-                        $ R_Custom5[8] = R_Hair
-                        $ R_Custom5[9] = R_Hose
-                        $ R_Custom5[0] = 2 if Agree else 1
-                    elif Custom == 12:
-                        $ R_Custom6[1] = R_Arms
-                        $ R_Custom6[2] = R_Legs
-                        $ R_Custom6[3] = R_Over
-                        $ R_Custom6[4] = R_Neck
-                        $ R_Custom6[5] = R_Chest
-                        $ R_Custom6[6] = R_Panties
-                        $ R_Custom6[8] = R_Hair
-                        $ R_Custom6[9] = R_Hose
-                        $ R_Custom6[0] = 2 if Agree else 1
-                    elif Custom == 13:
-                        $ R_Custom7[1] = R_Arms
-                        $ R_Custom7[2] = R_Legs
-                        $ R_Custom7[3] = R_Over
-                        $ R_Custom7[4] = R_Neck
-                        $ R_Custom7[5] = R_Chest
-                        $ R_Custom7[6] = R_Panties
-                        $ R_Custom7[8] = R_Hair
-                        $ R_Custom7[9] = R_Hose
-                        $ R_Custom7[0] = 2 if Agree else 1
+                        call Clothing_Schedule_Check("Rogue",6,1)   
                     elif Custom == 7 and Agree:
                         $ R_Gym[1] = R_Arms
                         $ R_Gym[2] = R_Legs
@@ -5335,7 +5480,8 @@ label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                         $ R_Gym[6] = R_Panties
                         $ R_Gym[8] = R_Hair
                         $ R_Gym[9] = R_Hose
-                        $ R_Gym[0] = 2
+                        $ R_Gym[0] = 2     
+                        call Clothing_Schedule_Check("Rogue",4,1)   
                     elif Custom == 9:
                         $ R_Sleepwear[1] = R_Arms
                         $ R_Sleepwear[2] = R_Legs
@@ -5345,7 +5491,17 @@ label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                         $ R_Sleepwear[6] = R_Panties
                         $ R_Sleepwear[8] = R_Hair
                         $ R_Sleepwear[9] = R_Hose
-                        $ R_Sleepwear[0] = 2 if Agree else 1
+                        $ R_Sleepwear[0] = 2 if Agree else 1    
+                    elif Custom == 10:            
+                        $ R_Swim[1] = R_Arms  
+                        $ R_Swim[2] = R_Legs 
+                        $ R_Swim[3] = R_Over
+                        $ R_Swim[4] = R_Neck 
+                        $ R_Swim[5] = R_Chest 
+                        $ R_Swim[6] = R_Panties
+                        $ R_Swim[8] = R_Hair
+                        $ R_Swim[9] = R_Hose
+                        $ R_Swim[0] = 2 if Agree else 1
                     else: #Typically Custom == 3
                         $ R_Custom[1] = R_Arms
                         $ R_Custom[2] = R_Legs
@@ -5356,6 +5512,7 @@ label Rogue_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                         $ R_Custom[8] = R_Hair
                         $ R_Custom[9] = R_Hose
                         $ R_Custom[0] = 2 if Agree else 1
+                        call Clothing_Schedule_Check("Rogue",3,1)   
             elif Taboo <= 20:
                 # halves shame level if she's comfortable
                 $ Tempshame /= 2

@@ -610,7 +610,7 @@ label Kitty_Movie_Sex(Previous=0,K_Bonus=0, Options=["nothing"]):
                 "You get back to it, [Previous] settles back into her seat with a glare."
             
     
-        if K_Anal and ApprovalCheck("Kitty", 2000, Bonus=(10*K_Bonus)) and PantsNum("Kitty") < 5:
+        if K_Anal and ApprovalCheck("Kitty", 2000, Bonus=(10*K_Bonus)) and PantsNum("Kitty") <= 5:
                     call KittyFace("sexy", 1)
                     if K_Panties:
                         "As you make out, Kitty reaches down and undoes your fly. She pulls her panties aside and shifts into your lap."
@@ -656,7 +656,7 @@ label Kitty_Movie_Sex(Previous=0,K_Bonus=0, Options=["nothing"]):
                     $ P_Semen -= 1
                     $ K_RecentActions.append("anal")                      
                     $ K_DailyActions.append("anal")  
-        elif K_Sex and ApprovalCheck("Kitty", 2000, Bonus=(10*K_Bonus)) and PantsNum("Kitty") < 5:
+        elif K_Sex and ApprovalCheck("Kitty", 2000, Bonus=(10*K_Bonus)) and PantsNum("Kitty") <= 5:
                     call KittyFace("sexy", 1)
                     if K_Panties:
                         "As you make out, Kitty reaches down and undoes your fly. She pulls her panties aside and shifts into your lap."

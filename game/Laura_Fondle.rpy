@@ -548,7 +548,11 @@ label L_FB_Cycle: #Repeating strokes
         if Round == 10:
             ch_l "It's getting late, we should wrap this up."  
         elif Round == 5:
-            ch_l "Tic tock, [L_Petname]."        
+            ch_l "Tic tock, [L_Petname]."    
+            
+        if L_Lust >= 50 and not L_Uptop and (L_Chest or L_Over):
+                $ L_Uptop = 1
+                "Laura grunts and pulls her clothes aside."        
     
     #Round = 0 loop breaks
     call LauraFace("bemused", 0)
@@ -996,6 +1000,10 @@ label L_SB_Cycle: #Repeating strokes
             ch_l "It's getting late, we should wrap this up."  
         elif Round == 5:
             ch_l "Tic tock, [L_Petname]."        
+    
+        if L_Lust >= 50 and not L_Uptop and (L_Chest or L_Over):
+                $ L_Uptop = 1
+                "Laura grunts and pulls her clothes aside."        
     
     #Round = 0 loop breaks
     call LauraFace("bemused", 0)
@@ -2248,7 +2256,7 @@ label L_LP_Prep: #Animation set-up
         
     if not L_Forced and Situation != "auto":
         $ Tempmod = 0
-        if L_Legs == "pants":
+        if L_Legs == "pants" and not L_Upskirt:
             $ Tempmod = 15
         call Laura_Bottoms_Off
         if "angry" in L_RecentActions:
@@ -2275,8 +2283,7 @@ label L_LP_Prep: #Animation set-up
     if L_Legs == "skirt":
         $ L_Upskirt = 1  
         $ L_SeenPanties = 1
-    if not L_Panties:
-        call Laura_First_Bottomless(1)
+    call Laura_First_Bottomless(1)
     
     $ Line = 0
     $ Cnt = 0

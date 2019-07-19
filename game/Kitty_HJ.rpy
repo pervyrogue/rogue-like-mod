@@ -1387,7 +1387,7 @@ label K_Blowjob:
                         call Statup("Kitty", "Inbt", 80, 1) 
                         call Statup("Kitty", "Inbt", 60, 3) 
                         call KittyFace("confused", 1)
-                        $ K_Arms = 1
+                        $ Kitty_Arms = 1
                         if K_Hand:
                             ch_k "Maybe I could just use my hand?"
                         else:
@@ -1401,7 +1401,7 @@ label K_Blowjob:
                                 jump KHJ_Prep
                             "Nah, if it's not a BJ, forget it.":
                                 call Statup("Kitty", "Love", 200, -2)                                
-                                $ K_Arms = 0                
+                                $ Kitty_Arms = 0                
                                 ch_k "Ok, your loss."  
                                 call Statup("Kitty", "Obed", 70, 2)  
                     
@@ -1872,7 +1872,7 @@ label K_Dildo_Pussy:
     
     if Situation == "Kitty":                                                                  #Kitty auto-starts   
                 if Approval > 2:                                                      # fix, add kitty auto stuff here
-                    if K_Legs == "skirt":
+                    if K_Legs == "blue skirt":
                         "Kitty grabs her dildo, hiking up her skirt as she does."
                         $ K_Upskirt = 1
                     elif K_Legs == "pants":
@@ -2488,7 +2488,7 @@ label K_Dildo_Ass:
     if Situation == "Kitty":                                                                  
             #Kitty auto-starts   
             if Approval > 2:                                                      # fix, add kitty auto stuff here
-                if K_Legs == "skirt":
+                if K_Legs == "blue skirt":
                     "Kitty grabs her dildo, hiking up her skirt as she does."
                     $ K_Upskirt = 1
                 elif K_Legs == "pants":

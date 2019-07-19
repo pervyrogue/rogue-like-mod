@@ -362,30 +362,50 @@ init python:
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     def ApprovalCheck(Chr = "Rogue", T = 1000, Type = "LOI", Spread = 150, TmpM = 1, TabM = 0, C = 1, Bonus = 0, Loc = 0, Check=0):  
-        # $ Count = ApprovalCheck(125, Chr="Rogue")
+        # $ Count = ApprovalCheck("Rogue",125)
         # T is the value being checked against, Type is the LOI condition in play, Spread is the difference between basic approval and high approval
         # TmpM is Tempmod multiplier, TabM is the taboo modifier, C is cologne modifiers, Bonus is a random bonus applied, and Loc is the girl's location
 
         if Chr == "Kitty":                                     
                 #sets the data based on Kitty's data
+                if Type == "X":
+                    if K_Lust >= T:
+                        return 1
+                    else:
+                        return 0
                 L = K_Love
                 O = K_Obed
                 I = K_Inbt
                 Loc = K_Loc if not Loc else Loc
         elif Chr == "Emma":                                      
                 #sets the data based on Emma's data
+                if Type == "X":
+                    if E_Lust >= T:
+                        return 1
+                    else:
+                        return 0
                 L = E_Love
                 O = E_Obed
                 I = E_Inbt
                 Loc = E_Loc if not Loc else Loc
         elif Chr == "Laura":                                      
                 #sets the data based on Laura's data
+                if Type == "X":
+                    if L_Lust >= T:
+                        return 1
+                    else:
+                        return 0
                 L = L_Love
                 O = L_Obed
                 I = L_Inbt
                 Loc = L_Loc if not Loc else Loc
         else: # Chr == "Rogue":                                 
                 #sets the data based on Rogue's data
+                if Type == "X":
+                    if R_Lust >= T:
+                        return 1
+                    else:
+                        return 0
                 L = R_Love
                 O = R_Obed
                 I = R_Inbt
@@ -526,10 +546,199 @@ init python:
             
     #end RoomFull
 
-
-    def HoseNum(Chr = "Rogue"): 
-            #This function determines how seethrough her hose is, 5 for "visible," 10 for "solid"
+    
+    def ChestNum(Chr = "Rogue"): 
+                #This function determines how much Bra are on, 5 for decent, less for less.
                 if Chr == "Rogue":
+                        if R_Uptop and R_Chest:
+                            return 1
+                        if R_Chest == "tank":
+                            return 5
+                        elif R_Chest == "lace bra":
+                            return 2
+                        elif R_Chest:
+                            return 4
+                        else:
+                            return 0
+                elif Chr == "Kitty":
+                        if K_Uptop and K_Chest:
+                            return 1
+                        if K_Chest == "lace bra":
+                            return 2    
+                        elif K_Chest:
+                            return 4      
+                        else:
+                            return 0
+                elif Chr == "Emma":   
+                        if E_Uptop and E_Chest:
+                            return 1    
+                        if E_Chest == "corset":
+                            return 5     
+                        elif E_Chest == "lace bra":
+                            return 2    
+                        elif E_Chest:
+                            return 4      
+                        else:
+                            return 0
+                elif Chr == "Laura":
+                        if L_Uptop and L_Chest:
+                            return 1
+                        if L_Chest == "leather bra":
+                            return 5         
+                        elif L_Chest == "wolvie top":
+                            return 3        
+                        elif L_Chest == "lace corset":
+                            return 2    
+                        elif L_Chest:
+                            return 4  
+                        else:
+                            return 0                            
+                #if it falls though. . .
+                return 0 
+    
+    def OverNum(Chr = "Rogue"): 
+                #This function determines how much Over are on, 5 for decent, less for less.
+                if Chr == "Rogue":
+                        if R_Uptop and R_Over:
+                            return 1
+                        if R_Over == "mesh top":
+                            return 2
+                        elif R_Over == "towel":
+                            return 3
+                        elif R_Over:
+                            return 5
+                        else:
+                            return 0
+                elif Chr == "Kitty":
+                        if K_Uptop and K_Over:
+                            return 1
+                        if K_Over == "pink top":
+                            return 4
+                        elif K_Over == "towel":
+                            return 3
+                        elif K_Over:
+                            return 5
+                        else:
+                            return 0
+                elif Chr == "Emma":   
+                        if E_Uptop and E_Over:
+                            return 1
+                        if E_Over == "jacket":
+                            return 4
+                        elif E_Over == "towel":
+                            return 3
+                        elif E_Over == "nighty":
+                            return 3
+                        elif E_Over:
+                            return 5
+                        else:
+                            return 0
+                elif Chr == "Laura":
+                        if L_Uptop and L_Over:
+                            return 1
+                        if L_Over == "jacket":
+                            return 4
+                        elif L_Over == "towel":
+                            return 3
+                        elif L_Over:
+                            return 5
+                        else:
+                            return 0                         
+                #if it falls though. . .
+                return 0 
+                
+    def PantsNum(Chr = "Rogue"): 
+                #This function determines how much pants are on, 10 for pants, 5 for skirt, <5 for less.
+                if Chr == "Rogue":
+                        if R_Upskirt and R_Legs:
+                            return 1
+                        if R_Legs == "skirt":
+                            return 5
+                        elif R_Legs == "pants":
+                            return 10
+                        elif R_Panties == "shorts":
+                            return 6
+                        else:
+                            return 0
+                elif Chr == "Kitty":
+                        if K_Upskirt and K_Legs:
+                            return 1
+                        if K_Legs == "black jeans":
+                            return 10            
+                        elif K_Legs == "capris":
+                            return 10    
+                        elif K_Legs == "yoga pants":
+                            return 8                    
+                        elif K_Legs == "shorts":
+                            return 6       
+                        elif K_Legs == "blue skirt":
+                            return 5
+                        else:
+                            return 0
+                elif Chr == "Emma":
+                        if E_Upskirt and E_Legs:
+                            return 1
+                        if E_Legs == "pants":
+                            return 10                           
+                        elif E_Legs == "yoga pants":
+                            return 10 
+                        elif E_Legs == "skirt":
+                            return 5   
+                        else:
+                            return 0
+                elif Chr == "Laura":
+                        if L_Upskirt and L_Legs:
+                            return 1
+                        if L_Legs == "leather pants":
+                            return 10        
+                        elif L_Legs == "skirt":
+                            return 5   
+                        elif L_Legs == "mesh pants":
+                            return 2        
+                        else:
+                            return 0
+                            
+                #if it falls though. . .
+                return 0 
+    
+    def PantiesNum(Chr = "Rogue"): 
+                #This function determines how much panties are on, 5 for decent, less for less.
+                if Chr == "Rogue":
+                        if R_PantiesDown and R_Panties:
+                            return 1
+                        if R_Panties == "lace panties":
+                            return 2
+                        elif R_Panties:
+                            return 5
+                elif Chr == "Kitty":
+                        if K_PantiesDown and K_Panties:
+                            return 1
+                        if K_Panties == "lace panties":
+                            return 2
+                        elif K_Panties:
+                            return 5
+                elif Chr == "Emma":  
+                        if E_PantiesDown and E_Panties:
+                            return 1  
+                        if E_Panties == "lace panties":
+                            return 2
+                        elif E_Panties:
+                            return 5
+                elif Chr == "Laura":
+                        if L_PantiesDown and L_Panties:
+                            return 1
+                        if L_Panties == "lace panties":
+                            return 2
+                        elif L_Panties:
+                            return 5                        
+                #if it falls though. . .
+                return 0 
+                
+    def HoseNum(Chr = "Rogue"): 
+                #This function determines how seethrough her hose is, 5 for "visible," 10 for "solid"
+                if Chr == "Rogue":
+                            if R_PantiesDown and R_Hose:
+                                return 0
                             if R_Hose == "stockings":
                                 return 1
                             elif R_Hose == "pantyhose":
@@ -546,16 +755,22 @@ init python:
                                 return 0
                                 
                 elif Chr == "Kitty":
+                            if K_PantiesDown and K_Hose:
+                                return 0
                             if K_Hose == "stockings":
                                 return 1
                             else:
                                 return 0
                 elif Chr == "Emma":
+                            if E_PantiesDown and E_Hose:
+                                return 0
                             if E_Hose == "stockings":
                                 return 1
                             else:
                                 return 0
                 elif Chr == "Laura":
+                            if L_PantiesDown and L_Hose:
+                                return 0
                             if L_Hose == "stockings":
                                 return 1
                             elif L_Hose == "stockings and garterbelt":
@@ -565,49 +780,7 @@ init python:
                                 
                 #if it falls though. . .        
                 return 0 
-            
-    def PantsNum(Chr = "Rogue"): 
-            #This function determines how much pants are on, 10 for pants, 5 for shorts/skirt, <5 for less.
-                if Chr == "Rogue":
-                        if R_Legs == "skirt":
-                            return 5
-                        elif R_Legs == "pants":
-                            return 10
-                        else:
-                            return 0
-                elif Chr == "Kitty":
-                        if K_Legs == "black jeans":
-                            return 10            
-                        elif K_Legs == "capris":
-                            return 10    
-                        elif K_Legs == "yoga pants":
-                            return 8                    
-                        elif K_Legs == "shorts":
-                            return 5
-                        else:
-                            return 0
-                elif Chr == "Emma":
-                        if E_Legs == "pants":
-                            return 10                           
-                        elif E_Legs == "yoga pants":
-                            return 10 
-                        elif E_Legs == "skirt":
-                            return 5   
-                        else:
-                            return 0
-                elif Chr == "Laura":
-                        if L_Legs == "leather pants":
-                            return 10        
-                        elif L_Legs == "skirt":
-                            return 5   
-                        elif L_Legs == "mesh pants":
-                            return 3        
-                        else:
-                            return 0
-                            
-                #if it falls though. . .
-                return 0 
-            
+       
     def ClothingCheck(Chr = "Rogue", C = 0): 
                 C = 0
                 #This function counts how many items of clothing she has on and returns that number.
@@ -657,6 +830,70 @@ init python:
                             C += 1
                 return C 
                 
+    def SeenCheck(Chr = "Rogue", Check=0, C = 0): 
+                C = 0
+                #This function returns 1-2 if she is partiallly naked and this is the first the player's seen of it.
+                # "Check" is 1 if it's intended to see whether she has been seen at all.
+                # "Check" is 2 if it's intended to see whether she has been seen topless.
+                # "Check" is 3 if it's intended to see whether she has been seen bottomless.
+                if Chr == "Rogue":
+                        if not R_SeenChest:
+                            if (not R_Over and not R_Chest) or R_Uptop or Check == 1 or Check == 2:
+                                        C += 1
+                        if not R_SeenPussy:
+                            if Check == 1 or Check == 3:
+                                        C += 1
+                            elif not R_Legs or R_Upskirt: #if no pants or pants down
+                                if R_PantiesDown or (HoseNum("Rogue") < 5 and not R_Panties): # if no panties and loose hose or they're down
+                                        C += 1
+                elif Chr == "Kitty":
+                        if not K_SeenChest:
+                            if (not K_Over and not K_Chest) or K_Uptop or Check == 1 or Check == 2:
+                                        C += 1
+                        if not K_SeenPussy:
+                            if Check == 1 or Check == 3:
+                                        C += 1
+                            elif not K_Legs or K_Upskirt: #if no pants or pants down
+                                if K_PantiesDown or (HoseNum("Rogue") < 5 and not K_Panties): # if no panties and loose hose or they're down
+                                        C += 1
+                elif Chr == "Emma":
+                        if not E_SeenChest:
+                            if (not E_Over and not E_Chest) or E_Uptop or Check == 1 or Check == 2:
+                                        C += 1
+                        if not E_SeenPussy:
+                            if Check == 1 or Check == 3:
+                                        C += 1
+                            elif not E_Legs or E_Upskirt: #if no pants or pants down
+                                if E_PantiesDown or (HoseNum("Rogue") < 5 and not E_Panties): # if no panties and loose hose or they're down
+                                        C += 1
+                elif Chr == "Laura":
+                        if not L_SeenChest:
+                            if (not L_Over and not L_Chest) or L_Uptop or Check == 1 or Check == 2:
+                                        C += 1
+                        if not L_SeenPussy:
+                            if Check == 1 or Check == 3:
+                                        C += 1
+                            elif not L_Legs or L_Upskirt: #if no pants or pants down
+                                if L_PantiesDown or (HoseNum("Rogue") < 5 and not L_Panties): # if no panties and loose hose or they're down
+                                        C += 1
+                return C 
+                
+    def ExhibitionistCheck(Chr = "Rogue"): 
+                #This function returns 1-2 if she is partiallly naked and this is the first the player's seen of it.
+                if Chr == "Rogue":
+                        if "exhibitionist" in R_Traits:
+                            return 1
+                elif Chr == "Kitty":
+                        if "exhibitionist" in K_Traits:
+                            return 1
+                elif Chr == "Emma":
+                        if "exhibitionist" in E_Traits:
+                            return 1
+                elif Chr == "Laura":
+                        if "exhibitionist" in L_Traits:
+                            return 1
+                return 0 
+                
     def GirlLikeCheck(GirlA=0,GirlB=0):
             # returns how much A likes B
             # if GirlLikeCheck("Rogue","Kitty") >= 500:
@@ -690,6 +927,84 @@ init python:
                     elif GirlB == "Emma":
                                 return L_LikeEmma
             return 0        
+
+
+    def CheckWord(Girl=0,Type=0,Check=0):
+            # checks whether the girl has the required stat
+            # CheckWord("Rogue","Recent","something")
+            if Girl == "Rogue":
+                    if Type == "Recent":
+                        if Check in R_RecentActions:
+                            return 1
+                    elif Type == "Daily":
+                        if Check in R_DailyActions:
+                            return 1
+                    elif Type == "Traits":
+                        if Check in R_Traits:
+                            return 1
+                    elif Type == "History":
+                        if Check in R_History:
+                            return 1 
+                    elif Type == "Petnames":
+                        if Check in R_Petnames:
+                            return 1                                      
+            elif Girl == "Kitty":
+                    if Type == "Recent":
+                        if Check in K_RecentActions:
+                            return 1
+                    elif Type == "Daily":
+                        if Check in K_DailyActions:
+                            return 1
+                    elif Type == "Traits":
+                        if Check in K_Traits:
+                            return 1
+                    elif Type == "History":
+                        if Check in K_History:
+                            return 1    
+                    elif Type == "Petnames":
+                        if Check in K_Petnames:
+                            return 1      
+            elif Girl == "Emma":
+                    if Type == "Recent":
+                        if Check in E_RecentActions:
+                            return 1
+                    elif Type == "Daily":
+                        if Check in E_DailyActions:
+                            return 1
+                    elif Type == "Traits":
+                        if Check in E_Traits:
+                            return 1
+                    elif Type == "History":
+                        if Check in E_History:
+                            return 1     
+                    elif Type == "Petnames":
+                        if Check in E_Petnames:
+                            return 1     
+            elif Girl == "Laura":
+                    if Type == "Recent":
+                        if Check in L_RecentActions:
+                            return 1
+                    elif Type == "Daily":
+                        if Check in L_DailyActions:
+                            return 1
+                    elif Type == "Traits":
+                        if Check in L_Traits:
+                            return 1
+                    elif Type == "History":
+                        if Check in L_History:
+                            return 1    
+                    elif Type == "Petnames":
+                        if Check in L_Petnames:
+                            return 1      
+            return 0
+label Speed_Shift(S=0):   
+    #adjusts the speed of animations to S, uses fade to hide glitches
+    # call Speed_Shift(2)
+    $ Speed = S
+    show blackscreen onlayer black 
+    pause 0.01 
+    hide blackscreen onlayer black 
+    return
 
 label Statup(Name=0, Flavor=0, Check=100, Value=1, Greater=0, Type=0, Overflow=0, BStat=0, XPOS = 0.75):
         # Name is the target girl
@@ -950,6 +1265,19 @@ label RoomStatboost(Type=0,Check=0,Amount=0):
                 call Statup("Laura", Type, Check, Amount)
         return
     
+label Quick_O(Girl=0,Quick=1):
+    #used to call up a quick orgasm, mostly animation. 
+    # call Quick_O("Rogue"), used 0 if you want the full dialogs.
+    if Girl == "Rogue":
+            call R_Cumming(1)
+    elif Girl == "Kitty":
+            call K_Cumming(1)
+    elif Girl == "Emma":
+            call E_Cumming(1)
+    elif Girl == "Laura":
+            call L_Cumming(1)
+    return
+    
     
 label AnyFace(Girl=0,Emote = 5, B = 5, M = 0, Mouth = 0, Eyes = 0, Brows = 0):
         #this sends a face change to any girl listed
@@ -976,19 +1304,98 @@ label AnyLine(Girl=0,Line=". . ."):
                 ch_l "[Line]"
         return
 
-label AnyOutfit(Girl=0,OutfitTemp = 5, Spunk = 0, Undressed = 0, Changed = 1, Perm=0):
+label AnyOutfit(Girl=0,OutfitTemp = 5, Spunk = 0, Undressed = 0, Changed = 1, Perm=0, TempOver=0,TempChest=0,TempLegs=0,TempPanties=0,TempUpskirt=1,TempUptop=1,TempHose=0):
         #this sends a face change to any girl listed
-        # "Perm" gets sent if the outfit is meant to stick
+        # "Perm" gets sent if the outfit is meant to stick        
+        # if OutfitTemp == 5: $ R_OutfitTemp = R_Outfit
+        # if OutfitTemp == 6: $ R_OutfitTemp = R_OutfitDay
+        # Above that, it's based on changing one specific clothing item, 
+        # if OutfitTemp == 7: $ R_Over = TempOver
+        # if OutfitTemp == 8: $ R_Chest = TempChest
+        # if OutfitTemp == 9: $ R_Legs = TempLegs
+        # if OutfitTemp == 10: $ R_Panties = TempPanties
+        # if OutfitTemp == 11: $ R_Upskirt = TempUpskirt
+        # if OutfitTemp == 12: $ R_Uptop = TempUptop
+        # if OutfitTemp == 13: $ R_Hose = TempHose
+                        
         if Girl == "Rogue": 
+                    if 7 <= OutfitTemp <= 20:
+                        # if Outfittemp is between 7 and 20                        
+                        if OutfitTemp == 7: 
+                                $ R_Over = TempOver
+                        elif OutfitTemp == 8: 
+                                $ R_Chest = TempChest
+                        elif OutfitTemp == 9: 
+                                $ R_Legs = TempLegs
+                        elif OutfitTemp == 10: 
+                                $ R_Panties = TempPanties
+                        elif OutfitTemp == 11: 
+                                $ R_Upskirt = TempUpskirt
+                        elif OutfitTemp == 12: 
+                                $ R_Uptop = TempUptop
+                        elif OutfitTemp == 13: 
+                                $ R_Hose = TempHose
+                    else:
                         $ R_Outfit = OutfitTemp if Perm else R_Outfit
                         call RogueOutfit(OutfitTemp,Spunk,Undressed,Changed)
         elif Girl == "Kitty": 
+                    if 7 <= OutfitTemp <= 20:
+                        # if Outfittemp is between 7 and 20                        
+                        if OutfitTemp == 7: 
+                                $ K_Over = TempOver
+                        elif OutfitTemp == 8: 
+                                $ K_Chest = TempChest
+                        elif OutfitTemp == 9: 
+                                $ K_Legs = TempLegs
+                        elif OutfitTemp == 10: 
+                                $ K_Panties = TempPanties
+                        elif OutfitTemp == 11: 
+                                $ K_Upskirt = TempUpskirt
+                        elif OutfitTemp == 12: 
+                                $ K_Uptop = TempUptop
+                        elif OutfitTemp == 13: 
+                                $ K_Hose = TempHose
+                    else:
                         $ K_Outfit = OutfitTemp if Perm else K_Outfit
                         call KittyOutfit(OutfitTemp,Spunk,Undressed,Changed)
         elif Girl == "Emma": 
+                    if 7 <= OutfitTemp <= 20:
+                        # if Outfittemp is between 7 and 20                        
+                        if OutfitTemp == 7: 
+                                $ E_Over = TempOver
+                        elif OutfitTemp == 8: 
+                                $ E_Chest = TempChest
+                        elif OutfitTemp == 9: 
+                                $ E_Legs = TempLegs
+                        elif OutfitTemp == 10: 
+                                $ E_Panties = TempPanties
+                        elif OutfitTemp == 11: 
+                                $ E_Upskirt = TempUpskirt
+                        elif OutfitTemp == 12: 
+                                $ E_Uptop = TempUptop
+                        elif OutfitTemp == 13: 
+                                $ E_Hose = TempHose
+                    else:
                         $ E_Outfit = OutfitTemp if Perm else E_Outfit
                         call EmmaOutfit(OutfitTemp,Spunk,Undressed,Changed)
         elif Girl == "Laura": 
+                    if 7 <= OutfitTemp <= 20:
+                        # if Outfittemp is between 7 and 20                        
+                        if OutfitTemp == 7: 
+                                $ L_Over = TempOver
+                        elif OutfitTemp == 8: 
+                                $ L_Chest = TempChest
+                        elif OutfitTemp == 9: 
+                                $ L_Legs = TempLegs
+                        elif OutfitTemp == 10: 
+                                $ L_Panties = TempPanties
+                        elif OutfitTemp == 11: 
+                                $ L_Upskirt = TempUpskirt
+                        elif OutfitTemp == 12: 
+                                $ L_Uptop = TempUptop
+                        elif OutfitTemp == 13: 
+                                $ L_Hose = TempHose
+                    else:
                         $ L_Outfit = OutfitTemp if Perm else L_Outfit
                         call LauraOutfit(OutfitTemp,Spunk,Undressed,Changed)
         return
@@ -1366,7 +1773,7 @@ label GirlLikesGirl(ChrA = "Rogue", ChrB = "Kitty", Check=200, Modifier = 1, Aut
         # returns 2 if very into it, 1 if ok with it, 0 if not cool with it.
 
 label GirlWaitAttract(Local=0,Check=70,D20=0,Teach=0):
-    #call GirlWaitAttract(1,5,)
+    #call GirlWaitAttract(1,5)
     #This adjusts girl's liking each other based on shared activities
     #Local =1 only checks if they are in the room with you.
     #it goes R+K, R+E, R+L, K+E, K+L, E+L, etc. 
@@ -1391,11 +1798,11 @@ label GirlWaitAttract(Local=0,Check=70,D20=0,Teach=0):
                         $ R_LikeKitty += 2 if R_LikeKitty <= 90 else 0 
                         $ K_LikeRogue += 2 if K_LikeRogue <= 90 else 0
                 else:
-                        $ R_LikeKitty += D20 if R_LikeKitty <= 70 else 0 
-                        $ K_LikeRogue += D20 if K_LikeRogue <= 70 else 0
+                        $ R_LikeKitty += D20 if R_LikeKitty <= Check else 0 
+                        $ K_LikeRogue += D20 if K_LikeRogue <= Check else 0
                         
-                $ R_LikeKitty += (int(K_Shame/5)) if R_LikeKitty >= 70 else 0 #Rogue likes Kitty based on how slutty Kitty looks
-                $ K_LikeRogue += (int(R_Shame/5)) if K_LikeRogue >= 70 else 0 #Kitty likes Rogue based on how slutty Rogue looks 
+                $ R_LikeKitty += (int(K_Shame/5)) if R_LikeKitty >= Check else 0 #Rogue likes Kitty based on how slutty Kitty looks
+                $ K_LikeRogue += (int(R_Shame/5)) if K_LikeRogue >= Check else 0 #Kitty likes Rogue based on how slutty Rogue looks 
     if R_Loc == E_Loc:   
             #This adjusts how much Rogue and Emma like each other if they are in the same room    
             if not Local or R_Loc == bg_current:    
@@ -1409,11 +1816,11 @@ label GirlWaitAttract(Local=0,Check=70,D20=0,Teach=0):
                         $ R_LikeEmma += 2 if R_LikeEmma <= 90 else 0 
                         $ E_LikeRogue += 3 if E_LikeRogue <= 90 else 0
                 else:
-                        $ R_LikeEmma += D20 if R_LikeEmma <= 70 else 0 
-                        $ E_LikeRogue += D20 if E_LikeRogue <= 70 else 0
+                        $ R_LikeEmma += D20 if R_LikeEmma <= Check else 0 
+                        $ E_LikeRogue += D20 if E_LikeRogue <= Check else 0
                         
-                $ R_LikeEmma += (int(E_Shame/5)) if R_LikeEmma >= 70 else 0 #Rogue likes Emma based on how slutty Emma looks
-                $ E_LikeRogue += (int(R_Shame/4)) if E_LikeRogue >= 70 else 0 #Emma likes Rogue based on how slutty Rogue looks                       
+                $ R_LikeEmma += (int(E_Shame/5)) if R_LikeEmma >= Check else 0 #Rogue likes Emma based on how slutty Emma looks
+                $ E_LikeRogue += (int(R_Shame/4)) if E_LikeRogue >= Check else 0 #Emma likes Rogue based on how slutty Rogue looks                       
     if R_Loc == L_Loc:            
             #This adjusts how much Rogue and Laura like each other if they are in the same room 
             if not Local or R_Loc == bg_current:
@@ -1427,11 +1834,11 @@ label GirlWaitAttract(Local=0,Check=70,D20=0,Teach=0):
                         $ R_LikeLaura += 2 if R_LikeLaura <= 90 else 0 
                         $ L_LikeRogue += 2 if L_LikeRogue <= 90 else 0
                 else:
-                        $ R_LikeLaura += D20 if R_LikeLaura <= 70 else 0 
-                        $ L_LikeRogue += D20 if L_LikeRogue <= 70 else 0
+                        $ R_LikeLaura += D20 if R_LikeLaura <= Check else 0 
+                        $ L_LikeRogue += D20 if L_LikeRogue <= Check else 0
                         
-                $ R_LikeLaura += (int(L_Shame/5)) if R_LikeLaura >= 70 else 0 #Rogue likes Laura based on how slutty Laura looks
-                $ L_LikeRogue += (int(R_Shame/5)) if L_LikeRogue >= 70 else 0 #Laura likes Rogue based on how slutty Rogue looks                 
+                $ R_LikeLaura += (int(L_Shame/5)) if R_LikeLaura >= Check else 0 #Rogue likes Laura based on how slutty Laura looks
+                $ L_LikeRogue += (int(R_Shame/5)) if L_LikeRogue >= Check else 0 #Laura likes Rogue based on how slutty Rogue looks                 
     #end Rogue checks
     
     if K_Loc == E_Loc:  
@@ -1447,11 +1854,11 @@ label GirlWaitAttract(Local=0,Check=70,D20=0,Teach=0):
                         $ K_LikeEmma += 2 if K_LikeEmma <= 90 else 0 
                         $ E_LikeKitty += 3 if E_LikeKitty <= 90 else 0
                 else:
-                        $ K_LikeEmma += D20 if K_LikeEmma <= 70 else 0 
-                        $ E_LikeKitty += D20 if E_LikeKitty <= 70 else 0
+                        $ K_LikeEmma += D20 if K_LikeEmma <= Check else 0 
+                        $ E_LikeKitty += D20 if E_LikeKitty <= Check else 0
                         
-                $ K_LikeEmma += (int(E_Shame/5)) if K_LikeEmma >= 70 else 0 #Kitty likes Emma based on how slutty Emma looks
-                $ E_LikeKitty += (int(K_Shame/4)) if E_LikeKitty >= 70 else 0 #Emma likes Kitty based on how slutty Kitty looks
+                $ K_LikeEmma += (int(E_Shame/5)) if K_LikeEmma >= Check else 0 #Kitty likes Emma based on how slutty Emma looks
+                $ E_LikeKitty += (int(K_Shame/4)) if E_LikeKitty >= Check else 0 #Emma likes Kitty based on how slutty Kitty looks
     if K_Loc == L_Loc:            
             #This adjusts how much Kitty and Laura like each other if they are in the same room 
             if not Local or K_Loc == bg_current:
@@ -1465,11 +1872,11 @@ label GirlWaitAttract(Local=0,Check=70,D20=0,Teach=0):
                         $ K_LikeLaura += 2 if K_LikeLaura <= 90 else 0 
                         $ L_LikeKitty += 2 if L_LikeKitty <= 90 else 0
                 else:
-                        $ K_LikeLaura += D20 if K_LikeLaura <= 70 else 0 
-                        $ L_LikeKitty += D20 if L_LikeKitty <= 70 else 0
+                        $ K_LikeLaura += D20 if K_LikeLaura <= Check else 0 
+                        $ L_LikeKitty += D20 if L_LikeKitty <= Check else 0
                         
-                $ K_LikeLaura += (int(L_Shame/5)) if K_LikeLaura >= 70 else 0 #Kitty likes Laura based on how slutty Laura looks
-                $ L_LikeKitty += (int(K_Shame/5)) if L_LikeKitty >= 70 else 0 #Laura likes Kitty based on how slutty Kitty looks                 
+                $ K_LikeLaura += (int(L_Shame/5)) if K_LikeLaura >= Check else 0 #Kitty likes Laura based on how slutty Laura looks
+                $ L_LikeKitty += (int(K_Shame/5)) if L_LikeKitty >= Check else 0 #Laura likes Kitty based on how slutty Kitty looks                 
     #end Kitty checks
     
     if E_Loc == L_Loc:   
@@ -1485,11 +1892,11 @@ label GirlWaitAttract(Local=0,Check=70,D20=0,Teach=0):
                         $ E_LikeLaura += 2 if E_LikeLaura <= 90 else 0 
                         $ L_LikeEmma += 3 if L_LikeEmma <= 90 else 0
                 else:
-                        $ E_LikeLaura += D20 if E_LikeLaura <= 70 else 0 
-                        $ L_LikeEmma += D20 if L_LikeEmma <= 70 else 0
+                        $ E_LikeLaura += D20 if E_LikeLaura <= Check else 0 
+                        $ L_LikeEmma += D20 if L_LikeEmma <= Check else 0
                         
-                $ E_LikeLaura += (int(L_Shame/5)) if E_LikeLaura >= 70 else 0 #Emma likes Laura based on how slutty Laura looks
-                $ L_LikeEmma += (int(E_Shame/4)) if L_LikeEmma >= 70 else 0 #Laura likes Emma based on how slutty Emma looks                       
+                $ E_LikeLaura += (int(L_Shame/5)) if E_LikeLaura >= Check else 0 #Emma likes Laura based on how slutty Laura looks
+                $ L_LikeEmma += (int(E_Shame/4)) if L_LikeEmma >= Check else 0 #Laura likes Emma based on how slutty Emma looks                       
     #end Emma checks
     
     if Teach:
@@ -1808,11 +2215,54 @@ label DrainWord(Character = "Rogue", Word = "word", Recent = 1, Daily = 1):
                                         $ P_DailyActions.remove(Word)    
             return
 
+label AnyWord(Girl=0,Only=0,Recent=0,Daily=0,Trait=0,History=0):
+            #applies variables to appropriate character stats
+            # call Anyword(Girl,1,0,0,0,0)
+            #if Only, then only apply it if it's not already there
+            if Girl == "Rogue":
+                    if (Recent and not Only) or (Recent and Recent not in R_RecentActions):
+                            $ R_RecentActions.append(Recent)
+                    if (Daily and not Only) or (Daily and Daily not in R_DailyActions):
+                            $ R_DailyActions.append(Daily)
+                    if (Trait and not Only) or (Trait and Trait not in R_Traits):
+                            $ R_Traits.append(Trait)
+                    if (History and not Only) or (History and History not in R_History):
+                            $ R_History.append(History)
+            elif Girl == "Kitty":
+                    if (Recent and not Only) or (Recent and Recent not in K_RecentActions):
+                            $ K_RecentActions.append(Recent)
+                    if (Daily and not Only) or (Daily and Daily not in K_DailyActions):
+                            $ K_DailyActions.append(Daily)
+                    if (Trait and not Only) or (Trait and Trait not in K_Traits):
+                            $ K_Traits.append(Trait)
+                    if (History and not Only) or (History and History not in K_History):
+                            $ K_History.append(History)
+            elif Girl == "Emma":
+                    if (Recent and not Only) or (Recent and Recent not in E_RecentActions):
+                            $ E_RecentActions.append(Recent)
+                    if (Daily and not Only) or (Daily and Daily not in E_DailyActions):
+                            $ E_DailyActions.append(Daily)
+                    if (Trait and not Only) or (Trait and Trait not in E_Traits):
+                            $ E_Traits.append(Trait)
+                    if (History and not Only) or (History and History not in E_History):
+                            $ E_History.append(History)
+            elif Girl == "Laura":
+                    if (Recent and not Only) or (Recent and Recent not in L_RecentActions):
+                            $ L_RecentActions.append(Recent)
+                    if (Daily and not Only) or (Daily and Daily not in L_DailyActions):
+                            $ L_DailyActions.append(Daily)
+                    if (Trait and not Only) or (Trait and Trait not in L_Traits):
+                            $ L_Traits.append(Trait)
+                    if (History and not Only) or (History and History not in L_History):
+                            $ L_History.append(History)
+            return
+            
+#End AnyWord / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
 
 
 #This is intended to clear the room of non-essential characters
 #the named character is the one who stays, everyone else is kicked out.
-label CleartheRoom(Character = "Rogue", Passive = 0, Silent = 0, Check = 0, Girls=[]):
+label CleartheRoom(Character = 0, Passive = 0, Silent = 0, Check = 0, Girls=[]):
             #Character is the one asking to clear the room. 
             #Passive is when the second person leaves on their own. 
             #Silent removes dialog
@@ -1828,7 +2278,7 @@ label CleartheRoom(Character = "Rogue", Passive = 0, Silent = 0, Check = 0, Girl
             if Character != "Laura" and (L_Loc == bg_current or "Laura" in Party):    
                     $ Girls.append("Laura") 
                     
-            if Check:
+            if Check:                
                     return len(Girls) #test this, hope it works. . .
                             
             $ Nearby = [] #empties the nearby list
@@ -1901,8 +2351,11 @@ label CleartheRoom(Character = "Rogue", Passive = 0, Silent = 0, Check = 0, Girl
                     if "arriving" in R_RecentActions:
                             call DrainWord("Rogue","arriving") 
                     if bg_current == "bg rogue":
-                            #if the girl is not Rogue but you're in Rogue's room, the girl takes you to her room
-                            call TaketoRoom(Character)
+                            if Character != "All": #if it's not clearing all girls. . .
+                                    #if the girl is not Rogue but you're in Rogue's room, the girl takes you to her room
+                                    call TaketoRoom(Character)
+                            else:
+                                    $ R_Loc = "bg campus"
                     else:
                             $ R_Loc = "bg rogue"
                     hide Rogue with easeoutright 
@@ -1920,16 +2373,18 @@ label CleartheRoom(Character = "Rogue", Passive = 0, Silent = 0, Check = 0, Girl
                     if "Kitty" in Party:
                             $ Party.remove("Kitty")  
                     if "leaving" in K_RecentActions:
-                            call DrainWord("Kitty","leaving")  
+                            call DrainWord("Kitty","leaving") 
                     if "arriving" in K_RecentActions:
-                            call DrainWord("Kitty","arriving")                   
+                            call DrainWord("Kitty","arriving")  
                     if bg_current == "bg kitty":
-                            #if the girl is not Kitty but you're in Kitty's room, the girl takes you to her room
-                            call TaketoRoom(Character)
+                            if Character != "All": #if it's not clearing all girls. . .
+                                    #if the girl is not Kitty but you're in Kitty's room, the girl takes you to her room
+                                    call TaketoRoom(Character)
+                            else:
+                                    $ K_Loc = "bg campus"
                     else:
-                            $ K_Loc = "bg kitty"                    
+                            $ K_Loc = "bg kitty"    
                     hide Kitty_Sprite with easeoutbottom 
-                    
             if "Emma" in Girls:                               
                     #if the character asking is not Emma, this removes Emma from the room
                     if Silent:
@@ -1948,12 +2403,14 @@ label CleartheRoom(Character = "Rogue", Passive = 0, Silent = 0, Check = 0, Girl
                     if "arriving" in E_RecentActions:
                             call DrainWord("Emma","arriving")                   
                     if bg_current == "bg emma":
-                            #if the girl is not Emma but you're in Emma's room, the girl takes you to her room
-                            call TaketoRoom(Character)
+                            if Character != "All": #if it's not clearing all girls. . .
+                                    #if the girl is not Emma but you're in Emma's room, the girl takes you to her room
+                                    call TaketoRoom(Character)
+                            else:
+                                    $ E_Loc = "bg campus"
                     else:
                             $ E_Loc = "bg emma"                    
                     hide Emma_Sprite with easeoutright
-                         
             if "Laura" in Girls:  
                     #if the character asking is not Laura, this removes Laura from the room
                     if Silent:
@@ -1972,8 +2429,11 @@ label CleartheRoom(Character = "Rogue", Passive = 0, Silent = 0, Check = 0, Girl
                     if "arriving" in L_RecentActions:
                             call DrainWord("Laura","arriving")                   
                     if bg_current == "bg laura":
-                            #if the girl is not Laura but you're in Laura's room, the girl takes you to her room
-                            call TaketoRoom(Character)
+                            if Character != "All": #if it's not clearing all girls. . .
+                                    #if the girl is not Laura but you're in Laura's room, the girl takes you to her room
+                                    call TaketoRoom(Character)
+                            else:
+                                    $ L_Loc = "bg campus"
                     else:
                             $ L_Loc = "bg laura"                    
                     hide Laura_Sprite with easeoutright
@@ -2455,13 +2915,13 @@ label Dismissed:
         # this is called to dismiss any girl in the local area.
         menu:
             "Did you want to ask someone to leave?"
-            "Rogue" if R_Loc == bg_current:
+            "Rogue" if R_Loc == bg_current or "Rogue" in Party:
                 call Rogue_Dismissed
-            "Kitty" if K_Loc == bg_current:
+            "Kitty" if K_Loc == bg_current or "Kitty" in Party:
                 call Kitty_Dismissed
-            "Emma" if E_Loc == bg_current:
+            "Emma" if E_Loc == bg_current or "Emma" in Party:
                 call Emma_Dismissed
-            "Laura" if L_Loc == bg_current:
+            "Laura" if L_Loc == bg_current or "Laura" in Party:
                 call Laura_Dismissed
             "Nevermind.":
                 pass
@@ -2995,8 +3455,8 @@ label Gym_Clothes(Mode = 0, Girl = 0, GirlsNum = 0): #checked each time you ente
         elif Mode == "pre":
                 #If she was already in the gym when you got there
                 if R_Loc == "bg dangerroom" and "Rogue" not in Party:
-                    $ R_Outfit = "gym"
-                    call RogueOutfit(Changed=1)
+                        $ R_Outfit = "gym"
+                        call RogueOutfit(Changed=1)
         elif Mode == "auto":
                 #If it's set to do it automatically by the call
                 if R_Loc == "bg dangerroom" and R_Loc == bg_current:
@@ -5361,6 +5821,12 @@ label Sex_Dialog(Primary=Ch_Focus,Secondary=0,TempFocus=0,PrimaryLust=0,Secondar
                 #If there's a third person line, play it
                 call Seen_First_Peen(Primary,Secondary,Passive=4)
                 "[Line4]"  
+                if Trigger4 == "suck breasts" or Trigger4 == "fondle breasts":
+                    #if breastplay is involved. . .
+                    if ApprovalCheck(Primary,500,"I",TabM=2) and ApprovalCheck(Primary,50,"X") and (ChestNum(Primary) > 1 or OverNum(Primary) > 1):
+                            # if the girl is horny and her top is on. . .
+                            call AnyOutfit(Primary,12) #Uptop up    
+                            "[Primary] seems frustrated and pulls her top open."   
                 
         call Activity_Check(Primary,Secondary,0) 
         #sees if girl is cool with what's happening, if not, removes her. 
@@ -6022,7 +6488,7 @@ label RogueWardrobe:
                         if not renpy.showing("Rogue_Doggy"):
                             call Rogue_Doggy_Launch
                         else:
-                            call Rogue_Doggy_Reset
+                            call Rogue_Sex_Reset
                     "Back":
                         jump RogueWardrobe 
         # Outfits
@@ -6056,6 +6522,11 @@ label RogueWardrobe:
                     "Add towel":
                         $ R_Over = "towel"   
                         $ R_Arms = 0
+                    "Toggle up-top":
+                        if R_Uptop:
+                            $ R_Uptop = 0
+                        else:
+                            $ R_Uptop = 1   
                     "Back":
                         jump RogueWardrobe                
         "Tops":            
@@ -6073,7 +6544,14 @@ label RogueWardrobe:
                     "Add lace bra":
                         $ R_Chest = "lace bra"
                     "Add bra":
-                        $ R_Chest = "bra"                            
+                        $ R_Chest = "bra"     
+                    "Add bikini":
+                        $ R_Chest = "bikini top"       
+                    "Toggle up-top":
+                        if R_Uptop:
+                            $ R_Uptop = 0
+                        else:
+                            $ R_Uptop = 1                         
                     "Toggle Piercings":
                         if R_Pierce == "ring":
                             $ R_Pierce = "barbell"
@@ -6137,6 +6615,8 @@ label RogueWardrobe:
                         $ R_Panties = 0     
                     "Add black panties":
                         $ R_Panties = "black panties"
+                    "Add bikini":
+                        $ R_Panties = "bikini bottoms"
                     "Add shorts":
                         $ R_Panties = "shorts"
                     "Add green panties":
@@ -6413,6 +6893,11 @@ label KittyWardrobe:
                         $ K_Over = 0
                     "Add towel" if K_Over != "towel":
                         $ K_Over = "towel"
+                    "Toggle up-top":
+                        if K_Uptop:
+                            $ K_Uptop = 0
+                        else:
+                            $ K_Uptop = 1     
                     "Back":
                         jump KittyWardrobe   
         "Bras":              
@@ -6432,10 +6917,19 @@ label KittyWardrobe:
                         $ K_Chest = 0
                     "Add lace bra" if K_Chest != "lace bra":
                         $ K_Chest = "lace bra"
+                    "Remove bikini top" if K_Chest == "bikini top":
+                        $ K_Chest = 0
+                    "Add bikini top" if K_Chest != "bikini top":
+                        $ K_Chest = "bikini top"
                     "Remove sports bra" if K_Chest == "sports bra":
                         $ K_Chest = 0
                     "Add sports bra" if K_Chest != "sports bra":
-                        $ K_Chest = "sports bra"            
+                        $ K_Chest = "sports bra"
+                    "Toggle up-top":
+                        if K_Uptop:
+                            $ K_Uptop = 0
+                        else:
+                            $ K_Uptop = 1     
                     "Back":
                         jump KittyWardrobe                     
         "Legs":              
@@ -6458,7 +6952,16 @@ label KittyWardrobe:
                     "Remove shorts" if K_Legs == "shorts":
                         $ K_Legs = 0
                     "Add shorts" if K_Legs != "shorts":
-                        $ K_Legs = "shorts"
+                        $ K_Legs = "shorts"    
+                    "Remove blue skirt" if K_Legs == "blue skirt":
+                        $ K_Legs = 0
+                    "Add blue skirt" if K_Legs != "blue skirt":
+                        $ K_Legs = "blue skirt"                         
+                    "Toggle upskirt":
+                        if K_Upskirt:
+                            $ K_Upskirt = 0
+                        else:
+                            $ K_Upskirt = 1
                     "Back":
                         jump KittyWardrobe   
         "Underwear":              
@@ -6474,6 +6977,10 @@ label KittyWardrobe:
                         $ K_Panties = 0
                     "Add lace panties" if K_Panties != "lace panties":
                         $ K_Panties = "lace panties"
+                    "Remove bikini bottoms" if K_Panties == "bikini bottoms":
+                        $ K_Panties = 0
+                    "Add bikini bottoms" if K_Panties != "bikini bottoms":
+                        $ K_Panties = "bikini bottoms"
                     "Toggle panties down":
                         $ K_PantiesDown = 1 if not K_PantiesDown else 0   
                         "[K_PantiesDown]"
@@ -6485,7 +6992,7 @@ label KittyWardrobe:
                     "Emotions":
                         call KittyEmotionEditor
                     "Toggle Arms":
-                        $ K_Arms = 0 if K_Arms == 1 else 1
+                        $ Kitty_Arms = 0 if Kitty_Arms == 1 else 1
                     "Toggle pubes":
                         $ K_Pubes = 1 if not K_Pubes else 0 
                     "Toggle Piercings":
@@ -6724,25 +7231,112 @@ label Emergency_Clothing_Reset:
                 $ R_Custom3 = [0,0,0,0,0,0,0,0,0,0,0]  
                 $ R_Gym = [2,"gloved",0,"hoodie",0,"sports bra","shorts",0,0,0,0]
                 $ R_Sleepwear = [0,0,0,0,0,"tank","green panties",0,0,0]
+                $ R_Swim = [0,0,0,"hoodie",0,"bikini top","bikini bottoms",0,0,0,0] 
+                $ R_Schedule = [0,0,0,0,0,0,0,0,0,0] 
+                
                 $ K_Custom = [0,0,0,0,0,0,0,0,0,0]
                 $ K_Custom2 = [0,0,0,0,0,0,0,0,0,0,0]
                 $ K_Custom3 = [0,0,0,0,0,0,0,0,0,0,0]    
                 $ K_Gym = [2,0,"shorts",0,0,"sports bra","green panties",0,0,0,0]
                 $ K_Sleepwear = [0,0,"shorts",0,0,"cami","green panties",0,0,0]
+                $ K_Swim = [0,0,"blue skirt",0,0,"bikini top","bikini bottoms",0,0,0,0] 
+                $ K_Schedule = [0,0,0,0,0,0,0,0,0,0] 
+                
                 $ E_Custom = [0,0,0,0,0,0,0,0,0,0]
                 $ E_Custom2 = [0,0,0,0,0,0,0,0,0,0,0]
                 $ E_Custom3 = [0,0,0,0,0,0,0,0,0,0,0]    
                 $ E_Gym = [2,0,0,0,0,"sports bra","sports panties",0,0,0,0]
                 $ E_Sleepwear = [0,0,0,0,0,"corset","white panties",0,0,0]
+                $ E_Swim = [0,0,0,0,0,"bikini top","bikini bottoms",0,0,0,0] 
+                $ E_Schedule = [0,0,0,0,0,0,0,0,0,0] 
+                
                 $ L_Custom = [0,0,0,0,0,0,0,0,0,0]
                 $ L_Custom2 = [0,0,0,0,0,0,0,0,0,0,0]
                 $ L_Custom3 = [0,0,0,0,0,0,0,0,0,0,0]    
                 $ L_Gym = [2,0,"leather pants",0,0,"leather bra","leather panties",0,0,0,0]
                 $ L_Sleepwear = [0,0,0,0,0,"leather bra","leather panties",0,0,0]
+                $ L_Swim = [0,0,0,0,0,"bikini top","bikini bottoms",0,0,0,0] 
+                $ L_Schedule = [0,0,0,0,0,0,0,0,0,0] 
                 "Done."
                 "You will now need to set their custom outfits again."
         "No":
             pass
+    return
+            
+label Clothing_Schedule_Check(Girl=0,Changed=0,Value=0,Count=0):
+    #this clears out clothing items that are out of date. 
+    #call Clothing_Schedule_Check("Rogue",3,1)    
+    
+    # Girl is the checked girl, "changed" is the outfit to compare against
+    # Value defaults to 0, but if set, it will only check if the value is not 2.
+    # (0-6) = Mon-Sun, (7) Datewear, (8) Teach, (9) Private (skips this one)
+    # R_Schedule = [0,0,0,0,0,0,0,0,0,0]  
+    # Custom1=3,Cusotm2=5,Custom3=6,Gym=4,Sleep=7,Swim=10
+                                    
+    while Count < 9:  
+        if Girl == "Rogue":    
+                    if R_Schedule[Count] == Changed:
+                        if Value:
+                            #if the Outfit is custom1, and the outfit is SFW, then leave it alone.
+                            if R_Schedule[Count] == 3 and R_Custom[0] == 2:
+                                    pass
+                            elif R_Schedule[Count] == 5 and R_Custom2[0] == 2:
+                                    pass
+                            elif R_Schedule[Count] == 6 and R_Custom3[0] == 2:
+                                    pass
+                            elif R_Schedule[Count] == 4 and R_Gym[0] == 2:
+                                    pass
+                            else:
+                                $ R_Schedule[Count] = 0
+                        else:
+                                $ R_Schedule[Count] = 0
+                              
+        elif Girl == "Kitty":
+                    if K_Schedule[Count] == Changed:
+                        if Value:
+                            if K_Schedule[Count] == 3 and K_Custom[0] == 2:
+                                    pass
+                            elif K_Schedule[Count] == 5 and K_Custom2[0] == 2:
+                                    pass
+                            elif K_Schedule[Count] == 6 and K_Custom3[0] == 2:
+                                    pass
+                            elif K_Schedule[Count] == 4 and K_Gym[0] == 2:
+                                    pass                            
+                            else:
+                                $ K_Schedule[Count] = 0
+                        else:
+                                $ K_Schedule[Count] = 0
+        elif Girl == "Emma":
+                    if E_Schedule[Count] == Changed:
+                        if Value:
+                            if E_Schedule[Count] == 3 and E_Custom[0] == 2:
+                                    pass
+                            elif E_Schedule[Count] == 5 and E_Custom2[0] == 2:
+                                    pass
+                            elif E_Schedule[Count] == 6 and E_Custom3[0] == 2:
+                                    pass
+                            elif E_Schedule[Count] == 4 and E_Gym[0] == 2:
+                                    pass
+                            else:
+                                $ E_Schedule[Count] = 0
+                        else:
+                                $ E_Schedule[Count] = 0
+        elif Girl == "Laura":
+                    if L_Schedule[Count] == Changed:
+                        if Value:
+                            if L_Schedule[Count] == 3 and L_Custom[0] == 2:
+                                    pass
+                            elif L_Schedule[Count] == 5 and L_Custom2[0] == 2:
+                                    pass
+                            elif L_Schedule[Count] == 6 and L_Custom3[0] == 2:
+                                    pass
+                            elif L_Schedule[Count] == 4 and L_Gym[0] == 2:
+                                    pass
+                            else:
+                                $ L_Schedule[Count] = 0
+                        else:
+                                $ L_Schedule[Count] = 0        
+        $ Count += 1
     return
     
 label Failsafe: 

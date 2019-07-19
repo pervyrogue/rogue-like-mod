@@ -96,7 +96,7 @@ label R_Massage_Cycle:
     $ D20 = renpy.random.randint(10, 20)
     $ Round -= D20 if Round > D20 else (Round-1)
         
-    call Rogue_Doggy_Reset
+    call Rogue_Sex_Reset
     
     ch_r "That was very relaxing, [R_Petname]"
     if "massage" not in R_RecentActions:        
@@ -554,7 +554,11 @@ label RFB_Cycle: #Repeating strokes
             ch_r "You might want to wrap this up, it's getting late."  
         elif Round == 5:
             ch_r "Seriously, it'll be time to stop soon."        
-    
+                
+        if R_Lust >= 50 and not R_Uptop and (R_Chest or R_Over):
+                $ R_Uptop = 1
+                "Rogue shrugs and pulls her top open."   
+                      
     #Round = 0 loop breaks
     call RogueFace("bemused", 0)
     $ Line = 0
@@ -1004,6 +1008,10 @@ label RSB_Cycle: #Repeating strokes
         elif Round == 5:
             ch_r "Seriously, it'll be time to stop soon."        
     
+        if R_Lust >= 50 and not R_Uptop and (R_Chest or R_Over):
+                $ R_Uptop = 1
+                "Rogue shrugs and pulls her top open."   
+                      
     #Round = 0 loop breaks
     call RogueFace("bemused", 0)
     $ Line = 0
@@ -2272,8 +2280,7 @@ label RLP_Prep: #Animation set-up
     if R_Legs == "skirt":
         $ R_Upskirt = 1  
         $ R_SeenPanties = 1
-    if not R_Panties:
-        call Rogue_First_Bottomless(1)
+    call Rogue_First_Bottomless(1)
     
     $ Line = 0
     $ Cnt = 0
@@ -3707,8 +3714,7 @@ label RLA_Prep: #Animation set-up
     $ R_Upskirt = 1
     if R_Legs == "skirt":
         $ R_SeenPanties = 1
-    if not R_Panties:
-        call Rogue_First_Bottomless(1)
+    call Rogue_First_Bottomless(1)
     $ Line = 0
     $ Cnt = 0
     if Taboo:

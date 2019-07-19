@@ -260,8 +260,13 @@ label Emma_Chat_Minimal:
                     ch_e "Well that certainly doesn't seem appropriate."
 
         "Never mind.":
-                    "She seems a bit reserved. Maybe you need something to break the ice."
-                    "Maybe you should check in on her after classes are over and the students leave."
+                    if Current_Time == "Evening":
+                            ch_e "Now if that will be all, please clear out of here."
+                            call EmmaFace("bemused",2)
+                            ch_e "I have some. . . business to attend to." 
+                    else:
+                            "She seems a bit reserved. Maybe you need something to break the ice."
+                            "Maybe you should check in on her after classes are over and the students leave."
                     return
     jump Emma_Chat_Minimal
 
@@ -436,8 +441,19 @@ label Emma_Relationship:
                     ch_e "I can't be bothered with second chances."
 
         # End Back Together
-
-
+         
+        "I wanted to ask about [[another girl]" if "Emma" in P_Harem:
+                menu:
+                    "Have you reconsidered letting me date. . ."
+                    "Rogue" if "Rogue" not in P_Harem:
+                            call Poly_Start("Rogue",1)
+                    "Kitty" if "Kitty" not in P_Harem:
+                            call Poly_Start("Kitty",1)
+                    "Laura" if "Laura" not in P_Harem:
+                            call Poly_Start("Laura",1)
+                    "Never mind":
+                            pass           
+                               
 #        "I think we should break up." if "dating" in E_Traits:
 #            if "breakup talk" in E_DailyActions:
 #                ch_e "You must be joking. Again?"
@@ -1546,10 +1562,11 @@ label Emma_Flirt:
         $ E_Chat[5] = 1                                         #can only flirt once per cycle.
         menu:
 #            "Compliment her":
-
-#            "Say you love her":
-
-            "Touch her cheek.":                                                                                 #Touch her cheek
+                
+            "Say you love her":
+                        call Love_You("Emma")
+                
+            "Touch her cheek.":                                                                                 #Touch her cheek 
                     call E_TouchCheek
 
             "Kiss her cheek":                                                                                   #Kiss her cheek
@@ -2252,255 +2269,395 @@ label Emma_Gifts:
         return
     menu:
         "What would you like to give her?"
-        "Give her a dildo." if "dildo" in P_Inventory: #If you have a Dildo, you'll give it.
-            $ Count = E_Inventory.count("dildo")
-            if "dildo" not in E_Inventory:
-                "You give Emma the dildo."
-                $ E_Blush = 1
-                $ Emma_Arms = 2
-                $ E_Held = "dildo"
-                if ApprovalCheck("Emma", 1000) or ApprovalCheck("Emma", 400, "I"):
-                    call EmmaFace("bemused")
-                    $ P_Inventory.remove("dildo")
-                    $ E_Inventory.append("dildo")
-                    call Statup("Emma", "Love", 200, 30)
-                    call Statup("Emma", "Obed", 200, 30)
-                    call Statup("Emma", "Inbt", 200, 30)
-                    ch_e "I'm sure I can find some place to store it. . ."
-                    call Statup("Emma", "Lust", 89, 10)
-                    call Statup("Emma", "Lust", 89, 10)
-                elif ApprovalCheck("Emma", 800) or ApprovalCheck("Emma", 300, "I"):
-                    call EmmaFace("confused")
-                    $ P_Inventory.remove("dildo")
-                    $ E_Inventory.append("dildo")
-                    ch_e "This is not an appropriate gift from a student. . ."
-                    call Statup("Emma", "Lust", 89, 5)
-                    call Statup("Emma", "Lust", 89, 10)
-                    call EmmaFace("sadside",1)
-                    ch_e "Hm. . ."
-                    call Statup("Emma", "Love", 200, 10)
-                    call Statup("Emma", "Obed", 200, 10)
-                    call Statup("Emma", "Inbt", 200, 10)
-                    call EmmaFace("sly")
-                    ch_e "I suppose I can find {i}some{/i} use for it. . ."
-                elif "offered gift" in E_DailyActions:
-                    call EmmaFace("angry")
-                    "She hands it back to you."
-                    ch_e "I think I have made myself clear about inappropriate gifts?"
-                else:
-                    call EmmaFace("angry")
-                    call Statup("Emma", "Love", 50, -20)
-                    call Statup("Emma", "Obed", 20, 10)
-                    call Statup("Emma", "Inbt", 20, 20)
-                    ch_e "[E_Petname], I don't believe this is an appropriate gift from a student."
-                    call Statup("Emma", "Lust", 89, 10)
-                    "She hands it back to you."
-                    $ E_DailyActions.append("offered gift")
-            elif Count == 1:
-                ch_e "I suppose I always have room for one more. . ."
-            else:
-                ch_e "How many places do you think I could put these?"
-            $ E_Held = 0
-            $ Emma_Arms = 2
-
-
-        "Give her the vibrator." if "vibrator" in P_Inventory: #If you have a vibrator, you'll give it.
-            if "vibrator" not in E_Inventory:
-                "You give Emma the Shocker Vibrator."
-                $ E_Blush = 1
-                $ Emma_Arms = 2
-                $ E_Held = "vibrator"
-                if ApprovalCheck("Emma", 700):
-                    call EmmaFace("bemused")
-                    $ P_Inventory.remove("vibrator")
-                    $ E_Inventory.append("vibrator")
-                    call Statup("Emma", "Love", 200, 30)
-                    call Statup("Emma", "Obed", 200, 30)
-                    call Statup("Emma", "Inbt", 200, 30)
-                    ch_e "How very thoughtful of you. . ."
-                    call Statup("Emma", "Lust", 89, 10)
-                    call EmmaFace("sly")
-                    ch_e "I'm sure I can put this to good use. . ."
-                elif ApprovalCheck("Emma", 400):
-                    call EmmaFace("confused")
-                    $ P_Inventory.remove("vibrator")
-                    $ E_Inventory.append("vibrator")
-                    call Statup("Emma", "Love", 200, 10)
-                    call Statup("Emma", "Obed", 200, 10)
-                    call Statup("Emma", "Inbt", 200, 10)
-                    ch_e "How very thoughtful of you. . ."
-                    call Statup("Emma", "Lust", 89, 10)
-                    call EmmaFace("sly")
-                    ch_e "a back massager, I assume. . ."
-                elif "offered gift" in E_DailyActions:
-                    call EmmaFace("angry")
-                    "She hands it back to you."
-                    ch_e "I think I have made myself clear about inappropriate gifts?"
-                else:
-                    call EmmaFace("angry")
-                    call Statup("Emma", "Love", 50, -20)
-                    call Statup("Emma", "Obed", 20, 10)
-                    call Statup("Emma", "Inbt", 20, 20)
-                    ch_e "[E_Petname], I don't believe this is an appropriate gift from a student."
-                    call Statup("Emma", "Lust", 89, 5)
-                    "She hands it back to you."
-                    $ E_DailyActions.append("offered gift")
-            else:
-                ch_e "I already have plenty."
-            $ E_Held = 0
-            $ Emma_Arms = 2
-
-
-        "Give her the lace bra." if "e lace bra" in P_Inventory: #If you have a bra, you'll give it.
-            if "lace bra" not in E_Inventory:
-                "You give Emma the lace bra."
-                if ApprovalCheck("Emma", 1200):
-                    call EmmaFace("bemused")
-                    $ P_Inventory.remove("e lace bra")
-                    $ E_Inventory.append("lace bra")
-                    call Statup("Emma", "Love", 200, 25)
-                    call Statup("Emma", "Obed", 200, 30)
-                    call Statup("Emma", "Inbt", 200, 20)
-                    ch_e "I'm impressed, you got the size correct. . ."
-                    call Statup("Emma", "Lust", 89, 10)
-                elif ApprovalCheck("Emma", 800):
-                    call EmmaFace("confused",1)
-                    $ P_Inventory.remove("e lace bra")
-                    $ E_Inventory.append("lace bra")
-                    call Statup("Emma", "Love", 200, 20)
-                    call Statup("Emma", "Obed", 200, 30)
-                    call Statup("Emma", "Inbt", 200, 15)
-                    ch_e "I'm not exactly running low on this sort of thing. . ."
-                    call EmmaFace("bemused",1)
-                elif ApprovalCheck("Emma", 600):
-                    call EmmaFace("confused")
-                    $ P_Inventory.remove("e lace bra")
-                    $ E_Inventory.append("lace bra")
-                    call Statup("Emma", "Love", 200, 20)
-                    call Statup("Emma", "Obed", 200, 20)
-                    call Statup("Emma", "Inbt", 200, 25)
-                    ch_e "This is an . . . unusual gift from a student. . ."
-                    call EmmaFace("bemused",1)
-                elif "no gift bra" in E_DailyActions:
-                    call EmmaFace("angry")
-                    ch_e "This still isn't an appropriate gift from a student."
-                else:
-                    call EmmaFace("angry")
-                    call Statup("Emma", "Love", 50, -10)
-                    call Statup("Emma", "Obed", 20, 10)
-                    call Statup("Emma", "Inbt", 20, 20)
-                    if "no gift panties" in E_DailyActions:
-                        ch_e "This isn't any better than the last."
-                    else:
-                        ch_e "I don't think it's appropriate for you to be so focused on my breasts."
-                    call Statup("Emma", "Lust", 89, 5)
-                    $ E_Blush = 1
-                    "She hands it back to you."
-                    $ E_RecentActions.append("no gift bra")
-                    $ E_DailyActions.append("no gift bra")
-            else:
-                ch_e "I already have one of those."
-
-        "Give her the lace panties." if "e lace panties" in P_Inventory: #If you have a bra, you'll give it.
-            if "lace panties" not in E_Inventory:
-                "You give Emma the lace panties."
-                if ApprovalCheck("Emma", 900):
-                    call EmmaFace("confused",1)
-                    $ P_Inventory.remove("e lace panties")
-                    $ E_Inventory.append("lace panties")
-                    call Statup("Emma", "Love", 200, 20)
-                    call Statup("Emma", "Obed", 200, 25)
-                    call Statup("Emma", "Inbt", 200, 20)
-                    ch_e "Not entirely out of place in my wardrobe. . ."
-                    call EmmaFace("bemused",1)
-                elif ApprovalCheck("Emma", 700):
-                    call EmmaFace("confused")
-                    $ P_Inventory.remove("e lace panties")
-                    $ E_Inventory.append("lace panties")
-                    call Statup("Emma", "Love", 200, 20)
-                    call Statup("Emma", "Obed", 200, 20)
-                    call Statup("Emma", "Inbt", 200, 25)
-                    ch_e "This is an. . . unsual gift."
-                    call EmmaFace("sly",1)
-                    ch_e "But I'll hold on to them. . ."
-                elif "no gift panties" in E_DailyActions:
-                    call EmmaFace("angry")
-                    ch_e "I don't recommend trying again any time soon."
-                else:
-                    call EmmaFace("angry")
-                    call Statup("Emma", "Love", 50, -15)
-                    call Statup("Emma", "Obed", 20, 10)
-                    call Statup("Emma", "Inbt", 20, 20)
-                    if "no gift bra" in E_DailyActions:
-                        ch_e "These aren't appropriate either."
-                    elif E_SeenPanties:
-                        ch_e "Just because you've seen my panties doesn't mean you get to pick them out."
-                    else:
-                        ch_e "I don't believe these are appropriate thoughts for you to be having."
-                    call Statup("Emma", "Lust", 89, 5)
-                    "She hands them back to you."
-                    $ E_RecentActions.append("no gift panties")
-                    $ E_DailyActions.append("no gift panties")
-            else:
-                ch_e "I already have one of those."
-
-        "Give her the \"Dazzler and Longshot\" book." if "Dazzler and Longshot" in P_Inventory: #If you have a vibrator, you'll give it.
-            if "Dazzler and Longshot" not in E_Inventory:
-                "You give Emma the book."
-                $ E_Blush = 1
-                if ApprovalCheck("Emma", 600, "L"):
-                    call EmmaFace("angry")
-                    ch_e "Is this the type of thing you expect from me. . ."
-                    call EmmaFace("sadside", Mouth="lipbite")
-                    ch_e "we'll have to see. . ."
-                    call Statup("Emma", "Lust", 89, 10)
-                else:
-                    call EmmaFace("angry")
-                    ch_e "I don't exactly read this dime store trash. . ."
-                    call EmmaFace("sadside", Mouth="lipbite")
-                    ch_e "but I will take it. . ."
-                $ P_Inventory.remove("Dazzler and Longshot")
-                $ E_Inventory.append("Dazzler and Longshot")
-                call Statup("Emma", "Love", 200, 50)
-            else:
-                ch_e "You're repeating yourself."
-
-        "Give her the \"256 Shades of Grey\" book." if "256 Shades of Grey" in P_Inventory: #If you have a book, you'll give it.
-            if "256 Shades of Grey" not in E_Inventory:
-                "You give Emma the book."
-                $ E_Blush = 1
-                if ApprovalCheck("Emma", 500, "O"):
-                    call EmmaFace("bemused")
-                    ch_e "I expect it might be somewhat entertaining."
-                    call Statup("Emma", "Lust", 89, 10)
-                else:
-                    call EmmaFace("confused")
-                    ch_e "I've heard of that one."
-                    call EmmaFace("bemused")
-                $ P_Inventory.remove("256 Shades of Grey")
-                $ E_Inventory.append("256 Shades of Grey")
-                call Statup("Emma", "Obed", 200, 50)
-            else:
-                ch_e "You're repeating yourself."
-
-        "Give her the \"Avengers Tower Penthouse\" book." if "Avengers Tower Penthouse" in P_Inventory: #If you have a book, you'll give it.
-            if "Avengers Tower Penthouse" not in E_Inventory:
-                "You give Emma the book."
-                $ E_Blush = 1
-                if ApprovalCheck("Emma", 500, "I"):
-                    call EmmaFace("bemused")
-                    ch_e "Perhaps don't visit unannounced. . ."
-                    call Statup("Emma", "Lust", 89, 10)
-                else:
-                    call EmmaFace("sly")
-                    ch_e "I normally confiscate such things. . . I'll just do that now. . ."
-                    call EmmaFace("bemused")
-                $ P_Inventory.remove("Avengers Tower Penthouse")
-                $ E_Inventory.append("Avengers Tower Penthouse")
-                call Statup("Emma", "Inbt", 200, 50)
-            else:
-                ch_e "You're repeating yourself."
-
+        "Toys and books":
+            menu:
+                "Give her a dildo." if "dildo" in P_Inventory: #If you have a Dildo, you'll give it.
+                    $ Count = E_Inventory.count("dildo")
+                    if "dildo" not in E_Inventory:                            
+                        "You give Emma the dildo."
+                        $ E_Blush = 1
+                        $ Emma_Arms = 2
+                        $ E_Held = "dildo"
+                        if ApprovalCheck("Emma", 1000) or ApprovalCheck("Emma", 400, "I"):                    
+                            call EmmaFace("bemused")
+                            $ P_Inventory.remove("dildo")
+                            $ E_Inventory.append("dildo")
+                            call Statup("Emma", "Love", 200, 30)
+                            call Statup("Emma", "Obed", 200, 30)
+                            call Statup("Emma", "Inbt", 200, 30)
+                            ch_e "I'm sure I can find some place to store it. . ."
+                            call Statup("Emma", "Lust", 89, 10)
+                            call Statup("Emma", "Lust", 89, 10)
+                        elif ApprovalCheck("Emma", 800) or ApprovalCheck("Emma", 300, "I"):
+                            call EmmaFace("confused")
+                            $ P_Inventory.remove("dildo")
+                            $ E_Inventory.append("dildo")
+                            ch_e "This is not an appropriate gift from a student. . ."  
+                            call Statup("Emma", "Lust", 89, 5)
+                            call Statup("Emma", "Lust", 89, 10)
+                            call EmmaFace("sadside",1)
+                            ch_e "Hm. . ."
+                            call Statup("Emma", "Love", 200, 10)
+                            call Statup("Emma", "Obed", 200, 10)
+                            call Statup("Emma", "Inbt", 200, 10)
+                            call EmmaFace("sly")
+                            ch_e "I suppose I can find {i}some{/i} use for it. . ."
+                        elif "offered gift" in E_DailyActions:
+                            call EmmaFace("angry")
+                            "She hands it back to you."
+                            ch_e "I think I have made myself clear about inappropriate gifts?"     
+                        else:
+                            call EmmaFace("angry")
+                            call Statup("Emma", "Love", 50, -20)
+                            call Statup("Emma", "Obed", 20, 10)
+                            call Statup("Emma", "Inbt", 20, 20)                    
+                            ch_e "[E_Petname], I don't believe this is an appropriate gift from a student."                     
+                            call Statup("Emma", "Lust", 89, 10)
+                            "She hands it back to you."
+                            $ E_DailyActions.append("offered gift") 
+                    elif Count == 1:
+                        ch_e "I suppose I always have room for one more. . ."
+                    else: 
+                        ch_e "How many places do you think I could put these?"
+                    $ E_Held = 0
+                    $ Emma_Arms = 2
+                                        
+                "Give her the vibrator." if "vibrator" in P_Inventory: #If you have a vibrator, you'll give it.
+                    if "vibrator" not in E_Inventory:                            
+                        "You give Emma the Shocker Vibrator."
+                        $ E_Blush = 1
+                        $ Emma_Arms = 2
+                        $ E_Held = "vibrator"
+                        if ApprovalCheck("Emma", 700):                    
+                            call EmmaFace("bemused")
+                            $ P_Inventory.remove("vibrator")
+                            $ E_Inventory.append("vibrator")
+                            call Statup("Emma", "Love", 200, 30)
+                            call Statup("Emma", "Obed", 200, 30)
+                            call Statup("Emma", "Inbt", 200, 30)
+                            ch_e "How very thoughtful of you. . ."  
+                            call Statup("Emma", "Lust", 89, 10)
+                            call EmmaFace("sly")
+                            ch_e "I'm sure I can put this to good use. . ."
+                        elif ApprovalCheck("Emma", 400):
+                            call EmmaFace("confused")
+                            $ P_Inventory.remove("vibrator")
+                            $ E_Inventory.append("vibrator")
+                            call Statup("Emma", "Love", 200, 10)
+                            call Statup("Emma", "Obed", 200, 10)
+                            call Statup("Emma", "Inbt", 200, 10)
+                            ch_e "How very thoughtful of you. . ."  
+                            call Statup("Emma", "Lust", 89, 10)
+                            call EmmaFace("sly")
+                            ch_e "a back massager, I assume. . ."
+                        elif "offered gift" in E_DailyActions:
+                            call EmmaFace("angry")
+                            "She hands it back to you."
+                            ch_e "I think I have made myself clear about inappropriate gifts?"   
+                        else:
+                            call EmmaFace("angry")
+                            call Statup("Emma", "Love", 50, -20)
+                            call Statup("Emma", "Obed", 20, 10)
+                            call Statup("Emma", "Inbt", 20, 20)       
+                            ch_e "[E_Petname], I don't believe this is an appropriate gift from a student."   
+                            call Statup("Emma", "Lust", 89, 5)
+                            "She hands it back to you."
+                            $ E_DailyActions.append("offered gift") 
+                    else: 
+                        ch_e "I already have plenty."
+                    $ E_Held = 0
+                    $ Emma_Arms = 2
+                    
+                "Give her the \"Dazzler and Longshot\" book." if "Dazzler and Longshot" in P_Inventory: #If you have a vibrator, you'll give it.
+                    if "Dazzler and Longshot" not in E_Inventory:                            
+                        "You give Emma the book."
+                        $ E_Blush = 1
+                        if ApprovalCheck("Emma", 600, "L"):                    
+                            call EmmaFace("angry")
+                            ch_e "Is this the type of thing you expect from me. . ."
+                            call EmmaFace("sadside", Mouth="lipbite")
+                            ch_e "we'll have to see. . ."
+                            call Statup("Emma", "Lust", 89, 10)
+                        else:
+                            call EmmaFace("angry")
+                            ch_e "I don't exactly read this dime store trash. . ."
+                            call EmmaFace("sadside", Mouth="lipbite")
+                            ch_e "but I will take it. . ."
+                        $ P_Inventory.remove("Dazzler and Longshot")
+                        $ E_Inventory.append("Dazzler and Longshot") 
+                        call Statup("Emma", "Love", 200, 50) 
+                    else: 
+                        ch_e "You're repeating yourself."                
+                    
+                "Give her the \"256 Shades of Grey\" book." if "256 Shades of Grey" in P_Inventory: #If you have a book, you'll give it.
+                    if "256 Shades of Grey" not in E_Inventory:                            
+                        "You give Emma the book."
+                        $ E_Blush = 1
+                        if ApprovalCheck("Emma", 500, "O"):                    
+                            call EmmaFace("bemused")
+                            ch_e "I expect it might be somewhat entertaining."
+                            call Statup("Emma", "Lust", 89, 10)
+                        else:
+                            call EmmaFace("confused") 
+                            ch_e "I've heard of that one."  
+                            call EmmaFace("bemused")             
+                        $ P_Inventory.remove("256 Shades of Grey")
+                        $ E_Inventory.append("256 Shades of Grey")                    
+                        call Statup("Emma", "Obed", 200, 50)  
+                    else: 
+                        ch_e "You're repeating yourself."                  
+                    
+                "Give her the \"Avengers Tower Penthouse\" book." if "Avengers Tower Penthouse" in P_Inventory: #If you have a book, you'll give it.
+                    if "Avengers Tower Penthouse" not in E_Inventory:                            
+                        "You give Emma the book."
+                        $ E_Blush = 1
+                        if ApprovalCheck("Emma", 500, "I"):                    
+                            call EmmaFace("bemused")
+                            ch_e "Perhaps don't visit unannounced. . ."
+                            call Statup("Emma", "Lust", 89, 10)
+                        else:
+                            call EmmaFace("sly")
+                            ch_e "I normally confiscate such things. . . I'll just do that now. . ."  
+                            call EmmaFace("bemused")               
+                        $ P_Inventory.remove("Avengers Tower Penthouse")
+                        $ E_Inventory.append("Avengers Tower Penthouse")                    
+                        call Statup("Emma", "Inbt", 200, 50)  
+                    else: 
+                        ch_e "You're repeating yourself." 
+                "Never mind":
+                    pass
+        "Clothing":     
+            menu:
+                "Give her the lace bra." if "e lace bra" in P_Inventory: #If you have a bra, you'll give it.
+                    if "lace bra" not in E_Inventory:                            
+                        "You give Emma the lace bra."
+                        if ApprovalCheck("Emma", 1200):                    
+                            call EmmaFace("bemused")
+                            $ P_Inventory.remove("e lace bra")
+                            $ E_Inventory.append("lace bra")
+                            call Statup("Emma", "Love", 200, 25)
+                            call Statup("Emma", "Obed", 200, 30)
+                            call Statup("Emma", "Inbt", 200, 20)
+                            ch_e "I'm impressed, you got the size correct. . ."
+                            call Statup("Emma", "Lust", 89, 10)
+                        elif ApprovalCheck("Emma", 800):
+                            call EmmaFace("confused",1)
+                            $ P_Inventory.remove("e lace bra")
+                            $ E_Inventory.append("lace bra")
+                            call Statup("Emma", "Love", 200, 20)
+                            call Statup("Emma", "Obed", 200, 30)
+                            call Statup("Emma", "Inbt", 200, 15)
+                            ch_e "I'm not exactly running low on this sort of thing. . ."                    
+                            call EmmaFace("bemused",1)
+                        elif ApprovalCheck("Emma", 600):
+                            call EmmaFace("confused")
+                            $ P_Inventory.remove("e lace bra")
+                            $ E_Inventory.append("lace bra")
+                            call Statup("Emma", "Love", 200, 20)
+                            call Statup("Emma", "Obed", 200, 20)
+                            call Statup("Emma", "Inbt", 200, 25)
+                            ch_e "This is an . . . unusual gift from a student. . ."                     
+                            call EmmaFace("bemused",1)
+                        elif "no gift bra" in E_DailyActions:
+                            call EmmaFace("angry")
+                            ch_e "This still isn't an appropriate gift from a student."      
+                        else:
+                            call EmmaFace("angry")
+                            call Statup("Emma", "Love", 50, -10)
+                            call Statup("Emma", "Obed", 20, 10)
+                            call Statup("Emma", "Inbt", 20, 20)  
+                            if "no gift panties" in E_DailyActions:                    
+                                ch_e "This isn't any better than the last."                       
+                            else:                   
+                                ch_e "I don't think it's appropriate for you to be so focused on my breasts."                     
+                            call Statup("Emma", "Lust", 89, 5)
+                            $ E_Blush = 1
+                            "She hands it back to you."
+                            $ E_RecentActions.append("no gift bra")                      
+                            $ E_DailyActions.append("no gift bra") 
+                    else: 
+                        ch_e "I already have one of those."                
+                    
+                "Give her the lace panties." if "e lace panties" in P_Inventory: #If you have a bra, you'll give it.
+                    if "lace panties" not in E_Inventory:                            
+                        "You give Emma the lace panties."
+                        if ApprovalCheck("Emma", 900):
+                            call EmmaFace("confused",1)
+                            $ P_Inventory.remove("e lace panties")
+                            $ E_Inventory.append("lace panties")
+                            call Statup("Emma", "Love", 200, 20)
+                            call Statup("Emma", "Obed", 200, 25)
+                            call Statup("Emma", "Inbt", 200, 20)
+                            ch_e "Not entirely out of place in my wardrobe. . ."                  
+                            call EmmaFace("bemused",1)
+                        elif ApprovalCheck("Emma", 700):
+                            call EmmaFace("confused")
+                            $ P_Inventory.remove("e lace panties")
+                            $ E_Inventory.append("lace panties")
+                            call Statup("Emma", "Love", 200, 20)
+                            call Statup("Emma", "Obed", 200, 20)
+                            call Statup("Emma", "Inbt", 200, 25)
+                            ch_e "This is an. . . unsual gift."                  
+                            call EmmaFace("sly",1)
+                            ch_e "But I'll hold on to them. . ." 
+                        elif "no gift panties" in E_DailyActions:
+                            call EmmaFace("angry")
+                            ch_e "I don't recommend trying again any time soon."                      
+                        else:
+                            call EmmaFace("angry")
+                            call Statup("Emma", "Love", 50, -15)
+                            call Statup("Emma", "Obed", 20, 10)
+                            call Statup("Emma", "Inbt", 20, 20)
+                            if "no gift bra" in E_DailyActions:                    
+                                ch_e "These aren't appropriate either." 
+                            elif E_SeenPanties:
+                                ch_e "Just because you've seen my panties doesn't mean you get to pick them out."                          
+                            else:
+                                ch_e "I don't believe these are appropriate thoughts for you to be having."                     
+                            call Statup("Emma", "Lust", 89, 5)
+                            "She hands them back to you."
+                            $ E_RecentActions.append("no gift panties")                      
+                            $ E_DailyActions.append("no gift panties") 
+                    else: 
+                        ch_e "I already have one of those."                
+                   
+                "Give her the stockings and garterbelt." if "e stockings and garterbelt" in P_Inventory: 
+                    #If you have a stockings, you'll give it.
+                    if "stockings and garterbelt" not in E_Inventory:                            
+                        "You give Emma the stockings."
+                        call EmmaFace("bemused")
+                        $ P_Inventory.remove("e stockings and garterbelt")
+                        $ E_Inventory.append("stockings and garterbelt")
+                        call Statup("Emma", "Love", 200, 5)
+                        call Statup("Emma", "Obed", 200, 5)
+                        call Statup("Emma", "Inbt", 200, 5)
+                        ch_e "These are lovely. . ."
+                        call Statup("Emma", "Lust", 89, 3)
+                    else: 
+                        ch_e "I already have those."  
+                        
+                "Give her the pantyhose." if "e pantyhose" in P_Inventory: 
+                    #If you have a stockings, you'll give it.
+                    if "pantyhose" not in E_Inventory:                            
+                        "You give Emma the pantyhose."
+                        call EmmaFace("bemused")
+                        $ P_Inventory.remove("e pantyhose")
+                        $ E_Inventory.append("pantyhose")
+                        call Statup("Emma", "Love", 200, 5)
+                        call Statup("Emma", "Obed", 200, 5)
+                        call Statup("Emma", "Inbt", 200, 5)
+                        ch_e "These are lovely. . ."
+                    else: 
+                        ch_e "I already have those."  
+                        
+                "Give her the bikini top." if "e bikini top" in P_Inventory: 
+                    #If you have a bra, you'll give it.
+                    if "bikini top" not in E_Inventory:                            
+                        "You give Emma the bikini top."
+                        $ E_Blush = 1
+                        if ApprovalCheck("Emma", 1200):                    
+                            call EmmaFace("bemused")
+                            $ P_Inventory.remove("e bikini top")
+                            $ E_Inventory.append("bikini top")
+                            call Statup("Emma", "Love", 200, 20)
+                            call Statup("Emma", "Obed", 200, 10)
+                            call Statup("Emma", "Inbt", 200, 10)
+                            ch_e "This does show off my assets, doesn't it. . ."
+                        elif ApprovalCheck("Emma", 900):
+                            call EmmaFace("confused",1)
+                            $ P_Inventory.remove("e bikini top")
+                            $ E_Inventory.append("bikini top")
+                            call Statup("Emma", "Love", 200, 20)
+                            call Statup("Emma", "Obed", 200, 10)
+                            call Statup("Emma", "Inbt", 200, 5)
+                            ch_e "This is my style. . ."                  
+                            call EmmaFace("bemused",1)
+                        elif ApprovalCheck("Emma", 700):
+                            call EmmaFace("confused",2)
+                            $ P_Inventory.remove("e bikini top")
+                            $ E_Inventory.append("bikini top")
+                            call Statup("Emma", "Love", 200, 10)
+                            call Statup("Emma", "Obed", 200, 5)
+                            call Statup("Emma", "Inbt", 200, 5)
+                            ch_e "An interesting. . . gift. . ."                  
+                            call EmmaFace("bemused",1)
+                        elif "no gift bra" in E_RecentActions:
+                            call EmmaFace("angry",2)
+                            ch_e "I don't want this either."  
+                        elif "no gift bra" in E_DailyActions:
+                            call EmmaFace("angry",2)
+                            ch_e "I don't recommend trying again any time soon."                    
+                        else:
+                            call EmmaFace("angry",2)
+                            call Statup("Emma", "Love", 50, -5)
+                            call Statup("Emma", "Obed", 20, 5)
+                            call Statup("Emma", "Inbt", 20, 10)
+                            if "no gift bra " in E_DailyActions:                    
+                                ch_e "I don't want this either!"                      
+                            else:
+                                ch_e "I don't think my swimwear is any concern of yours."    
+                            $ E_Blush = 1
+                            "She hands it back to you."
+                            $ E_RecentActions.append("no gift bra")                      
+                            $ E_DailyActions.append("no gift bra") 
+                    else: 
+                        ch_e "I already have one of those."
+                        
+               
+                "Give her the bikini bottoms." if "e bikini bottoms" in P_Inventory: 
+                    #If you have a bra, you'll give it.
+                    if "bikini bottoms" not in E_Inventory:                            
+                        "You give Emma the bikini bottoms."
+                        $ E_Blush = 1
+                        if ApprovalCheck("Emma", 1200):                    
+                            call EmmaFace("bemused")
+                            $ P_Inventory.remove("e bikini bottoms")
+                            $ E_Inventory.append("bikini bottoms")
+                            call Statup("Emma", "Love", 200, 20)
+                            call Statup("Emma", "Obed", 200, 10)
+                            call Statup("Emma", "Inbt", 200, 10)
+                            ch_e "These are quite stylish. . ."
+                        elif ApprovalCheck("Emma", 900):
+                            call EmmaFace("confused",1)
+                            $ P_Inventory.remove("e bikini bottoms")
+                            $ E_Inventory.append("bikini bottoms")
+                            call Statup("Emma", "Love", 200, 20)
+                            call Statup("Emma", "Obed", 200, 10)
+                            call Statup("Emma", "Inbt", 200, 5)
+                            ch_e "Rather daring. . ."                  
+                            call EmmaFace("bemused",1)
+                        elif ApprovalCheck("Emma", 700):
+                            call EmmaFace("confused",2)
+                            $ P_Inventory.remove("e bikini bottoms")
+                            $ E_Inventory.append("bikini bottoms")
+                            call Statup("Emma", "Love", 200, 10)
+                            call Statup("Emma", "Obed", 200, 5)
+                            call Statup("Emma", "Inbt", 200, 5)
+                            ch_e "I don't know that a student should be buying me swimwear. . ."                  
+                            call EmmaFace("bemused",1)
+                        elif "no gift panties" in E_RecentActions:
+                            call EmmaFace("angry",2)
+                            ch_e "I don't want these either."  
+                        elif "no gift panties" in E_DailyActions:
+                            call EmmaFace("angry",2)
+                            ch_e "I don't recommend trying again any time soon."                   
+                        else:
+                            call EmmaFace("angry",2)
+                            call Statup("Emma", "Love", 50, -5)
+                            call Statup("Emma", "Obed", 20, 5)
+                            call Statup("Emma", "Inbt", 20, 10)
+                            if "no gift bra" in E_DailyActions:                    
+                                ch_e "I don't want these either!"                      
+                            else:
+                                ch_e "I don't think my swimwear is any concern of yours."   
+                            $ E_Blush = 1
+                            "She hands them back to you."
+                            $ E_RecentActions.append("no gift panties")                      
+                            $ E_DailyActions.append("no gift panties") 
+                    else: 
+                        ch_e "I already have one of those."
+                "Never mind":
+                    pass
         "Exit":
             pass
 
@@ -3675,6 +3832,8 @@ label Emma_Clothes(Public=0,Bonus=0):
                                 call Emma_OutfitShame(7,1)
                     "Sleepwear":
                                 call Emma_OutfitShame(9,1)
+                    "Swimwear":
+                                call Emma_OutfitShame(10,1)
                     "Never mind":
                                 pass
         "Switch to. . .":
@@ -3936,7 +4095,10 @@ label Emma_Clothes(Public=0,Bonus=0):
         "How about throwing on your sleepwear?" if not Taboo:
             #fix add conditions
             call EmmaOutfit("sleep")
-
+        "How about throwing on your swimwear?" if not Taboo or bg_current == "bg pool":
+            #fix add conditions
+            call EmmaOutfit("swimwear")
+            
         "Let's talk about what you wear outside.":
             call Emma_Clothes_Schedule
 
@@ -4084,11 +4246,8 @@ label Emma_Clothes(Public=0,Bonus=0):
             $ E_Legs = 0
             "She peels her [Line] off."
             $ Line = 0
-            if E_Panties:
-                $ E_SeenPanties = 1
-            else:
-                call Emma_First_Bottomless
-
+            call Emma_First_Bottomless
+        
         "You look great in those white pants." if E_Legs != "pants":
             ch_e "I know."
             $ E_Legs = "pants"
@@ -4175,155 +4334,202 @@ label Emma_Clothes(Public=0,Bonus=0):
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-    menu Emma_Clothes_Under:                                                                                                 # Tops
-        "How about you lose the [E_Chest]?" if E_Chest:
-            call EmmaFace("bemused", 1)
-            if E_SeenChest and ApprovalCheck("Emma", 900, TabM=(4-Public)):
-                ch_e "Of course."
-            elif ApprovalCheck("Emma", 1100, TabM=2):
-                if Taboo:
-                    ch_e "I'd rather not out here. . ."
-                else:
-                    ch_e "I suppose for you. . ."
-            elif E_Over == "jacket" and ApprovalCheck("Emma", 700, TabM=(3-Public)):
-                ch_e "This is a bit daring without anything under it. . ."
-            elif not E_Over:
-                ch_e "I don't think that would be appropriate."
-                jump Emma_Clothes
-            else:
-                ch_e "I'm afraid not, [E_Petname]."
-                jump Emma_Clothes
-            $ Line = E_Chest
-            $ E_Chest = 0
-            if E_Over:
-                "She reaches under her [E_Over] grabs her [Line], and pulls it out, dropping it to the ground."
-            else:
-                "She lets her [Line] fall to the ground."
-                call Emma_First_Topless
-
-        "I like that corset you have." if E_Chest != "corset":
-            if E_SeenChest or ApprovalCheck("Emma", 1000, TabM=(3-Public)):
-                ch_e "So do I."
-                $ E_Chest = "corset"
-                $ E_TitsUp = 1
-            else:
-                ch_e "I don't think that would be appropriate. . ."
-
-        "I like that lace bra." if "lace bra" in E_Inventory and E_Chest != "lace bra":
-            if E_SeenChest or ApprovalCheck("Emma", 1300, TabM=(3-Public)):
-                ch_e "Fine."
-                $ E_Chest = "lace bra"
-            else:
-                ch_e "It's a bit revealing. . ."
-
-        "I like that sports bra." if E_Chest != "sports bra":
-            if E_SeenChest or ApprovalCheck("Emma", 1000, TabM=(3-Public)):
-                ch_e "Fine."
-                $ E_Chest = "sports bra"
-            else:
-                ch_e "I'm not sure about that. . ."
-                                                                                                                            #Panties
-        "You could lose those panties. . ." if E_Panties:
-            call EmmaFace("bemused", 1)
-            if (ApprovalCheck("Emma", 900) or E_SeenPussy) and not Taboo:
-                #If you've got decent approval and either she's wearing pants or you've seen her pussy and it's not in public
-
-                if ApprovalCheck("Emma", 850, "L"):
-                        ch_e "You like the view?"
-                elif ApprovalCheck("Emma", 500, "O"):
-                        ch_e "If you'd like."
-                elif ApprovalCheck("Emma", 350, "I"):
-                        ch_e "I do enjoy going without them. . ."
-                else:
-                        ch_e "Very well."
-            else:
-                #low approval or not wearing pants or in public
-                if ApprovalCheck("Emma", 1100, "LI", TabM=(4-Public)) and E_Love > E_Inbt:
-                        ch_e "I don't exactly mind you seeing. . ."
-                elif ApprovalCheck("Emma", 700, "OI", TabM=(4-Public)) and E_Obed > E_Inbt:
-                        ch_e "I suppose I could. . ."
-                elif ApprovalCheck("Emma", 600, "I", TabM=(4-Public)):
-                        ch_e "Why not."
-                elif ApprovalCheck("Emma", 1300, TabM=(4-Public)):
-                        ch_e "Fine."
-                else:
-                        call EmmaFace("surprised")
-                        $ E_Brows = "angry"
-                        if Taboo > 20:
-                            ch_e "I don't think I could out here, [E_Petname]!"
-                        else:
-                            ch_e "I could, but I won't, [E_Petname]!"
-                        jump Emma_Clothes
-
-
-            $ Line = E_Panties
-            $ E_Panties = 0
-            if E_Legs:
-                if Taboo or ApprovalCheck("Emma", 1100) or E_SeenPussy:
-                    "She pulls off her [E_Legs] then pulls her [Line] off, droping them to the ground, before putting them back on."
-                    call Emma_First_Bottomless(1)
-                else:
-                    "She asks you to turn around. After a few seconds, you turn back to her as she drops the [Line] to the ground."
-            else:
-                "She pulls off her [Line] and lets them drop to the ground."
-                call Emma_First_Bottomless
-                call Statup("Emma", "Inbt", 50, 2)
-
-        "Why don't you wear the white panties instead?" if E_Panties and E_Panties != "white panties":
-            if ApprovalCheck("Emma", 1100, TabM=(4-Public)):
-                    ch_e "Ok."
-                    $ E_Panties = "white panties"
-            else:
-                    ch_e "I really don't see how that's any of your concern."
-
-        "Why don't you wear the sporty panties instead?" if E_Panties and E_Panties != "sports panties":
-            if ApprovalCheck("Emma", 1200, TabM=(4-Public)):
-                    ch_e "Fine."
-                    $ E_Panties = "sports panties"
-            else:
-                    ch_e "I really don't see how that's any of your concern."
-
-        "Why don't you wear the lace panties instead?" if "lace panties" in E_Inventory and E_Panties and E_Panties != "lace panties":
-            if ApprovalCheck("Emma", 1300, TabM=(4-Public)):
-                    ch_e "Fine."
-                    $ E_Panties = "lace panties"
-            else:
-                    ch_e "I really don't see how that's any of your concern."
-
-        "You know, you could wear some panties with that. . ." if not E_Panties:
-            call EmmaFace("bemused", 1)
-            if (E_Love+E_Obed) <= (2* E_Inbt):
-                $ E_Mouth = "smile"
-                ch_e "I could, but won't."
-                call Statup("Emma", "Inbt", 70, 2)
-                menu:
-                    "Fine by me":
-                        call Statup("Emma", "Love", 90, 2)
-                        call Statup("Emma", "Inbt", 70, 2)
-                        jump Emma_Clothes
-                    "I insist, put some on.":
-                        if (E_Love+E_Obed) <= E_Inbt:
-                            call EmmaFace("angry", Eyes="side")
-                            call Statup("Emma", "Inbt", 99, 5)
-                            call Statup("Emma", "Obed", 80, -5)
-                            ch_e "How disappointing that must be for you."
-                            jump Emma_Clothes
-                        else:
-                            call EmmaFace("sadside")
-                            call Statup("Emma", "Inbt", 200, -5)
-                            call Statup("Emma", "Obed", 80, 5)
-                            ch_e "If you insist."
+    menu Emma_Clothes_Under:
+        "Tops":
             menu:
-                ch_e "If you insist. . ."
-                "How about the white ones?":
-                    ch_e "Fine."
-                    $ E_Panties = "white panties"
-                "How about the sporty ones?":
-                    ch_e "Fine."
-                    $ E_Panties = "sports panties"
-                "How about the lace ones?" if "lace panties" in E_Inventory:
-                    ch_e "Fine."
-                    $ E_Panties  = "lace panties"
+                "How about you lose the [E_Chest]?" if E_Chest:
+                    call EmmaFace("bemused", 1)
+                    if E_SeenChest and ApprovalCheck("Emma", 900, TabM=(4-Public)):
+                        ch_e "Of course."    
+                    elif ApprovalCheck("Emma", 1100, TabM=2):
+                        if Taboo:
+                            ch_e "I'd rather not out here. . ."
+                        else:
+                            ch_e "I suppose for you. . ."
+                    elif E_Over == "jacket" and ApprovalCheck("Emma", 700, TabM=(3-Public)):
+                        ch_e "This is a bit daring without anything under it. . ."  
+                    elif not E_Over:
+                        ch_e "I don't think that would be appropriate."
+                        jump Emma_Clothes 
+                    else:
+                        ch_e "I'm afraid not, [E_Petname]."
+                        jump Emma_Clothes 
+                    $ Line = E_Chest
+                    $ E_Chest = 0
+                    if E_Over:
+                        "She reaches under her [E_Over] grabs her [Line], and pulls it out, dropping it to the ground."
+                    else:
+                        "She lets her [Line] fall to the ground."
+                        call Emma_First_Topless
+                  
+                "I like that corset you have." if E_Chest != "corset":
+                    if E_SeenChest or ApprovalCheck("Emma", 1000, TabM=(3-Public)):
+                        ch_e "So do I."   
+                        $ E_Chest = "corset"  
+                        $ E_TitsUp = 1
+                    else:                
+                        ch_e "I don't think that would be appropriate. . ."      
+                        
+                "I like that lace bra." if "lace bra" in E_Inventory and E_Chest != "lace bra":
+                    if E_SeenChest or ApprovalCheck("Emma", 1300, TabM=(3-Public)):
+                        ch_e "Fine."   
+                        $ E_Chest = "lace bra"         
+                    else:                
+                        ch_e "It's a bit revealing. . ."  
+                    
+                "I like that sports bra." if E_Chest != "sports bra":
+                    if E_SeenChest or ApprovalCheck("Emma", 1000, TabM=(3-Public)):
+                        ch_e "Fine."   
+                        $ E_Chest = "sports bra"         
+                    else:                
+                        ch_e "I'm not sure about that. . ."  
+                          
+                "I like that bikini top." if E_Chest != "bikini top" and "bikini top" in E_Inventory:
+                    if bg_current == "bg pool":
+                            ch_e "Fine."   
+                            $ E_Chest = "bikini top"         
+                    else:                
+                            if E_SeenChest or ApprovalCheck("Emma", 800, TabM=2):
+                                ch_e "Fine."   
+                                $ E_Chest = "bikini top"         
+                            else:                
+                                ch_e "I don't know about wearing that here. . ." 
+                "Never mind":
+                    pass 
+                  
+                                    
+        "Hose and stockings options":
+            menu:          
+                "You could lose the hose." if E_Hose:     
+                                $ E_Hose = 0  
+                "The thigh-high hose would look good with that." if E_Hose != "stockings" and "stockings and garterbelt" in E_Inventory:    
+                                $ E_Hose = "stockings"  
+                "The pantyhose would look good with that." if E_Hose != "pantyhose" and "pantyhose" in E_Inventory:    
+                                $ E_Hose = "pantyhose" 
+                "The stockings and garterbelt would look good with that." if E_Hose != "stockings and garterbelt" and "stockings and garterbelt" in E_Inventory:     
+                                $ E_Hose = "stockings and garterbelt"  
+                "Maybe just the garterbelt?" if E_Hose != "garterbelt" and "stockings and garterbelt" in E_Inventory:     
+                                $ E_Hose = "garterbelt"  
+                "Never mind":
+                        pass  
+                      
+        #Panties   
+        "Panties":
+            menu:
+                "You could lose those panties. . ." if E_Panties:
+                    call EmmaFace("bemused", 1)  
+                    if (ApprovalCheck("Emma", 900) or E_SeenPussy) and not Taboo:
+                        #If you've got decent approval and either she's wearing pants or you've seen her pussy and it's not in public
+                        
+                        if ApprovalCheck("Emma", 850, "L"):               
+                                ch_e "You like the view?"
+                        elif ApprovalCheck("Emma", 500, "O"):
+                                ch_e "If you'd like."
+                        elif ApprovalCheck("Emma", 350, "I"):
+                                ch_e "I do enjoy going without them. . ."
+                        else:
+                                ch_e "Very well."         
+                    else:                       
+                        #low approval or not wearing pants or in public 
+                        if ApprovalCheck("Emma", 1100, "LI", TabM=(4-Public)) and E_Love > E_Inbt:               
+                                ch_e "I don't exactly mind you seeing. . ."
+                        elif ApprovalCheck("Emma", 700, "OI", TabM=(4-Public)) and E_Obed > E_Inbt:
+                                ch_e "I suppose I could. . ."
+                        elif ApprovalCheck("Emma", 600, "I", TabM=(4-Public)):
+                                ch_e "Why not."
+                        elif ApprovalCheck("Emma", 1300, TabM=(4-Public)):
+                                ch_e "Fine."
+                        else: 
+                                call EmmaFace("surprised")
+                                $ E_Brows = "angry"
+                                if Taboo > 20:
+                                    ch_e "I don't think I could out here, [E_Petname]!"
+                                else:
+                                    ch_e "I could, but I won't, [E_Petname]!"
+                                jump Emma_Clothes
+                                
+                                
+                    $ Line = E_Panties
+                    $ E_Panties = 0  
+                    if E_Legs:
+                        if Taboo or ApprovalCheck("Emma", 1100) or E_SeenPussy:
+                            "She pulls off her [E_Legs] then pulls her [Line] off, droping them to the ground, before putting them back on." 
+                            call Emma_First_Bottomless(1)
+                        else:
+                            "She asks you to turn around. After a few seconds, you turn back to her as she drops the [Line] to the ground."               
+                    else:
+                        "She pulls off her [Line] and lets them drop to the ground."
+                        call Emma_First_Bottomless
+                        call Statup("Emma", "Inbt", 50, 2)  
+                        
+                "Why don't you wear the white panties instead?" if E_Panties and E_Panties != "white panties":
+                    if ApprovalCheck("Emma", 1100, TabM=(4-Public)):
+                            ch_e "Ok."
+                            $ E_Panties = "white panties"  
+                    else:                
+                            ch_e "I really don't see how that's any of your concern."
+                  
+                "Why don't you wear the sporty panties instead?" if E_Panties and E_Panties != "sports panties":
+                    if ApprovalCheck("Emma", 1200, TabM=(4-Public)):
+                            ch_e "Fine."
+                            $ E_Panties = "sports panties"
+                    else:
+                            ch_e "I really don't see how that's any of your concern."
+                            
+                "Why don't you wear the lace panties instead?" if "lace panties" in E_Inventory and E_Panties and E_Panties != "lace panties":
+                    if ApprovalCheck("Emma", 1300, TabM=(4-Public)):
+                            ch_e "Fine."
+                            $ E_Panties = "lace panties"
+                    else:
+                            ch_e "I really don't see how that's any of your concern."
+                             
+                "I like those bikini bottoms." if E_Panties != "bikini bottoms" and "bikini bottoms" in E_Inventory:
+                    if bg_current == "bg pool":
+                            ch_e "Fine."   
+                            $ E_Panties = "bikini bottoms"         
+                    else:                
+                            if ApprovalCheck("Emma", 800, TabM=2):
+                                ch_e "Fine."   
+                                $ E_Panties = "bikini bottoms"         
+                            else:                
+                                ch_e "I don't know about wearing those here. . ." 
+                                
+                "You know, you could wear some panties with that. . ." if not E_Panties:
+                    call EmmaFace("bemused", 1)
+                    if (E_Love+E_Obed) <= (2* E_Inbt):
+                        $ E_Mouth = "smile"
+                        ch_e "I could, but won't."
+                        call Statup("Emma", "Inbt", 70, 2)
+                        menu:
+                            "Fine by me":
+                                call Statup("Emma", "Love", 90, 2)
+                                call Statup("Emma", "Inbt", 70, 2)
+                                jump Emma_Clothes
+                            "I insist, put some on.":
+                                if (E_Love+E_Obed) <= E_Inbt:
+                                    call EmmaFace("angry", Eyes="side")
+                                    call Statup("Emma", "Inbt", 99, 5)
+                                    call Statup("Emma", "Obed", 80, -5)
+                                    ch_e "How disappointing that must be for you."
+                                    jump Emma_Clothes
+                                else:
+                                    call EmmaFace("sadside")
+                                    call Statup("Emma", "Inbt", 200, -5)
+                                    call Statup("Emma", "Obed", 80, 5)
+                                    ch_e "If you insist."   
+                    menu:
+                        ch_e "If you insist. . ."
+                        "How about the white ones?":
+                            ch_e "Fine."
+                            $ E_Panties = "white panties"
+                        "How about the sporty ones?":
+                            ch_e "Fine."
+                            $ E_Panties = "sports panties"
+                        "How about the lace ones?" if "lace panties" in E_Inventory:
+                            ch_e "Fine."                
+                            $ E_Panties  = "lace panties"
+                "Never mind":
+                    pass
         "Never mind":
             pass
     jump Emma_Clothes
@@ -4650,6 +4856,8 @@ label Emma_Clothes_ScheduleB(Count = 0):
 
 
 label E_AltClothes(Outfit=8):
+        #1 = "teacher", 2 = "costume"
+        #3 = "custom1", 5 = "custom2", 6 = "custom3", 7 = "sleep", 4 = "gym", 10 = "swimwear"
         #This selects her outfit when teaching if 8
         #This selects her private outfit if 9
 
@@ -4675,11 +4883,13 @@ label E_AltClothes(Outfit=8):
                     $ E_Outfit = "sleep"
         elif E_Schedule[Outfit] == 4:
                     $ E_Outfit = "gym"
+        elif E_Schedule[Outfit] == 10:
+                    $ E_Outfit = "swimwear"
         return
 
 label E_Private_Outfit:
     #sets Emma's private outfit in private
-    if "comfy" in E_RecentActions or "comfy" in E_Traits:
+    if "comfy" in E_RecentActions or "comfy" in E_Traits or E_Outfit == E_Schedule[9]:
             call E_AltClothes(9)
             call EmmaOutfit(Changed=1)
     elif "no comfy" in E_RecentActions:
@@ -4777,11 +4987,11 @@ label Emma_Custom_Out(Custom = 3, Shame = 0, Agree = 1):
                             ch_e "I can't wear this out!"
             return
 # End Emma Custom Out
-
-
-label Emma_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree = 1):
-            #Custom determines which custom outfit is being checked against.
-            #If Custom1 = 3, if custom2 = 5, if custom3 = 6, if gym = 7, if private = 9, if 20, quickcheck
+                                
+                                
+label Emma_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree = 1): 
+            #Custom determines which custom outfit is being checked against.    
+            #If Custom1 = 3, if custom2 = 5, if custom3 = 6, if gym = 7, if private = 9, if swimsuit = 10, if 20, quickcheck
             #if not a check, then it is only applied if it's in a taboo area
             # Tempshame is a throwaway value, 0-50, Agree is whether she will wear it out, 2 if yes, 1 if only around you.
 
@@ -4793,9 +5003,13 @@ label Emma_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree =
                 return
 
             #If she's wearing a bra of some kind
-            if E_Chest == "corset":
+            if Custom == 20 and E_Uptop: 
+                $ Count = 0
+            elif E_Chest == "corset":  
                 $ Count = 15
             elif E_Chest == "sports bra":
+                $ Count = 15
+            elif E_Chest == "bikini top":
                 $ Count = 15
             elif E_Chest == "bra":
                 $ Count = 10
@@ -4808,7 +5022,9 @@ label Emma_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree =
                     $ Count = 0
 
             #If she's wearing an overshirt
-            if E_Over == "jacket":
+            if Custom == 20 and E_Uptop: 
+                $ Count = 0
+            elif E_Over == "jacket":                                             
                 $ Count += 15
             elif E_Over == "towel":
                 $ Count += 5
@@ -4855,7 +5071,9 @@ label Emma_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree =
                             # if commando
                             $ Count = 25
                 elif E_Panties == "sports panties":      #If wearing only sports panties
-                    $ Count = 20
+                    $ Count = 20           
+                elif E_Panties == "bikini bottoms":      #If wearing only bikini bottoms
+                    $ Count = 15       
                 elif E_Panties == "white panties":      #If wearing only white panties
                     $ Count = 10
                 elif E_Panties == "lace panties":       #If wearing only lace panties
@@ -4944,7 +5162,11 @@ label Emma_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree =
                     elif Tempshame >= 15 and "public" not in E_History:                 #maybe remove later
                             ch_e "I doubt I could get away with this in public, [E_Petname]."
                             $ Agree = 0
-
+                        
+                    elif Custom == 10 and Tempshame <= 20:  
+                        #if it's a swimsuit. . .
+                        call EmmaFace("bemused", 1)
+                        ch_e "Fine, this is decent swimwear. . ."
                     elif Tempshame <= 25 and (ApprovalCheck("Emma", 2300, TabM=0, C = 0) or ApprovalCheck("Emma", 700, "I", TabM=0, C = 0)):
                             ch_e "This is particularly inappropriate. . . in the best ways."
                     elif Tempshame <= 25:
@@ -4971,6 +5193,7 @@ label Emma_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree =
                             $ E_Custom2[8] = E_Hair
                             $ E_Custom2[9] = E_Hose
                             $ E_Custom2[0] = 2 if Agree else 1
+                            call Clothing_Schedule_Check("Emma",5,1) 
                     elif Custom == 6:
                             $ E_Custom3[1] = E_Arms
                             $ E_Custom3[2] = E_Legs
@@ -4982,50 +5205,7 @@ label Emma_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree =
                             $ E_Custom3[8] = E_Hair
                             $ E_Custom3[9] = E_Hose
                             $ E_Custom3[0] = 2 if Agree else 1
-                    elif Custom == 10:
-                            $ E_Custom4[1] = E_Arms
-                            $ E_Custom4[2] = E_Legs
-                            $ E_Custom4[3] = E_Over
-                            $ E_Custom4[4] = E_Neck
-                            $ E_Custom4[5] = E_Chest
-                            $ E_Custom4[6] = E_Panties
-                            $ E_Custom4[7] = E_Boots
-                            $ E_Custom4[8] = E_Hair
-                            $ E_Custom4[9] = E_Hose
-                            $ E_Custom4[0] = 2 if Agree else 1
-                    elif Custom == 11:
-                            $ E_Custom5[1] = E_Arms
-                            $ E_Custom5[2] = E_Legs
-                            $ E_Custom5[3] = E_Over
-                            $ E_Custom5[4] = E_Neck
-                            $ E_Custom5[5] = E_Chest
-                            $ E_Custom5[6] = E_Panties
-                            $ E_Custom5[7] = E_Boots
-                            $ E_Custom5[8] = E_Hair
-                            $ E_Custom5[9] = E_Hose
-                            $ E_Custom5[0] = 2 if Agree else 1
-                    elif Custom == 12:
-                            $ E_Custom6[1] = E_Arms
-                            $ E_Custom6[2] = E_Legs
-                            $ E_Custom6[3] = E_Over
-                            $ E_Custom6[4] = E_Neck
-                            $ E_Custom6[5] = E_Chest
-                            $ E_Custom6[6] = E_Panties
-                            $ E_Custom6[7] = E_Boots
-                            $ E_Custom6[8] = E_Hair
-                            $ E_Custom6[9] = E_Hose
-                            $ E_Custom6[0] = 2 if Agree else 1
-                    elif Custom == 13:
-                            $ E_Custom7[1] = E_Arms
-                            $ E_Custom7[2] = E_Legs
-                            $ E_Custom7[3] = E_Over
-                            $ E_Custom7[4] = E_Neck
-                            $ E_Custom7[5] = E_Chest
-                            $ E_Custom7[6] = E_Panties
-                            $ E_Custom7[7] = E_Boots
-                            $ E_Custom7[8] = E_Hair
-                            $ E_Custom7[9] = E_Hose
-                            $ E_Custom7[0] = 2 if Agree else 1
+                            call Clothing_Schedule_Check("Emma",6,1) 
                     elif Custom == 7 and Agree:
                             $ E_Gym[1] = E_Arms
                             $ E_Gym[2] = E_Legs
@@ -5036,7 +5216,8 @@ label Emma_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree =
                             $ E_Gym[7] = E_Boots
                             $ E_Gym[8] = E_Hair
                             $ E_Gym[9] = E_Hose
-                            $ E_Gym[0] = 2
+                            $ E_Gym[0] = 2   
+                            call Clothing_Schedule_Check("Emma",4,1) 
                     elif Custom == 9 and Agree:
                             $ E_Sleepwear[1] = E_Arms
                             $ E_Sleepwear[2] = E_Legs
@@ -5047,7 +5228,17 @@ label Emma_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree =
                             $ E_Sleepwear[7] = E_Boots
                             $ E_Sleepwear[8] = E_Hair
                             $ E_Sleepwear[9] = E_Hose
-                            $ E_Sleepwear[0] = 2 if Agree else 1
+                            $ E_Sleepwear[0] = 2 if Agree else 1   
+                    elif Custom == 10:            
+                            $ E_Swim[1] = E_Arms  
+                            $ E_Swim[2] = E_Legs 
+                            $ E_Swim[3] = E_Over
+                            $ E_Swim[4] = E_Neck 
+                            $ E_Swim[5] = E_Chest 
+                            $ E_Swim[6] = E_Panties
+                            $ E_Swim[8] = E_Hair
+                            $ E_Swim[9] = E_Hose
+                            $ E_Swim[0] = 2 if Agree else 1                          
                     else: #Typically Custom == 3
                             $ E_Custom[1] = E_Arms
                             $ E_Custom[2] = E_Legs
@@ -5059,7 +5250,8 @@ label Emma_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree =
                             $ E_Custom[8] = E_Hair
                             $ E_Custom[9] = E_Hose
                             $ E_Custom[0] = 2 if Agree else 1
-                    #End check
+                            call Clothing_Schedule_Check("Emma",3,1)  
+                    #End check  
             elif Taboo <= 20:
                 # halves shame level if she's comfortable
                 $ Tempshame /= 2

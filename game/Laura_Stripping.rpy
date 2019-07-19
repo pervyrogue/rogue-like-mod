@@ -543,7 +543,7 @@ label Laura_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
     if "no topless" in L_RecentActions: 
         $ Tempmod -= 10
                      
-    if Intro:
+    if Intro and not L_Uptop:
         if L_Over:
                 ch_p "This might be easier without your [L_Over] on."
         elif L_Chest:
@@ -551,41 +551,28 @@ label Laura_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
 
     $ Approval = ApprovalCheck("Laura", 1200, TabM = 4) # 110, 125, 140, 300 taboo, -20 if already seen
     
-    if Situation == "auto":  
-        $Line = 0
-        if L_Over: # If she's in a top
-            if L_Chest and ApprovalCheck("Laura", 800, TabM = 1):
-                call Statup("Laura", "Inbt", 40, 1)
-            elif Approval >= 2 or (L_SeenChest and ApprovalCheck("Laura", 600) and not Taboo):
-                call Statup("Laura", "Inbt", 70, 1)
-            else:
-                return
-            $ Line = L_Over
-            $ L_Over = 0
-            "Laura scowls in irritation, and shrugs off her [Line]."
-            if not L_Chest:
-                if Taboo:
-                    call Statup("Laura", "Inbt", 90, (int(Taboo/20)))   
-                call Laura_First_Topless(1)
-                
-        if L_Chest:
-            if Approval >= 2 or (L_SeenChest and ApprovalCheck("Laura", 600) and not Taboo):
-                call Statup("Laura", "Inbt", 70, 1)
-                if Taboo:
-                    call Statup("Laura", "Inbt", 90, (int(Taboo/20)))  
-                if Line:
-                    $ Line = L_Chest
-                    $ L_Chest = 0
-                    "As it hits the floor, she unfastens her [Line] and allows it to drop as well."  
-                else:
-                    $ Line = L_Chest
-                    $ L_Chest = 0
-                    "Laura scowls in irritation, she unfastens her [Line] and allows it to drop to the floor."                     
-                call Laura_First_Topless(1) 
-                ch_l "Ah, that's better."  
-        return
-    
-    
+    if Situation == "auto" and  (L_Over or L_Chest) and not L_Uptop:   
+            $ Line = 0
+            if ApprovalCheck("Laura", 1250, TabM = 1) or (L_SeenChest and ApprovalCheck("Laura", 500) and not Taboo):
+                    #if she'd go topless
+                    call Statup("Laura", "Inbt", 70, 1)
+                    $ L_Uptop = 1
+                    $ Line = L_Over if L_Over else L_Chest
+                    "Laura scowls in irritation, and pulls her [Line] up over her breasts."
+                    if Taboo:
+                        call Statup("Laura", "Inbt", 90, (int(Taboo/20)))   
+                    call Laura_First_Topless(1)
+                    ch_l "That wasn't working out."  
+            elif L_Over and L_Chest and ApprovalCheck("Laura", 800, TabM = 1):
+                    #if she won't go topless, but has a bra on. . .
+                    call Statup("Laura", "Inbt", 40, 1)
+                    $ Line = L_Over
+                    $ L_Over = 0
+                    "Laura scowls in irritation, and pulls her [Line] over her head, throwing it aside."
+                    ch_l "That wasn't working out."   
+            $ Line = 0
+            return  
+             
     if Approval >= 2:                                                                               # Does she assume top off?            
         if "no topless" in L_DailyActions:
             ch_l "{i}Fine,{/i} but don't think I'm getting soft on you."
@@ -621,6 +608,13 @@ label Laura_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
                     $ Line = L_Chest
                     $ L_Chest = 0              
                     "Laura pulls off her [Line] and allows it to drop to the floor." 
+                "Just pull it up." if (L_Over or L_Chest) and not L_Uptop:
+                    call LauraFace("bemused", 1)
+                    $ L_Uptop = 1
+                    if L_Over and L_Chest:
+                            "Laura smiles and lifts up her tops. . ."   
+                    else:
+                            "Laura smiles and lifts up her top. . ."   
                 "Lose both tops." if L_Over and L_Chest:
                     call LauraFace("bemused", 1)  
                     $ Line = L_Over
@@ -633,7 +627,7 @@ label Laura_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
                     call LauraFace("bemused", 1)
                     ch_l "Suit yourself. . ."    
                     $ Cnt = 0
-        if not L_Chest and not L_Over:             
+        if not L_Chest and not L_Over or L_Uptop:             
             call Statup("Laura", "Obed", 40, 2)
             call Statup("Laura", "Obed", 90, 1)
             call Laura_First_Topless  
@@ -741,19 +735,8 @@ label Laura_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
                 call LauraFace("sexy")   
                 if "no topless" in L_RecentActions:     
                     ch_l "Fine, you thirsty weirdo."
-                else:
-                    ch_l "I guess I could . . ." 
-                if L_Over:
-                    $ Line = L_Over
-                    $ L_Over = 0
-                    "Laura shrugs off her [Line]. . ."   
-                    $ Line = L_Chest
-                    $ L_Chest = 0 
-                    ". . .and then her [Line] as well."
-                else: 
-                    $ Line = L_Chest
-                    $ L_Chest = 0 
-                    "Laura shrugs off her [Line]." 
+                $ L_Uptop = 1
+                "Laura just pulls her top up over her tits."
                 call Statup("Laura", "Inbt", 30, 1)  
                 call Statup("Laura", "Inbt", 60, 1)
                 call Laura_First_Topless 
@@ -823,22 +806,8 @@ label Laura_ToplessorNothing:
             ch_l "Ugh, whatever."                
         call Statup("Laura", "Obed", 60, 5)
         call Statup("Laura", "Obed", 90, 2)
-        if L_Over:
-            if L_Chest:        
-                $ Line = L_Over
-                $ L_Over = 0 
-                "Laura shrugs off her [Line]. . ."    
-                $ Line = L_Chest
-                $ L_Chest = 0
-                ". . .and then her [Line] as well."
-            else:
-                $ Line = L_Over
-                $ L_Over = 0
-                "Laura shrugs off her [Line]. . ."                    
-        elif L_Chest:
-            $ Line = L_Chest
-            $ L_Chest = 0    
-            "Laura unfastens her [Line] and lets it drop to the floor. . ."   
+        $ L_Uptop = 1
+        "Laura grumpily pulls her top up over her tits."
         if L_Arms:            
             $ L_Arms = 0    
             "She pulls off her wristbands and drops them to the floor."
@@ -858,7 +827,10 @@ label Laura_ToplessorNothing:
         $ L_DailyActions.append("angry")   
     return              
     
-label Laura_First_Topless(Silent = 0, TempLine = 0):          
+label Laura_First_Topless(Silent = 0, TempLine = 0):     
+    if ChestNum("Laura") > 1 or OverNum("Laura") > 2:
+        #if she's wearing substantial clothing. . .
+        return     
     $ L_RecentActions.append("topless")                      
     $ L_DailyActions.append("topless")
     call DrainWord("Laura","no topless")    
@@ -1002,9 +974,9 @@ label Laura_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
         $ Tempmod -= 20
     
     if Intro:
-        if L_Legs:
+        if L_Legs and not L_Upskirt:
                 ch_p "This might be easier without your [L_Legs] on."
-        elif L_Panties:
+        elif L_Panties and not L_PantiesDown:
                 ch_p "This might be easier without your [L_Panties] on."
                 
     $ Approval = ApprovalCheck("Laura", 1300, TabM = 5) # 120, 135, 150, -200(320) taboo, -25 if already seen
@@ -1012,7 +984,7 @@ label Laura_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
     if Situation == "auto":
             $ Cnt = 0
             
-            if not L_Upskirt:                      
+            if not L_Upskirt and not L_PantiesDown:                      
                 if L_Legs == "skirt" and not L_Upskirt:                                          
                     #If she's in a skirt with panties, hike it up?
                     if Approval >= 2 or (L_SeenPussy and ApprovalCheck("Laura", 700) and not Taboo):
@@ -1291,36 +1263,52 @@ label Laura_Bottoms_Off_Legs:
                     ch_l "Hm, if you want."   
                     $ L_Boots = 0                      
                     "She reaches down and pulls her boots off."
-                        
+                      
+            "Just give me a clear view. . ." if (L_Panties and not L_PantiesDown) or (L_Legs and not L_Upskirt):
+                    if Approval >= 2:
+                        ch_l "Whatever."
+                        $ L_PantiesDown = 1 if L_Panties else 0
+                        $ L_Upskirt = 1 if L_Legs else 0
+                        "She shifts her [L_Legs] out of the way."
+                    elif Approval >= 1 and L_Legs and L_Panties and not L_PantiesDown:
+                        ch_l "Make do with this. . ."
+                        $ L_Upskirt = 1
+                    else:
+                        ch_l "No."
+                        $ L_RecentActions.append("no bottomless")                      
+                        $ L_DailyActions.append("no bottomless")   
+                        return   
+                    call Laura_First_Bottomless    
+                    
             
-#            "Lose the [L_Hose]." if L_Hose:                                    #make sure to update this mess if I add hose to her
-#                    call LauraFace("bemused", 1) 
-#                    if L_Legs:
-#                        ch_l "All right, fine."                         
-#                    elif Approval < 2 and not L_Panties and HoseNum("Laura") >= 10:
-#                        call Laura_NoPanties                            
-#                    elif not Approval and HoseNum("Laura") >= 6:
-#                        ch_l "Sorry, no, [L_Petname]."
-#                        return                            
-#                    else:
-#                        ch_l "Fine, [L_Petname]."                 
+            "Lose the [L_Hose]." if L_Hose:                                    #make sure to update this mess if I add hose to her
+                    call LauraFace("bemused", 1) 
+                    if L_Legs:
+                        ch_l "All right, fine."                         
+                    elif Approval < 2 and not L_Panties and HoseNum("Laura") >= 10:
+                        call Laura_NoPanties                            
+                    elif not Approval and HoseNum("Laura") >= 6:
+                        ch_l "Sorry, no, [L_Petname]."
+                        return                            
+                    else:
+                        ch_l "Fine, [L_Petname]."                 
                         
-#                    $ Line = L_Hose   
-#                    $ L_Hose = 0  
-#                    if L_Legs:
-#                        "She reaches under her [L_Legs] and pulls her [Line] down."
-#                    elif HoseNum("Laura") < 10:
-#                        "Laura pulls her [Line] off." 
-#                    elif not L_Panties:
-#                        call LauraFace("sly", 2)  
-#                        "She blushes and looks at you slyly before removing her [Line]." 
-#                        $ L_Blush = 1
-#                        call Laura_First_Bottomless   
-#                    elif not L_SeenPanties:
-#                        "Laura shyly removes her [Line]."
-#                        $ L_SeenPanties = 1
-#                    else:
-#                        "Laura pulls her [Line] off." 
+                    $ Line = L_Hose   
+                    $ L_Hose = 0  
+                    if L_Legs:
+                        "She reaches under her [L_Legs] and pulls her [Line] down."
+                    elif HoseNum("Laura") < 10:
+                        "Laura pulls her [Line] off." 
+                    elif not L_Panties:
+                        call LauraFace("sly", 2)  
+                        "She looks at you before removing her [Line]." 
+                        $ L_Blush = 1
+                        call Laura_First_Bottomless   
+                    elif not L_SeenPanties:
+                        "Laura slowly removes her [Line]."
+                        $ L_SeenPanties = 1
+                    else:
+                        "Laura pulls her [Line] off." 
                         
             "Keep it all on for now." if Cnt == 1:
                 $ L_Mouth = "smile"
@@ -1401,6 +1389,9 @@ label Laura_Bottoms_Off_Refused:
     return   
 
 label Laura_First_Bottomless(Silent = 0): 
+    if PantiesNum("Laura") > 1 or PantsNum("Laura") > 2 or HoseNum("Laura") > 9:
+        #if she's wearing substantial clothing. . .
+        return     
     $ L_RecentActions.append("bottomless")                      
     $ L_DailyActions.append("bottomless")
     call DrainWord("Laura","no bottomless")
@@ -1413,7 +1404,10 @@ label Laura_First_Bottomless(Silent = 0):
     call Statup("Laura", "Obed", 70, 10)   
     if not Silent:
         call LauraFace("sly")
-        "You find yourself staring at [LauraName]'s bare pussy."        
+        if L_Pubes:
+            "You find yourself staring at [LauraName]'s furry pussy."   
+        else:
+            "You find yourself staring at [LauraName]'s bare pussy."        
         menu:        
             extend ""
             "Niiice. . .":            

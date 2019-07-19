@@ -164,8 +164,8 @@ label Laura_SexMenu:
                           
                 
         "Could we maybe?. . . [[fuck]":
-                ch_l "I'm not really ready for that sort of thing [[not in yet]." #fix, remove when ready
-                jump Laura_SMenu
+#                ch_l "I'm not really ready for that sort of thing [[not in yet]." #fix, remove when ready
+#                jump Laura_SMenu
                 
                 if L_Action:
                     menu:
@@ -205,7 +205,8 @@ label Laura_SexMenu:
                         call LauraFace("sad")
                         if L_Action and L_SEXP >= 15 and Round > 20:
                                 if "round2" not in L_RecentActions:  
-                                    ch_l "Are you sure, [L_Petname]? I wasn't exactly. . . finished."                
+                                    ch_l "Are you sure, [L_Petname]?"
+                                    ch_l "I could go another round. . . or two. . ."                
                                     call Statup("Laura", "Inbt", 30, 2)
                                     call Statup("Laura", "Inbt", 50, 1)
                                 elif L_Addict >= 50:                        
@@ -1391,7 +1392,7 @@ label L_Masturbate: #(Situation = Situation):
     if not L_Mast:                                                                
             call LauraFace("surprised", 1)
             $ L_Mouth = "kiss"
-            ch_l "So you want me to masterbate while you watch?"
+            ch_l "So you want me to masturbate while you watch?"
             if L_Forced:
                 call LauraFace("sad")
                 ch_l "And you {i}just{/i} want to watch. . ."
@@ -1928,7 +1929,7 @@ label Laura_Offhand(TempLine=0):
                 $ PrimaryLust += 2 if L_Lust < 50 else 1
         
     elif Trigger2 == "fondle breasts":
-                $ Line = renpy.random.choice([" You reach out and massage her pert breasts.", 
+                $ Line = renpy.random.choice([" You reach out and massage her full breasts.", 
                         " You pass your hands gently over her warm breasts.", 
                         " Her nipples catch lightly on your fingers as you grasp her warm flesh, you can feel them stiffen.",
                         " She gasps as you lightly thumb her tight nipples."])

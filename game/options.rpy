@@ -13,7 +13,7 @@ init -1 python hide:
     ## set to False before the game is released, so the user can't
     ## cheat using developer tools.
 
-    config.developer = False
+    config.developer = True
 
     ## These control the width and height of the screen.
 
@@ -28,7 +28,7 @@ init -1 python hide:
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "Rogue-Like"
-    config.version = "0.982g"
+    config.version = "0.983d"
 
     #########################################
     # Themes
@@ -337,7 +337,7 @@ init python:
     ## The name that's used for directories and archive files. For example, if
     ## this is 'mygame-1.0', the windows distribution will be in the
     ## directory 'mygame-1.0-win', in the 'mygame-1.0-win.zip' file.
-    build.directory_name = "Rogue-Like-0.982g"
+    build.directory_name = "Rogue-Like-0.983d"
 
     ## The name that's uses for executables - the program that users will run
     ## to start the game. For example, if this is 'mygame', then on Windows,
@@ -398,5 +398,7 @@ init python:
     build.documentation('*.txt')
     
 # My junk
+    config.rollback_length = 500 #allows rollbacks to cover longer distances. Default is around 128
+
     config.layers = [ 'backdrop', 'master', 'nightmask', 'black', 'transient', 'screens', 'overlay' ]
     #config.layers = [ 'master', 'nightmask', 'black', 'transient', 'screens', 'overlay' ] #what it was before I messed with it.

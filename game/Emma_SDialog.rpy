@@ -424,21 +424,21 @@ label Emma_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
     
     elif Trigger == "fondle breasts":   
                     $ Line = "You continue to fondle Emma. "    
-                    if E_Over and E_Chest: #Full top
+                    if not E_Uptop and E_Over and E_Chest: #Full top
                                 $ Line = Line + renpy.random.choice(["You reach under her layers of clothing and massage her breasts", 
                                     "You pass your hands gently over her warm breasts", 
                                     "Her firm nipples catch on the fabric of her top as you grasp her warm flesh",
                                     "She gasps as you grasp her under her top"])
                                 $ TempFocus += 3 if P_Focus < 40 else 2  
                                 $ TempLust += 4 if E_Lust > 50 else 2
-                    elif E_Over:        #Just overtop
+                    elif not E_Uptop and E_Over:        #Just overtop
                                 $ Line = Line + renpy.random.choice(["You reach under her top and massage her breasts", 
                                     "You pass your hands gently over her warm breasts", 
                                     "Her nipples catch on the fabric of her top as you grasp her warm flesh, you can see them stiffen",
                                     "She gasps as you grasp her under her top"])
                                 $ TempFocus += 3 if P_Focus < 50 else 2
                                 $ TempLust += 4 if E_Lust > 50 else 2   
-                    elif E_Chest:       #just bra
+                    elif not E_Uptop and E_Chest:       #just bra
                                 $ Line = Line + renpy.random.choice(["You reach under her tight top and massage her breasts", 
                                     "You pass your hands gently over her warm breasts", 
                                     "Her nipples catch on the fabric of her top as you grasp her warm flesh, you can see them stiffen",
@@ -464,14 +464,14 @@ label Emma_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
     # end E Fondle breasts                                 //////////////////////////////////////////////////////////////////////////////
     elif Trigger == "suck breasts":  
                     $ Line = "You continue to suck on Emma's breasts. "    
-                    if E_Over and E_Chest: #Full top
+                    if not E_Uptop and E_Over and E_Chest: #Full top
                                 $ Line = renpy.random.choice(["You bend down and motor-boat her breasts",
                                         "You gently nibble at her nipples as you suck on them through the layered tops",
                                         "You  place a nipple between your lips, and give it a quick tug through the layered tops",
                                         "She gasps as you gently nibble her rigid nipples poking through her tops"])      
                                 $ TempFocus += 3 if P_Focus < 50 else 2  
                                 $ TempLust += 2 if E_Lust < 30 else 1
-                    elif E_Over:        #Just overtop
+                    elif not E_Uptop and E_Over:        #Just overtop
                                 $ Line = renpy.random.choice(["You bend down and motor-boat her breasts",
                                         "You gently nibble at her nipples as you suck on them through the light top",
                                         "You tease her nipples with your tongue through the fabric",
@@ -480,7 +480,7 @@ label Emma_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                         "She gasps as you lightly lick her rigid nipples, poking through her top"])    
                                 $ TempFocus += 3 if P_Focus < 50 else 2
                                 $ TempLust += 5 if E_Lust > 50 else 3
-                    elif E_Chest:       #just bra
+                    elif not E_Uptop and E_Chest:       #just bra
                                 $ Line = renpy.random.choice(["You bend down and motor-boat her breasts",
                                         "You tease her nipples with your tongue through her top",
                                         "You slowly lick her nipples through her moist top", 
@@ -2285,6 +2285,9 @@ label Emma_Threeway_Set(Preset = 0, Mode = 0, Action = Trigger4, ActiveGirl = Pr
 #                                $ Options.append("vibrator") 
                     
             if State == "hetero" or State == "threeway":
+                if Trigger == "anal":
+                    $ Options.extend(("hand","kiss you","kiss you"))   
+                else:
                     $ Options.extend(("hand","blow","kiss you"))                 
             $ renpy.random.shuffle(Options)
             

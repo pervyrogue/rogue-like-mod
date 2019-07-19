@@ -569,21 +569,21 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
     
     elif Trigger == "fondle breasts":   
                     $ Line = "You continue to fondle Kitty. "    
-                    if K_Over and K_Chest: #Full top
+                    if not K_Uptop and K_Over and K_Chest: #Full top
                                 $ Line = Line + renpy.random.choice(["You reach under her layers of clothing and massage her breasts", 
                                     "You pass your hands gently over her warm breasts", 
                                     "Her firm nipples catch on the fabric of her top as you grasp her warm flesh",
                                     "She gasps as you grasp her under her top"])
                                 $ TempFocus += 2 if P_Focus < 40 else 1  
                                 $ TempLust += 4 if K_Lust > 50 else 2
-                    elif K_Over:        #Just overtop
+                    elif not K_Uptop and K_Over:        #Just overtop
                                 $ Line = Line + renpy.random.choice(["You reach under her top and massage her breasts", 
                                     "You pass your hands gently over her warm breasts", 
                                     "Her nipples catch on the fabric of her top as you grasp her warm flesh, you can see them stiffen",
                                     "She gasps as you grasp her under her top"])
                                 $ TempFocus += 2 if P_Focus < 50 else 1
                                 $ TempLust += 4 if K_Lust > 50 else 2   
-                    elif K_Chest:       #just bra
+                    elif not K_Uptop and K_Chest:       #just bra
                                 $ Line = Line + renpy.random.choice(["You reach under her tight top and massage her breasts", 
                                     "You pass your hands gently over her warm breasts", 
                                     "Her nipples catch on the fabric of her top as you grasp her warm flesh, you can see them stiffen",
@@ -609,14 +609,14 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
     # end R Fondle breasts                                 //////////////////////////////////////////////////////////////////////////////
     elif Trigger == "suck breasts":  
                     $ Line = "You continue to suck on Kitty's breasts. "    
-                    if K_Over and K_Chest: #Full top
+                    if not K_Uptop and K_Over and K_Chest: #Full top
                                 $ Line = renpy.random.choice(["You bend down and motor-boat them",
                                         "You gently nibble at her nipples as you suck on them through the layered tops",
                                         "You  place a nipple between your lips, and give it a quick tug through the layered tops",
                                         "She gasps as you gently nibble her rigid nipples poking through her tops"])      
                                 $ TempFocus += 2 if P_Focus < 50 else 1  
                                 $ TempLust += 2 if K_Lust < 30 else 1
-                    elif K_Over:        #Just overtop
+                    elif not K_Uptop and K_Over:        #Just overtop
                                 $ Line = renpy.random.choice(["You bend down and motor-boat her breasts",
                                         "You gently nibble at her nipples as you suck on them through the light top",
                                         "You tease her nipples with your tongue through the fabric",
@@ -625,7 +625,7 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                         "She gasps as you lightly lick her rigid nipples, poking through her top"])    
                                 $ TempFocus += 2 if P_Focus < 50 else 1
                                 $ TempLust += 5 if K_Lust > 50 else 3
-                    elif K_Chest:       #just bra
+                    elif not K_Uptop and K_Chest:       #just bra
                                 $ Line = renpy.random.choice(["You bend down and motor-boat her breasts",
                                         "You tease her nipples with your tongue through her top",
                                         "You slowly lick her nipples through her moist top", 
@@ -667,7 +667,7 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                 $ TempFocus += 1 if P_Focus < 50 else 0  
                                 $ TempLust += 1 if K_Lust < 50 else 0
                             
-                    elif K_Legs == "skirt" and HoseNum("Kitty") >= 5: # skirt with full hose          
+                    elif K_Legs == "blue skirt" and HoseNum("Kitty") >= 5: # skirt with full hose          
                                 $ Line = renpy.random.choice(["You reach under skirt and stroke her thighs", 
                                         "You lift her skirt a bit and feel her firm thighs", 
                                         "Her legs twitch a bit beneath her skirt",
@@ -676,7 +676,7 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                 $ TempFocus += 2 if P_Focus < 40 else 0  
                                 $ TempLust += 2 if K_Lust < 40 else 0                                
                                 $ K_Addict -= 1 if D20S > 10 else 0                            
-                    elif K_Legs == "skirt" and K_Hose: #skirt with stockings         
+                    elif K_Legs == "blue skirt" and K_Hose: #skirt with stockings         
                                 $ Line = renpy.random.choice(["You reach under skirt and stroke her thighs", 
                                         "You lift her skirt a bit and feel her firm thighs", 
                                         "Her legs twitch a bit beneath her skirt",
@@ -685,7 +685,7 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                 $ TempFocus += 2 if P_Focus < 50 else 0  
                                 $ TempLust += 2 if K_Lust < 50 else 0                               
                                 $ K_Addict -= 1 if D20S > 10 else 0                            
-                    elif K_Legs == "skirt":  #and no hose
+                    elif K_Legs == "blue skirt":  #and no hose
                                 $ Line = renpy.random.choice(["You reach under skirt and stroke her thighs", 
                                         "You lift her skirt a bit and feel her firm thighs", 
                                         "Her legs twitch a bit beneath her skirt",
@@ -741,7 +741,7 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                                     "You slide a finger into her pussy and stroke the top", 
                                                     "You pull her pants out a bit and she gasps as you slide two fingers between her lips", 
                                                     "You rub her clit with your palm as you dive into her pussy with your middle finger"]) 
-                            elif K_Legs == "skirt":
+                            elif K_Legs == "blue skirt":
                                     if K_Panties == "shorts" and not K_PantiesDown: #shorts on
                                             $ Line = renpy.random.choice(["You push her skirt and shorts up, and slide a finger between her lips", 
                                                     "You slide a finger into her pussy and stroke the top", 
@@ -796,7 +796,7 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                                     "She gasps as you reach under her and lightly stroke her ass through the jeans",
                                                     "You slide a hand up her inner thigh, she moans a little as you reach the point where they meet"])
                                                 
-                            elif K_Legs == "skirt":
+                            elif K_Legs == "blue skirt":
                                     if K_Panties == "shorts" and not K_PantiesDown: #shorts on
                                             $ Line = renpy.random.choice(["You reach under skirt and ran your hands over the thin shorts covering her", 
                                                     "You slide a hand up the leg of her shorts, and brush your hands across her pussy underneath", 
@@ -902,7 +902,7 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                             $ TempFocus += 1 if P_Focus < 70 else 0  
                                             $ TempLust += 3 if K_Lust > 60 else 2
                             else:                    
-                                if K_Legs == "skirt":
+                                if K_Legs == "blue skirt":
                                         if K_Panties == "shorts" and not K_PantiesDown: #shorts on
                                                 $ Line = renpy.random.choice(["You push her skirt up and lick at her pussy through her shorts",                 
                                                         "You bend down and lick the edges of her lips through the shorts",                 
@@ -1029,7 +1029,7 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                                 "She gasps as you reach under her and lightly stroke her ass through the jeans",
                                                 "You slide a hand up her inner thigh, she moans a little as it slides betweek her cheeks"])  
                                             
-                        elif K_Legs == "skirt":
+                        elif K_Legs == "blue skirt":
                                 if K_Panties == "shorts" and not K_PantiesDown: #shorts on
                                         $ Line = renpy.random.choice(["You reach under skirt and brush across her shorts", 
                                                 "You lift her skirt a bit and grind against her shorts", 
@@ -1124,7 +1124,7 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                                     "You slide a finger into her tight anus", 
                                                     "You pull her pants out a bit and she gasps as you slide a finger up her hole", 
                                                     "You gasps as you rub her asshole with your fingers"]) 
-                            elif K_Legs == "skirt":
+                            elif K_Legs == "blue skirt":
                                     if K_Panties == "shorts" and not K_PantiesDown: #shorts on
                                             $ Line = renpy.random.choice(["You push her skirt and shorts up, and slide a finger into her anus", 
                                                     "You slide a finger into her tight anus", 
@@ -1181,7 +1181,7 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                                 $ TempFocus += 1 if P_Focus < 70 else 0  
                                                 $ TempLust += 1 if K_Lust < 60 else 0
                             else:                    
-                                if K_Legs == "skirt":
+                                if K_Legs == "blue skirt":
                                         if K_Panties == "shorts" and not K_PantiesDown: #shorts on
                                                 $ Line = renpy.random.choice(["You push her skirt up and lick at her asshole through her shorts",                 
                                                         "You bend down and stroke the edges of her shorts with your tongue",                 
@@ -1298,14 +1298,14 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                 $ TempFocus += 1 if P_Focus < 50 else 0  
                                 $ TempLust += 3 if K_Lust < 50 else 1
                         else:
-                                if K_Legs == "skirt" and K_Panties:            
+                                if K_Legs == "blue skirt" and K_Panties:            
                                     $ Line = renpy.random.choice(["You push her skirt and panties aside, and slide the dildo into her pussy", 
                                             "You slide the toy deep into her pussy", 
                                             "She gasps as you rotate the dildo within her tight pussy",
                                             "You rub her clit with your thumb as you dive into her puss with the rubber phallus"])
                                     $ TempFocus += 2 if P_Focus < 50 else 1  
                                     $ TempLust += 8 if K_Lust > 70 else 5
-                                elif K_Legs == "skirt":            
+                                elif K_Legs == "blue skirt":            
                                     $ Line = renpy.random.choice(["You push her skirt aside, and slide the dildo into her tight hole", 
                                             "You slide the toy deep into her pussy",
                                             "You lift her skirt a bit and she gasps as you slide the dildo firmly into her tight puss", 
@@ -1351,14 +1351,14 @@ label Kitty_SexDialog(TempLine = 0, TempLust = 0, TempLust2 = 0):
                                 $ TempFocus += 1 if P_Focus < 50 else 0  
                                 $ TempLust += 3 if K_Lust < 50 else 1
                         else:
-                                if K_Legs == "skirt" and K_Panties:            
+                                if K_Legs == "blue skirt" and K_Panties:            
                                     $ Line = renpy.random.choice(["You push her skirt and panties aside, and slide the dildo into her ass", 
                                             "You slide the toy deep into her ass", 
                                             "She gasps as you rotate the dildo within her tight asshole",
                                             "You rub her clit with your thumb as you dive into her ass with the rubber phallus"])
                                     $ TempFocus += 2 if P_Focus < 50 else 1  
                                     $ TempLust += 8 if K_Lust > 70 else 5
-                                elif K_Legs == "skirt":            
+                                elif K_Legs == "blue skirt":            
                                     $ Line = renpy.random.choice(["You push her skirt aside, and slide the dildo into her tight hole", 
                                             "You slide the toy deep into her ass",
                                             "You lift her skirt a bit and she gasps as you slide the dildo firmly into her tight anus", 
@@ -2421,6 +2421,9 @@ label Kitty_Threeway_Set(Preset = 0, Mode = 0, Action = Trigger4, ActiveGirl = P
 #                    $ Options.append("vibrator") 
         
             if State == "hetero" or State == "threeway":
+                if Trigger == "anal":
+                    $ Options.extend(("hand","kiss you","kiss you"))   
+                else:
                     $ Options.extend(("hand","blow","kiss you")) 
             $ renpy.random.shuffle(Options)
             

@@ -952,7 +952,7 @@ label Kitty_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
     if "no topless" in K_RecentActions: 
         $ Tempmod -= 10
                      
-    if Intro:
+    if Intro and not K_Uptop:
         if K_Over:
                 ch_p "This might be easier without your [K_Over] on."
         elif K_Chest:
@@ -960,6 +960,28 @@ label Kitty_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
 
     $ Approval = ApprovalCheck("Kitty", 1200, TabM = 4) # 110, 125, 140, 300 taboo, -20 if already seen
     
+    if Situation == "auto" and  (K_Over or K_Chest) and not K_Uptop:   
+            $ Line = 0
+            if ApprovalCheck("Kitty", 1300, TabM = 1) or (K_SeenChest and ApprovalCheck("Kitty", 500) and not Taboo):
+                    #if she'd go topless
+                    call Statup("Kitty", "Inbt", 70, 1)
+                    $ K_Uptop = 1
+                    $ Line = K_Over if K_Over else K_Chest
+                    "Kitty growls slighty, and pulls her [Line] up over her breasts."
+                    if Taboo:
+                        call Statup("Kitty", "Inbt", 90, (int(Taboo/20)))   
+                    call Kitty_First_Topless(1)
+                    ch_k "I[K_like]wasn't feeling it that way."  
+            elif K_Over and K_Chest and ApprovalCheck("Kitty", 900, TabM = 1):
+                    #if she won't go topless, but has a bra on. . .
+                    call Statup("Kitty", "Inbt", 40, 1)
+                    $ Line = K_Over
+                    $ K_Over = 0
+                    "Kitty growls slighty, and pulls her [Line] over her head, throwing it aside."
+                    ch_k "I[K_like]wasn't feeling it that way."  
+            $ Line = 0
+            return  
+            
     if Situation == "auto":  
         $Line = 0
         if K_Over: # If she's in a top
@@ -1026,6 +1048,13 @@ label Kitty_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
                     $ Line = K_Chest
                     $ K_Chest = 0                 
                     "Kitty lets her [Line] fall to the ground."   
+                "Just pull it up." if (K_Over or K_Chest) and not K_Uptop:
+                    call KittyFace("bemused", 1)
+                    $ K_Uptop = 1
+                    if K_Over and K_Chest:
+                            "Kitty smiles and lifts up her tops. . ."   
+                    else:
+                            "Kitty smiles and lifts up her top. . ."   
                 "Lose both tops." if K_Over and K_Chest:
                     call KittyFace("bemused", 1)
                     $ Line = K_Chest
@@ -1144,17 +1173,8 @@ label Kitty_Top_Off(Intro = 1, Line = 0, Cnt = 0):                              
                     ch_k "You just don't know when to quit. . . but you got lucky this time. . ."
                 else:
                     ch_k "You[K_like]know how to ask nicely . . ." 
-                if K_Over:
-                    $ Line = K_Over
-                    $ K_Over = 0
-                    "Kitty tosses the [Line] over her head. . ."   
-                    $ Line = K_Chest
-                    $ K_Chest = 0 
-                    ". . .and then the [Line] as well."
-                else: 
-                    $ Line = K_Chest
-                    $ K_Chest = 0 
-                    "Kitty lets the [Line] drop to the ground."                     
+                $ K_Uptop = 1
+                "Kitty just pulls her top up over her tits."           
                 call Statup("Kitty", "Inbt", 30, 1)  
                 call Statup("Kitty", "Inbt", 60, 1)
                 call Kitty_First_Topless   
@@ -1225,22 +1245,8 @@ label Kitty_ToplessorNothing:
             ch_k "Whatever."                
         call Statup("Kitty", "Obed", 60, 5)
         call Statup("Kitty", "Obed", 90, 2)
-        if K_Over:
-            if K_Chest:
-                $ Line = K_Chest
-                $ K_Chest = 0
-                "Kitty lets her [Line] drop to the floor. . ."            
-                $ Line = K_Over
-                $ K_Over = 0 
-                ". . .and then her [Line] as well."
-            else:
-                $ Line = K_Over
-                $ K_Over = 0
-                "Kitty lets her [Line] drop to the floor. . ."                  
-        elif K_Chest:
-            $ Line = K_Chest
-            $ K_Chest = 0 
-            "Kitty lets her [Line] drop to the floor. . ."   
+        $ K_Uptop = 1
+        "Kitty slowly pulls her top up over her tits."
         call Kitty_First_Topless                       
     else:                                                                                                #she refuses your ultimatum
         call Statup("Kitty", "Love", 200, -10)                
@@ -1256,7 +1262,10 @@ label Kitty_ToplessorNothing:
         $ K_DailyActions.append("angry")   
     return              
     
-label Kitty_First_Topless(Silent = 0, TempLine = 0):          
+label Kitty_First_Topless(Silent = 0, TempLine = 0):  
+    if ChestNum("Kitty") > 1 or OverNum("Kitty") > 2:
+        #if she's wearing substantial clothing. . .
+        return        
     $ K_RecentActions.append("topless")                      
     $ K_DailyActions.append("topless")
     call DrainWord("Kitty","no topless")    
@@ -1388,9 +1397,9 @@ label Kitty_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
         $ Tempmod -= 20
     
     if Intro:
-        if K_Legs:
+        if K_Legs and not K_Upskirt:
                 ch_p "This might be easier without your [K_Legs] on."
-        elif K_Panties:
+        elif K_Panties and not K_PantiesDown:
                 ch_p "This might be easier without your [K_Panties] on."
                 
     $ Approval = ApprovalCheck("Kitty", 1300, TabM = 5) # 120, 135, 150, -200(320) taboo, -25 if already seen
@@ -1398,8 +1407,8 @@ label Kitty_Bottoms_Off(Intro = 1, Line = 0, Cnt = 0):
     if Situation == "auto":
         $ Cnt = 0
             
-        if not K_Upskirt:                  
-            if K_Legs == "skirt":                                          #If she's in a skirt with panties, hike it up?
+        if not K_Upskirt and not K_PantiesDown:                  
+            if K_Legs == "blue skirt":                                          #If she's in a skirt with panties, hike it up?
                 if Approval >= 2 or (K_SeenPussy and ApprovalCheck("Kitty", 700) and not Taboo):
                     call Statup("Kitty", "Inbt", 60, 1)
                     if Taboo:
@@ -1671,6 +1680,22 @@ label Kitty_Bottoms_Off_Legs:
                     if not K_Legs:
                         call Kitty_First_Bottomless  
             
+            "Just give me a clear view. . ." if (K_Panties and not K_PantiesDown) or (K_Legs and not K_Upskirt):
+                    if Approval >= 2:
+                        ch_k "Fine."
+                        $ K_PantiesDown = 1 if K_Panties else 0
+                        $ K_Upskirt = 1 if K_Legs else 0
+                        "She shifts her [K_Legs] out of the way."
+                    elif Approval >= 1 and K_Legs and K_Panties and not K_PantiesDown:
+                        ch_k "I guess I could show you something. . ."
+                        $ K_Upskirt = 1
+                    else:
+                        ch_k "No."
+                        $ K_RecentActions.append("no bottomless")                      
+                        $ K_DailyActions.append("no bottomless")   
+                        return   
+                    call Kitty_First_Bottomless    
+                    
 #            "Lose the [K_Hose]." if K_Hose:                                    #make sure to update this mess if I add hose to her
 #                    call KittyFace("bemused", 1) 
 #                    if K_Legs:
@@ -1776,6 +1801,9 @@ label Kitty_Bottoms_Off_Refused:
     return   
 
 label Kitty_First_Bottomless(Silent = 0): 
+    if PantiesNum("Kitty") > 1 or PantsNum("Kitty") > 2 or HoseNum("Kitty") > 9:
+        #if she's wearing substantial clothing. . .
+        return     
     $ K_RecentActions.append("bottomless")                      
     $ K_DailyActions.append("bottomless")
     call DrainWord("Kitty","no bottomless")

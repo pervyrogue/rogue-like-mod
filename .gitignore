@@ -103,10 +103,15 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-game/images/
-
+# Renpy Projects
 *.rpa
+*.rpyc
 
+# Specific for Rogue-Like
+game/images/
 game/cache/
-
+game/saves/
 *.TTF
+
+# UnRen specific ignores
+unren*

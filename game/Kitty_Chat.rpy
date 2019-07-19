@@ -326,8 +326,19 @@ label Kitty_Relationship:
                     ch_k "I'm not ready to get burned again."
 
         # End Back Together
-
-
+           
+        "I wanted to ask about [[another girl]" if "Kitty" in P_Harem:
+                menu:
+                    "Have you reconsidered letting me date. . ."
+                    "Rogue" if "Rogue" not in P_Harem:
+                            call Poly_Start("Rogue",1)
+                    "Emma" if "Emma" not in P_Harem:
+                            call Poly_Start("Emma",1)
+                    "Laura" if "Laura" not in P_Harem:
+                            call Poly_Start("Laura",1)
+                    "Never mind":
+                            pass         
+                               
 #        "I think we should break up." if "dating" in R_Traits: #ApprovalCheck("Rogue", 950, "L", Bonus = (B/3)):
 #            if "breakup talk" in R_RecentActions:
 #                ch_r "We were {i}just{/i} over this, not even funny."
@@ -1410,10 +1421,11 @@ label Kitty_Flirt:
         $ K_Chat[5] = 1                                         #can only flirt once per cycle.
         menu:
 #            "Compliment her":
-
-#            "Say you love her":
-
-            "Touch her cheek.":                                                                                 #Touch her cheek
+                
+            "Say you love her":
+                        call Love_You("Kitty")
+                
+            "Touch her cheek.":                                                                                 #Touch her cheek 
                     call K_TouchCheek
 
             "Kiss her cheek":                                                                                   #Kiss her cheek
@@ -1875,7 +1887,7 @@ label Kitty_Flirt:
 label Kitty_AskPanties(Store = 0):
     $ Store = Tempmod
     $ Line = 0
-    if not K_Panties or K_Panties == "shorts":
+    if not K_Panties:
         if ApprovalCheck("Kitty", 900):
             call KittyFace("sexy", 1)
             call Statup("Kitty", "Lust", 80, 5)
@@ -1913,9 +1925,9 @@ label Kitty_AskPanties(Store = 0):
                 $ Line = "here"
             elif ApprovalCheck("Kitty", 900, TabM = 2):
                 $ Line = "change"
-
-        elif K_Legs == "skirt":
-            if ApprovalCheck("Kitty", 600, "OI", TabM = 2) or "exhibitionist" in K_Traits:
+                
+        elif K_Legs == "blue skirt":
+            if ApprovalCheck("Kitty", 600, "OI", TabM = 2) or "exhibitionist" in K_Traits:   
                 $ Line = "here"
             elif ApprovalCheck("Kitty", 1100, TabM = 2):
                 $ Line = "change"
@@ -1927,9 +1939,9 @@ label Kitty_AskPanties(Store = 0):
 
         if Line == "here":
                 #She's agreed to change and will do it here
-                call KittyFace("sly")
-                if K_Legs == "skirt":
-                    call Statup("Kitty", "Obed", 60, 4)
+                call KittyFace("sly")                          
+                if K_Legs == "blue skirt":      
+                    call Statup("Kitty", "Obed", 60, 4)            
                     call Statup("Kitty", "Inbt", 60, 4)
                 else: #no pants or skirt
                     call Statup("Kitty", "Obed", 60, 6)
@@ -2076,284 +2088,450 @@ label Kitty_Controls:
 return
 
 # start Kitty_Gifts//////////////////////////////////////////////////////////
-label Kitty_Gifts:
-    if P_Inventory == []:
-        "You don't have anything to give her."
-        return
+label Kitty_Gifts:  
+#    if P_Inventory == []:
+#        "You don't have anything to give her."
+#        return
     menu:
         "What would you like to give her?"
-        "Give her a dildo." if "dildo" in P_Inventory:
-            #If you have a Dildo, you'll give it.
-            $ Count = K_Inventory.count("dildo")
-            if "dildo" not in K_Inventory:
-                "You give Kitty the dildo."
-                $ K_Blush = 1
-                $ Kitty_Arms = 2
-                $ K_Held = "dildo"
-                if ApprovalCheck("Kitty", 1200) or ApprovalCheck("Kitty", 600, "I"):
-                    call KittyFace("bemused")
-                    $ P_Inventory.remove("dildo")
-                    $ K_Inventory.append("dildo")
-                    call Statup("Kitty", "Love", 200, 30)
-                    call Statup("Kitty", "Obed", 200, 30)
-                    call Statup("Kitty", "Inbt", 200, 30)
-                    ch_k "I'm sure I can find some place to store it. . ."
-                    call Statup("Kitty", "Lust", 89, 10)
-                    call Statup("Kitty", "Lust", 89, 10)
-                elif ApprovalCheck("Kitty", 800) or ApprovalCheck("Kitty", 400, "I"):
-                    call KittyFace("confused")
-                    $ P_Inventory.remove("dildo")
-                    $ K_Inventory.append("dildo")
-                    call Statup("Kitty", "Love", 200, 10)
-                    call Statup("Kitty", "Obed", 200, 10)
-                    call Statup("Kitty", "Inbt", 200, 10)
-                    ch_k "I don't know what. . ."
-                    call Statup("Kitty", "Lust", 89, 5)
-                    call Statup("Kitty", "Lust", 89, 10)
-                    call KittyFace("surprised")
-                    ch_k "Oh!"
-                    ch_k "Oh. . . I'll just[K_like]put it away."
-                    call KittyFace("bemused")
-                elif "offered gift" in K_DailyActions:
-                    call KittyFace("angry")
-                    "She hands it back to you."
-                    ch_k "I think I[K_like]made myself clear about inappropriate gifts?"
-                else:
-                    call KittyFace("angry")
-                    call Statup("Kitty", "Love", 50, -20)
-                    call Statup("Kitty", "Obed", 20, 10)
-                    call Statup("Kitty", "Inbt", 20, 20)
-                    ch_k "I- you shouldn't be giving girls stuff like this!"
-                    call Statup("Kitty", "Lust", 89, 10)
-                    "She hands it back to you."
-                    $ K_DailyActions.append("offered gift")
-            elif Count == 1:
-                ch_k "Why stop with one. . ."
-            else:
-                ch_k "I only have so many places to store these."
-            $ K_Held = 0
-            $ Kitty_Arms = 2
-
-
-        "Give her the vibrator." if "vibrator" in P_Inventory:
-            #If you have a vibrator, you'll give it.
-            if "vibrator" not in K_Inventory:
-                "You give Kitty the Shocker Vibrator."
-                $ K_Blush = 1
-                $ Kitty_Arms = 2
-                $ K_Held = "vibrator"
-                if ApprovalCheck("Kitty", 700):
-                    call KittyFace("bemused")
-                    $ P_Inventory.remove("vibrator")
-                    $ K_Inventory.append("vibrator")
-                    call Statup("Kitty", "Love", 200, 30)
-                    call Statup("Kitty", "Obed", 200, 30)
-                    call Statup("Kitty", "Inbt", 200, 30)
-                    ch_k "Well this is. . . [[bzzzt]- "
-                    ch_k "-interesting. . ."
-                    call Statup("Kitty", "Lust", 89, 10)
-                elif ApprovalCheck("Kitty", 400):
-                    call KittyFace("confused")
-                    $ P_Inventory.remove("vibrator")
-                    $ K_Inventory.append("vibrator")
-                    call Statup("Kitty", "Love", 200, 10)
-                    call Statup("Kitty", "Obed", 200, 10)
-                    call Statup("Kitty", "Inbt", 200, 10)
-                    ch_k "I've heard these are very relaxing. . ."
-                    call Statup("Kitty", "Lust", 89, 10)
-                    call KittyFace("surprised")
-                    ch_k "-for my back!"
-                    call KittyFace("bemused", 1)
-                elif "offered gift" in K_DailyActions:
-                    call KittyFace("angry")
-                    "She hands it back to you."
-                    ch_k "I think I[K_like]made myself clear about inappropriate gifts?"
-                else:
-                    call KittyFace("angry")
-                    call Statup("Kitty", "Love", 50, -20)
-                    call Statup("Kitty", "Obed", 20, 10)
-                    call Statup("Kitty", "Inbt", 20, 20)
-                    ch_k "I can't really see the point."
-                    call Statup("Kitty", "Lust", 89, 5)
-                    "She hands it back to you."
-                    $ K_DailyActions.append("offered gift")
-            else:
-                ch_k "I already have one of these."
-            $ K_Held = 0
-            $ Kitty_Arms = 2
-
-
-        "Give her the lace bra." if "k lace bra" in P_Inventory:
-            #If you have a bra, you'll give it.
-            if "lace bra" not in K_Inventory:
-                "You give Kitty the lace bra."
-                if ApprovalCheck("Kitty", 1200):
-                    call KittyFace("bemused")
-                    $ P_Inventory.remove("k lace bra")
-                    $ K_Inventory.append("lace bra")
-                    call Statup("Kitty", "Love", 200, 25)
-                    call Statup("Kitty", "Obed", 200, 30)
-                    call Statup("Kitty", "Inbt", 200, 20)
-                    ch_k "At least you appreciate what I've got."
-                    call Statup("Kitty", "Lust", 89, 10)
-                elif ApprovalCheck("Kitty", 800):
-                    call KittyFace("confused",1)
-                    $ P_Inventory.remove("k lace bra")
-                    $ K_Inventory.append("lace bra")
-                    call Statup("Kitty", "Love", 200, 20)
-                    call Statup("Kitty", "Obed", 200, 30)
-                    call Statup("Kitty", "Inbt", 200, 15)
-                    ch_k "This is. . . see-through. . ."
-                    call KittyFace("bemused",1)
-                elif ApprovalCheck("Kitty", 600):
-                    call KittyFace("confused",2)
-                    $ P_Inventory.remove("k lace bra")
-                    $ K_Inventory.append("lace bra")
-                    call Statup("Kitty", "Love", 200, 20)
-                    call Statup("Kitty", "Obed", 200, 20)
-                    call Statup("Kitty", "Inbt", 200, 25)
-                    ch_k "I don't know why you'd give me this, it's not like I'd wear it. . ."
-                    call KittyFace("bemused",1)
-                elif "no gift bra" in K_RecentActions:
-                    call KittyFace("angry",2)
-                    ch_k "I just told you no, stop being a creepazoid!"
-                elif "no gift bra" in K_DailyActions:
-                    call KittyFace("angry",2)
-                    ch_k "I haven't changed my mind, stop bothering me!"
-                else:
-                    call KittyFace("angry",2)
-                    call Statup("Kitty", "Love", 50, -10)
-                    call Statup("Kitty", "Obed", 20, 10)
-                    call Statup("Kitty", "Inbt", 20, 20)
-                    if "no gift panties" in K_DailyActions:
-                        ch_k "I don't want these either!"
-                    else:
-                        ch_k "You just- just don't be thinking about my breasts!"
-                    call Statup("Kitty", "Lust", 89, 5)
-                    $ K_Blush = 1
-                    "She hands it back to you."
-                    $ K_RecentActions.append("no gift bra")
-                    $ K_DailyActions.append("no gift bra")
-            else:
-                ch_k "I already have one of those."
-
-        "Give her the lace panties." if "k lace panties" in P_Inventory:
-            #If you have a bra, you'll give it.
-            if "lace panties" not in K_Inventory:
-                "You give Kitty the lace panties."
-                $ K_Blush = 1
-                if ApprovalCheck("Kitty", 1200):
-                    call KittyFace("bemused")
-                    $ P_Inventory.remove("k lace panties")
-                    $ K_Inventory.append("lace panties")
-                    call Statup("Kitty", "Love", 200, 20)
-                    call Statup("Kitty", "Obed", 200, 30)
-                    call Statup("Kitty", "Inbt", 200, 30)
-                    ch_k "These don't leave much to the imagination. . ."
-                    call Statup("Kitty", "Lust", 89, 10)
-                elif ApprovalCheck("Kitty", 900):
-                    call KittyFace("confused",1)
-                    $ P_Inventory.remove("k lace panties")
-                    $ K_Inventory.append("lace panties")
-                    call Statup("Kitty", "Love", 200, 20)
-                    call Statup("Kitty", "Obed", 200, 25)
-                    call Statup("Kitty", "Inbt", 200, 20)
-                    ch_k "These are barely there. . ."
-                    call KittyFace("bemused",1)
-                elif ApprovalCheck("Kitty", 700):
-                    call KittyFace("confused",2)
-                    $ P_Inventory.remove("k lace panties")
-                    $ K_Inventory.append("lace panties")
-                    call Statup("Kitty", "Love", 200, 20)
-                    call Statup("Kitty", "Obed", 200, 20)
-                    call Statup("Kitty", "Inbt", 200, 25)
-                    ch_k "I- I wouldn't wear something like these. . ."
-                    call KittyFace("bemused",1)
-                    ch_k "But I'll hold on to them. . ."
-                elif "no gift panties" in K_RecentActions:
-                    call KittyFace("angry",2)
-                    ch_k "Ew I just told you no! What are you, obsessed?!"
-                elif "no gift panties" in K_DailyActions:
-                    call KittyFace("angry",2)
-                    ch_k "Look, my answer's still no, stop asking!"
-                else:
-                    call KittyFace("angry",2)
-                    call Statup("Kitty", "Love", 50, -15)
-                    call Statup("Kitty", "Obed", 20, 10)
-                    call Statup("Kitty", "Inbt", 20, 20)
-                    if "no gift bra" in K_DailyActions:
-                        ch_k "I don't want these either!"
-                    elif K_SeenPanties:
-                        ch_k "Just because you've seen my panties doesn't mean you get to pick them out."
-                    else:
-                        ch_k "Oh, don't you worry what I've got on down there."
-                    call Statup("Kitty", "Lust", 89, 5)
-                    $ K_Blush = 1
-                    "She hands them back to you."
-                    $ K_RecentActions.append("no gift panties")
-                    $ K_DailyActions.append("no gift panties")
-            else:
-                ch_k "I already have one of those."
-
-
-        "Give her the \"Dazzler and Longshot\" book." if "Dazzler and Longshot" in P_Inventory:
-            #If you have a vibrator, you'll give it.
-            if "Dazzler and Longshot" not in K_Inventory:
-                "You give Kitty the book."
-                $ K_Blush = 1
-                if ApprovalCheck("Kitty", 600, "L"):
-                    call KittyFace("smile")
-                    ch_k "Oh, this one's so sweet!"
-                    call Statup("Kitty", "Lust", 89, 10)
-                else:
-                    call KittyFace("confused")
-                    ch_k "Hm, worth the read I guess."
-                    call KittyFace("bemused")
-                $ P_Inventory.remove("Dazzler and Longshot")
-                $ K_Inventory.append("Dazzler and Longshot")
-                call Statup("Kitty", "Love", 200, 50)
-            else:
-                ch_k "I already have one of those."
-
-        "Give her the \"256 Shades of Grey\" book." if "256 Shades of Grey" in P_Inventory:
-            #If you have a book, you'll give it.
-            if "256 Shades of Grey" not in K_Inventory:
-                "You give Kitty the book."
-                $ K_Blush = 1
-                if ApprovalCheck("Kitty", 500, "O"):
-                    call KittyFace("bemused")
-                    ch_k "I'll give it a good look."
-                    call Statup("Kitty", "Lust", 89, 10)
-                else:
-                    call KittyFace("confused")
-                    ch_k "Hmm, I guess I could read a few chapters."
-                    call KittyFace("bemused")
-                $ P_Inventory.remove("256 Shades of Grey")
-                $ K_Inventory.append("256 Shades of Grey")
-                call Statup("Kitty", "Obed", 200, 50)
-            else:
-                ch_k "I already have one of those."
-
-        "Give her the \"Avengers Tower Penthouse\" book." if "Avengers Tower Penthouse" in P_Inventory:
-            #If you have a book, you'll give it.
-            if "Avengers Tower Penthouse" not in K_Inventory:
-                "You give Kitty the book."
-                $ K_Blush = 1
-                if ApprovalCheck("Kitty", 500, "I"):
-                    call KittyFace("bemused")
-                    ch_k "This should be fun. . ."
-                    call Statup("Kitty", "Lust", 89, 10)
-                else:
-                    call KittyFace("confused")
-                    ch_k "Well. . . this is a bit. . . I could maybe learn a few things."
-                    call KittyFace("bemused")
-                $ P_Inventory.remove("Avengers Tower Penthouse")
-                $ K_Inventory.append("Avengers Tower Penthouse")
-                call Statup("Kitty", "Inbt", 200, 50)
-            else:
-                ch_k "I already have one of those."
-
-
+        "Toys and books":
+            menu:
+                "Give her a dildo." if "dildo" in P_Inventory: 
+                    #If you have a Dildo, you'll give it.
+                    $ Count = K_Inventory.count("dildo")
+                    if "dildo" not in K_Inventory:                            
+                        "You give Kitty the dildo."
+                        $ K_Blush = 1
+                        $ Kitty_Arms = 2
+                        $ K_Held = "dildo"
+                        if ApprovalCheck("Kitty", 1200) or ApprovalCheck("Kitty", 600, "I"):                    
+                            call KittyFace("bemused")
+                            $ P_Inventory.remove("dildo")
+                            $ K_Inventory.append("dildo")
+                            call Statup("Kitty", "Love", 200, 30)
+                            call Statup("Kitty", "Obed", 200, 30)
+                            call Statup("Kitty", "Inbt", 200, 30)
+                            ch_k "I'm sure I can find some place to store it. . ."
+                            call Statup("Kitty", "Lust", 89, 10)
+                            call Statup("Kitty", "Lust", 89, 10)
+                        elif ApprovalCheck("Kitty", 800) or ApprovalCheck("Kitty", 400, "I"):
+                            call KittyFace("confused")
+                            $ P_Inventory.remove("dildo")
+                            $ K_Inventory.append("dildo")
+                            call Statup("Kitty", "Love", 200, 10)
+                            call Statup("Kitty", "Obed", 200, 10)
+                            call Statup("Kitty", "Inbt", 200, 10)
+                            ch_k "I don't know what. . ."  
+                            call Statup("Kitty", "Lust", 89, 5)
+                            call Statup("Kitty", "Lust", 89, 10)
+                            call KittyFace("surprised")
+                            ch_k "Oh!"
+                            ch_k "Oh. . . I'll just[K_like]put it away."
+                            call KittyFace("bemused")
+                        elif "offered gift" in K_DailyActions:
+                            call KittyFace("angry")
+                            "She hands it back to you."
+                            ch_k "I think I[K_like]made myself clear about inappropriate gifts?"     
+                        else:
+                            call KittyFace("angry")
+                            call Statup("Kitty", "Love", 50, -20)
+                            call Statup("Kitty", "Obed", 20, 10)
+                            call Statup("Kitty", "Inbt", 20, 20)                    
+                            ch_k "I- you shouldn't be giving girls stuff like this!"                     
+                            call Statup("Kitty", "Lust", 89, 10)
+                            "She hands it back to you."
+                            $ K_DailyActions.append("offered gift") 
+                    elif Count == 1:
+                        ch_k "Why stop with one. . ."
+                    else: 
+                        ch_k "I only have so many places to store these."
+                    $ K_Held = 0
+                    $ Kitty_Arms = 2
+                    
+                    
+                "Give her the vibrator." if "vibrator" in P_Inventory: 
+                    #If you have a vibrator, you'll give it.
+                    if "vibrator" not in K_Inventory:                            
+                        "You give Kitty the Shocker Vibrator."
+                        $ K_Blush = 1
+                        $ Kitty_Arms = 2
+                        $ K_Held = "vibrator"
+                        if ApprovalCheck("Kitty", 700):                    
+                            call KittyFace("bemused")
+                            $ P_Inventory.remove("vibrator")
+                            $ K_Inventory.append("vibrator")
+                            call Statup("Kitty", "Love", 200, 30)
+                            call Statup("Kitty", "Obed", 200, 30)
+                            call Statup("Kitty", "Inbt", 200, 30)
+                            ch_k "Well this is. . . [[bzzzt]- "
+                            ch_k "-interesting. . ."
+                            call Statup("Kitty", "Lust", 89, 10)
+                        elif ApprovalCheck("Kitty", 400):
+                            call KittyFace("confused")
+                            $ P_Inventory.remove("vibrator")
+                            $ K_Inventory.append("vibrator")
+                            call Statup("Kitty", "Love", 200, 10)
+                            call Statup("Kitty", "Obed", 200, 10)
+                            call Statup("Kitty", "Inbt", 200, 10)
+                            ch_k "I've heard these are very relaxing. . ."  
+                            call Statup("Kitty", "Lust", 89, 10)
+                            call KittyFace("surprised")
+                            ch_k "-for my back!"
+                            call KittyFace("bemused", 1)
+                        elif "offered gift" in K_DailyActions:
+                            call KittyFace("angry")
+                            "She hands it back to you."
+                            ch_k "I think I[K_like]made myself clear about inappropriate gifts?"   
+                        else:
+                            call KittyFace("angry")
+                            call Statup("Kitty", "Love", 50, -20)
+                            call Statup("Kitty", "Obed", 20, 10)
+                            call Statup("Kitty", "Inbt", 20, 20)                    
+                            ch_k "I can't really see the point."                     
+                            call Statup("Kitty", "Lust", 89, 5)
+                            "She hands it back to you."
+                            $ K_DailyActions.append("offered gift") 
+                    else: 
+                        ch_k "I already have one of these."
+                    $ K_Held = 0
+                    $ Kitty_Arms = 2
+                    
+                "Give her the \"Dazzler and Longshot\" book." if "Dazzler and Longshot" in P_Inventory: 
+                    #If you have a vibrator, you'll give it.
+                    if "Dazzler and Longshot" not in K_Inventory:                            
+                        "You give Kitty the book."
+                        $ K_Blush = 1
+                        if ApprovalCheck("Kitty", 600, "L"):                    
+                            call KittyFace("smile")
+                            ch_k "Oh, this one's so sweet!"
+                            call Statup("Kitty", "Lust", 89, 10)
+                        else:
+                            call KittyFace("confused")
+                            ch_k "Hm, worth the read I guess."  
+                            call KittyFace("bemused")       
+                        $ P_Inventory.remove("Dazzler and Longshot")
+                        $ K_Inventory.append("Dazzler and Longshot") 
+                        call Statup("Kitty", "Love", 200, 50) 
+                    else: 
+                        ch_k "I already have one of those."                
+                    
+                "Give her the \"256 Shades of Grey\" book." if "256 Shades of Grey" in P_Inventory: 
+                    #If you have a book, you'll give it.
+                    if "256 Shades of Grey" not in K_Inventory:                            
+                        "You give Kitty the book."
+                        $ K_Blush = 1
+                        if ApprovalCheck("Kitty", 500, "O"):                    
+                            call KittyFace("bemused")
+                            ch_k "I'll give it a good look."
+                            call Statup("Kitty", "Lust", 89, 10)
+                        else:
+                            call KittyFace("confused") 
+                            ch_k "Hmm, I guess I could read a few chapters."  
+                            call KittyFace("bemused")             
+                        $ P_Inventory.remove("256 Shades of Grey")
+                        $ K_Inventory.append("256 Shades of Grey")                    
+                        call Statup("Kitty", "Obed", 200, 50)  
+                    else: 
+                        ch_k "I already have one of those."                
+                    
+                "Give her the \"Avengers Tower Penthouse\" book." if "Avengers Tower Penthouse" in P_Inventory: 
+                    #If you have a book, you'll give it.
+                    if "Avengers Tower Penthouse" not in K_Inventory:                            
+                        "You give Kitty the book."
+                        $ K_Blush = 1
+                        if ApprovalCheck("Kitty", 500, "I"):                    
+                            call KittyFace("bemused")
+                            ch_k "This should be fun. . ."
+                            call Statup("Kitty", "Lust", 89, 10)
+                        else:
+                            call KittyFace("confused")
+                            ch_k "Well. . . this is a bit. . . I could maybe learn a few things."  
+                            call KittyFace("bemused")               
+                        $ P_Inventory.remove("Avengers Tower Penthouse")
+                        $ K_Inventory.append("Avengers Tower Penthouse")                    
+                        call Statup("Kitty", "Inbt", 200, 50)  
+                    else: 
+                        ch_k "I already have one of those."   
+            
+                "Never mind":
+                    pass
+        "Clothing":    
+            menu:
+                "Give her the lace bra." if "k lace bra" in P_Inventory: 
+                    #If you have a bra, you'll give it.
+                    if "lace bra" not in K_Inventory:                            
+                        "You give Kitty the lace bra."
+                        if ApprovalCheck("Kitty", 1200):                    
+                            call KittyFace("bemused")
+                            $ P_Inventory.remove("k lace bra")
+                            $ K_Inventory.append("lace bra")
+                            call Statup("Kitty", "Love", 200, 25)
+                            call Statup("Kitty", "Obed", 200, 30)
+                            call Statup("Kitty", "Inbt", 200, 20)
+                            ch_k "At least you appreciate what I've got."
+                            call Statup("Kitty", "Lust", 89, 10)
+                        elif ApprovalCheck("Kitty", 800):
+                            call KittyFace("confused",1)
+                            $ P_Inventory.remove("k lace bra")
+                            $ K_Inventory.append("lace bra")
+                            call Statup("Kitty", "Love", 200, 20)
+                            call Statup("Kitty", "Obed", 200, 30)
+                            call Statup("Kitty", "Inbt", 200, 15)
+                            ch_k "This is. . . see-through. . ."                    
+                            call KittyFace("bemused",1)
+                        elif ApprovalCheck("Kitty", 600):
+                            call KittyFace("confused",2)
+                            $ P_Inventory.remove("k lace bra")
+                            $ K_Inventory.append("lace bra")
+                            call Statup("Kitty", "Love", 200, 20)
+                            call Statup("Kitty", "Obed", 200, 20)
+                            call Statup("Kitty", "Inbt", 200, 25)
+                            ch_k "I don't know why you'd give me this, it's not like I'd wear it. . ."                     
+                            call KittyFace("bemused",1)
+                        elif "no gift bra" in K_RecentActions:
+                            call KittyFace("angry",2)
+                            ch_k "I just told you no, stop being a creepazoid!"
+                        elif "no gift bra" in K_DailyActions:
+                            call KittyFace("angry",2)
+                            ch_k "I haven't changed my mind, stop bothering me!"      
+                        else:
+                            call KittyFace("angry",2)
+                            call Statup("Kitty", "Love", 50, -10)
+                            call Statup("Kitty", "Obed", 20, 10)
+                            call Statup("Kitty", "Inbt", 20, 20)  
+                            if "no gift panties" in K_DailyActions:                    
+                                ch_k "I don't want these either!"                       
+                            else:                   
+                                ch_k "You just- just don't be thinking about my breasts!"                     
+                            call Statup("Kitty", "Lust", 89, 5)
+                            $ K_Blush = 1
+                            "She hands it back to you."
+                            $ K_RecentActions.append("no gift bra")                      
+                            $ K_DailyActions.append("no gift bra") 
+                    else: 
+                        ch_k "I already have one of those."                
+                    
+                "Give her the lace panties." if "k lace panties" in P_Inventory: 
+                    #If you have a bra, you'll give it.
+                    if "lace panties" not in K_Inventory:                            
+                        "You give Kitty the lace panties."
+                        $ K_Blush = 1
+                        if ApprovalCheck("Kitty", 1200):                    
+                            call KittyFace("bemused")
+                            $ P_Inventory.remove("k lace panties")
+                            $ K_Inventory.append("lace panties")
+                            call Statup("Kitty", "Love", 200, 20)
+                            call Statup("Kitty", "Obed", 200, 30)
+                            call Statup("Kitty", "Inbt", 200, 30)
+                            ch_k "These don't leave much to the imagination. . ."
+                            call Statup("Kitty", "Lust", 89, 10)
+                        elif ApprovalCheck("Kitty", 900):
+                            call KittyFace("confused",1)
+                            $ P_Inventory.remove("k lace panties")
+                            $ K_Inventory.append("lace panties")
+                            call Statup("Kitty", "Love", 200, 20)
+                            call Statup("Kitty", "Obed", 200, 25)
+                            call Statup("Kitty", "Inbt", 200, 20)
+                            ch_k "These are barely there. . ."                  
+                            call KittyFace("bemused",1)
+                        elif ApprovalCheck("Kitty", 700):
+                            call KittyFace("confused",2)
+                            $ P_Inventory.remove("k lace panties")
+                            $ K_Inventory.append("lace panties")
+                            call Statup("Kitty", "Love", 200, 20)
+                            call Statup("Kitty", "Obed", 200, 20)
+                            call Statup("Kitty", "Inbt", 200, 25)
+                            ch_k "I- I wouldn't wear something like these. . ."                  
+                            call KittyFace("bemused",1)
+                            ch_k "But I'll hold on to them. . ." 
+                        elif "no gift panties" in K_RecentActions:
+                            call KittyFace("angry",2)
+                            ch_k "Ew I just told you no! What are you, obsessed?!"
+                        elif "no gift panties" in K_DailyActions:
+                            call KittyFace("angry",2)
+                            ch_k "Look, my answer's still no, stop asking!"                      
+                        else:
+                            call KittyFace("angry",2)
+                            call Statup("Kitty", "Love", 50, -15)
+                            call Statup("Kitty", "Obed", 20, 10)
+                            call Statup("Kitty", "Inbt", 20, 20)
+                            if "no gift bra" in K_DailyActions:                    
+                                ch_k "I don't want these either!" 
+                            elif K_SeenPanties:
+                                ch_k "Just because you've seen my panties doesn't mean you get to pick them out."                          
+                            else:
+                                ch_k "Oh, don't you worry what I've got on down there."                     
+                            call Statup("Kitty", "Lust", 89, 5)
+                            $ K_Blush = 1
+                            "She hands them back to you."
+                            $ K_RecentActions.append("no gift panties")                      
+                            $ K_DailyActions.append("no gift panties") 
+                    else: 
+                        ch_k "I already have one of those."                
+                    
+                "Give her the bikini top." if "k bikini top" in P_Inventory: 
+                    #If you have a bra, you'll give it.
+                    if "bikini top" not in K_Inventory:                            
+                        "You give Kitty the bikini top."
+                        $ K_Blush = 1
+                        if ApprovalCheck("Kitty", 1200):                    
+                            call KittyFace("bemused")
+                            $ P_Inventory.remove("k bikini top")
+                            $ K_Inventory.append("bikini top")
+                            call Statup("Kitty", "Love", 200, 20)
+                            call Statup("Kitty", "Obed", 200, 10)
+                            call Statup("Kitty", "Inbt", 200, 10)
+                            ch_k "This is pretty cute. . ."
+                        elif ApprovalCheck("Kitty", 900):
+                            call KittyFace("confused",1)
+                            $ P_Inventory.remove("k bikini top")
+                            $ K_Inventory.append("bikini top")
+                            call Statup("Kitty", "Love", 200, 20)
+                            call Statup("Kitty", "Obed", 200, 10)
+                            call Statup("Kitty", "Inbt", 200, 5)
+                            ch_k "Kinda visible, maybe. . ."                  
+                            call KittyFace("bemused",1)
+                        elif ApprovalCheck("Kitty", 700):
+                            call KittyFace("smile",1)
+                            $ P_Inventory.remove("k bikini top")
+                            $ K_Inventory.append("bikini top")
+                            call Statup("Kitty", "Love", 200, 10)
+                            call Statup("Kitty", "Obed", 200, 5)
+                            call Statup("Kitty", "Inbt", 200, 5)
+                            ch_k "Aw, a cute Kitty. . . hole. . ."                  
+                            call KittyFace("bemused",2)
+                        elif "no gift bra" in K_RecentActions:
+                            call KittyFace("angry",2)
+                            ch_k "Ew I just told you no! What are you, obsessed?!"
+                        elif "no gift bra" in K_DailyActions:
+                            call KittyFace("angry",2)
+                            ch_k "Look, my answer's still no, stop asking!"                      
+                        else:
+                            call KittyFace("angry",2)
+                            call Statup("Kitty", "Love", 50, -5)
+                            call Statup("Kitty", "Obed", 20, 5)
+                            call Statup("Kitty", "Inbt", 20, 10)
+                            if "no gift bra " in K_DailyActions:                    
+                                ch_k "I don't want this either!"                      
+                            else:
+                                ch_k "Oh, don't you worry what I've got on."    
+                            $ K_Blush = 1
+                            "She hands it back to you."
+                            $ K_RecentActions.append("no gift bra")                      
+                            $ K_DailyActions.append("no gift bra") 
+                    else: 
+                        ch_k "I already have one of those."
+                        
+               
+                "Give her the bikini bottoms." if "k bikini bottoms" in P_Inventory: 
+                    #If you have a bra, you'll give it.
+                    if "bikini bottoms" not in K_Inventory:                            
+                        "You give Kitty the bikini bottoms."
+                        $ K_Blush = 1
+                        if ApprovalCheck("Kitty", 1200):                    
+                            call KittyFace("bemused")
+                            $ P_Inventory.remove("k bikini bottoms")
+                            $ K_Inventory.append("bikini bottoms")
+                            call Statup("Kitty", "Love", 200, 20)
+                            call Statup("Kitty", "Obed", 200, 10)
+                            call Statup("Kitty", "Inbt", 200, 10)
+                            ch_k "These are pretty cute. . ."
+                        elif ApprovalCheck("Kitty", 900):
+                            call KittyFace("confused",1)
+                            $ P_Inventory.remove("k bikini bottoms")
+                            $ K_Inventory.append("bikini bottoms")
+                            call Statup("Kitty", "Love", 200, 20)
+                            call Statup("Kitty", "Obed", 200, 10)
+                            call Statup("Kitty", "Inbt", 200, 5)
+                            ch_k "A little snug, maybe. . ."                  
+                            call KittyFace("bemused",1)
+                        elif ApprovalCheck("Kitty", 700):
+                            call KittyFace("confused",2)
+                            $ P_Inventory.remove("k bikini bottoms")
+                            $ K_Inventory.append("bikini bottoms")
+                            call Statup("Kitty", "Love", 200, 10)
+                            call Statup("Kitty", "Obed", 200, 5)
+                            call Statup("Kitty", "Inbt", 200, 5)
+                            ch_k "Well, it is bikini weather. . ."                  
+                            call KittyFace("bemused",1)
+                        elif "no gift panties" in K_RecentActions:
+                            call KittyFace("angry",2)
+                            ch_k "Ew I just told you no! What are you, obsessed?!"
+                        elif "no gift panties" in K_DailyActions:
+                            call KittyFace("angry",2)
+                            ch_k "Look, my answer's still no, stop asking!"                      
+                        else:
+                            call KittyFace("angry",2)
+                            call Statup("Kitty", "Love", 50, -5)
+                            call Statup("Kitty", "Obed", 20, 5)
+                            call Statup("Kitty", "Inbt", 20, 10)
+                            if "no gift bra" in K_DailyActions:                    
+                                ch_k "I don't want these either!"                      
+                            else:
+                                ch_k "Oh, don't you worry what I've got on down there."    
+                            $ K_Blush = 1
+                            "She hands them back to you."
+                            $ K_RecentActions.append("no gift panties")                      
+                            $ K_DailyActions.append("no gift panties") 
+                    else: 
+                        ch_k "I already have one of those."
+                        
+                "Give her the blue skirt." if "k blue skirt" in P_Inventory: 
+                    #If you have a bra, you'll give it.
+                    if "blue skirt" not in K_Inventory:                            
+                        "You give Kitty the blue skirt."
+                        $ K_Blush = 1
+                        if ApprovalCheck("Kitty", 1000):                    
+                            call KittyFace("bemused")
+                            $ P_Inventory.remove("k blue skirt")
+                            $ K_Inventory.append("blue skirt")
+                            call Statup("Kitty", "Love", 200, 20)
+                            call Statup("Kitty", "Obed", 200, 10)
+                            call Statup("Kitty", "Inbt", 200, 10)
+                            ch_k "This is a cute skirt. . ."
+                        elif ApprovalCheck("Kitty", 800):
+                            call KittyFace("confused",1)
+                            $ P_Inventory.remove("k blue skirt")
+                            $ K_Inventory.append("blue skirt")
+                            call Statup("Kitty", "Love", 200, 20)
+                            call Statup("Kitty", "Obed", 200, 10)
+                            call Statup("Kitty", "Inbt", 200, 5)
+                            ch_k "This is kinda daring. . ."                  
+                            call KittyFace("bemused",1)
+                        elif ApprovalCheck("Kitty", 600):
+                            call KittyFace("confused",2)
+                            $ P_Inventory.remove("k blue skirt")
+                            $ K_Inventory.append("blue skirt")
+                            call Statup("Kitty", "Love", 200, 10)
+                            call Statup("Kitty", "Obed", 200, 5)
+                            call Statup("Kitty", "Inbt", 200, 5)
+                            ch_k "It'd go well with a swimsuit. . ."                  
+                            call KittyFace("bemused",1)
+                        elif "no gift skirt" in K_RecentActions:
+                            call KittyFace("angry",2)
+                            ch_k "I just don't want that."
+                        elif "no gift skirt" in K_DailyActions:
+                            call KittyFace("angry",2)
+                            ch_k "Look, my answer's still no, stop asking!"                      
+                        else:
+                            call KittyFace("angry",2)
+                            call Statup("Kitty", "Love", 50, -5)
+                            call Statup("Kitty", "Obed", 20, 5)
+                            call Statup("Kitty", "Inbt", 20, 10)
+                            ch_k "Oh, don't you worry what I'm wearing."    
+                            $ K_Blush = 1
+                            "She hands them back to you."
+                            $ K_RecentActions.append("no gift skirt")                      
+                            $ K_DailyActions.append("no gift skirt") 
+                    else: 
+                        ch_k "I already have one of those."
+                         
+                "Never mind":
+                    pass                           
+            
+        "About that gift you wanted to get Laura. . ." if "dress1" in L_History and "dress2" not in L_History and "dress3" not in L_History:
+            call Laura_Dressup2
+            
         "Exit":
             pass
 
@@ -3486,6 +3664,8 @@ label Kitty_Clothes:
                                 call Kitty_OutfitShame(7,1)
                     "Sleepwear":
                                 call Kitty_OutfitShame(9,1)
+                    "Swimwear":
+                                call Kitty_OutfitShame(10,1)
                     "Never mind":
                                 pass
         "Switch to. . .":
@@ -3731,7 +3911,10 @@ label Kitty_Clothes:
         "How about throwing on your sleepwear?" if not Taboo:
             #fix add conditions
             call KittyOutfit("sleep")
-
+        "How about throwing on your swimwear?" if not Taboo or bg_current == "bg pool":
+            #fix add conditions
+            call KittyOutfit("swimwear")
+            
         "Let's talk about what you wear outside.":
             call Kitty_Clothes_Schedule
 
@@ -3917,9 +4100,50 @@ label Kitty_Clothes:
                 $ K_SeenPanties = 1
             else:
                 call Kitty_First_Bottomless
-                call Statup("Kitty", "Inbt", 50, 2)
-
-
+                call Statup("Kitty", "Inbt", 50, 2)  
+        
+        "Why don't you lose the skirt?" if K_Legs == "blue skirt":
+            call KittyFace("sexy", 1)
+            if K_SeenPussy and ApprovalCheck("Kitty", 900, TabM=4): 
+                # You've seen her pussy
+                if ApprovalCheck("Kitty", 800, "L"):                  
+                    ch_k "Well, not that I mind you seeing it. . ."
+                elif ApprovalCheck("Kitty", 500, "O"):
+                    ch_k "I guess. . ."
+                elif ApprovalCheck("Kitty", 350, "I"):
+                    ch_k "Hrmm. . ."
+                else:
+                    ch_k "Okay, okay."
+                    
+            elif ApprovalCheck("Kitty", 800) and not K_Panties:                       
+                #she's not wearing anything over them
+                call Kitty_NoPantiesOn
+                if not _return:
+                    jump Kitty_Clothes
+                    
+            else:                                                      
+                #she's wearing panties
+                if not ApprovalCheck("Kitty", 700, TabM=3): #700+1200
+                        ch_k "I'm not really comfortable with that right now. . ."
+                        jump Kitty_Clothes_Under                    
+                elif ApprovalCheck("Kitty", 800, "L", TabM=3):               
+                        ch_k "Well aren't you cheeky. . ."
+                elif ApprovalCheck("Kitty", 500, "O", TabM=3): #500+400
+                        ch_k "Fine by me."
+                elif ApprovalCheck("Kitty", 350, "I", TabM=3):
+                        ch_k "Oooh, naughty."
+                else:
+                        ch_k "Oh, I guess I could."  
+                    
+            $ K_Legs  = 0       
+            "She lets her skirt fall to the ground."
+            
+            if K_Panties:                
+                $ K_SeenPanties = 1
+            else:
+                call Kitty_First_Bottomless
+                call Statup("Kitty", "Inbt", 50, 2)  
+        
         "You look great in those capris." if K_Legs != "capris":
             ch_k "Yeah, ok."
             $ K_Legs = "capris"
@@ -3934,10 +4158,15 @@ label Kitty_Clothes:
 
         "What about wearing your yellow shorts?" if K_Legs != "shorts":
             ch_k "K, no problem."
-            $ K_Legs = "shorts"
-
-
-
+            $ K_Legs = "shorts"    
+            
+        "How about the blue skirt?" if K_Legs != "blue skirt":
+            if K_Panties or ApprovalCheck("Kitty",500,"I",TabM=2):
+                    ch_k "Yeah, ok."
+                    $ K_Legs = "blue skirt"    
+            else:
+                    ch_k "That's a little revealing. . ."
+                                
         "Never mind":
             pass
     jump Kitty_Clothes
@@ -3995,146 +4224,177 @@ label Kitty_Clothes:
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-    menu Kitty_Clothes_Under:                                                                                                 # Tops
-        "How about you lose the [K_Chest]?" if K_Chest:
-            call KittyFace("bemused", 1)
-            if K_SeenChest and ApprovalCheck("Kitty", 900, TabM=2.7):
-                ch_k "Sure."
-            elif ApprovalCheck("Kitty", 1100, TabM=2):
-                if Taboo:
-                    ch_k "I'm kind of nervous. . ."
-                else:
-                    ch_k "If it's just you. . ."
-            elif K_Over == "pink top" and ApprovalCheck("Kitty", 600, TabM=2):
-                ch_k "This look is a bit revealing. . ."
-            elif K_Over == "red shirt" and ApprovalCheck("Kitty", 500, TabM=2):
-                ch_k "I guess I could. . ."
-            elif not K_Over:
-                ch_k "Not without a little coverage, for modesty."
-                jump Kitty_Clothes
-            else:
-                ch_k "I don't think so, [K_Petname]."
-                jump Kitty_Clothes
-            $ Line = K_Chest
-            $ K_Chest = 0
-            if K_Over:
-                "She reaches into her [K_Over] grabs her [Line], and pulls it out, dropping it to the ground."
-            else:
-                "She lets her [Line] fall to the ground."
-                call Kitty_First_Topless
-
-
-        "Try on that yellow camisole." if K_Chest != "cami":
-            ch_k "Ok."
-            $ K_Chest = "cami"
-
-        "I like that strapless bra." if K_Chest != "bra":
-            if K_SeenChest or ApprovalCheck("Kitty", 1200, TabM=2):
-                ch_k "K."
-                $ K_Chest = "bra"
-            else:
-                ch_k "I'm not really comfortable with that. . ."
-
-        "I like that lace bra." if "lace bra" in K_Inventory and K_Chest != "lace bra":
-            if K_SeenChest or ApprovalCheck("Kitty", 1300, TabM=2):
-                ch_k "K."
-                $ K_Chest = "lace bra"
-            else:
-                ch_k "It's pretty skimpy. . ."
-
-        "I like that sports bra." if K_Chest != "sports bra":
-            if K_SeenChest or ApprovalCheck("Kitty", 1000, TabM=2):
-                ch_k "K."
-                $ K_Chest = "sports bra"
-            else:
-                ch_k "I'm not sure about that. . ."
-                                                                                                                            #Panties
-        "You could lose those panties. . ." if K_Panties:
-            call KittyFace("bemused", 1)
-            if ApprovalCheck("Kitty", 900) and (K_Legs or (K_SeenPussy and not Taboo)):
-                #If you've got decent approval and either she's wearing pants or you've seen her pussy and it's not in public
-
-                if ApprovalCheck("Kitty", 850, "L"):
-                        ch_k "Well, if you ask me nicely. . ."
-                elif ApprovalCheck("Kitty", 500, "O"):
-                        ch_k "For you, ok."
-                elif ApprovalCheck("Kitty", 350, "I"):
-                        ch_k "[[snort]."
-                else:
-                        ch_k "Yeah, I guess."
-            else:                       #low approval or not wearing pants or in public
-                if ApprovalCheck("Kitty", 1100, "LI", TabM=3) and K_Love > K_Inbt:
-                        ch_k "Well, not that I mind you seeing it. . ."
-                elif ApprovalCheck("Kitty", 700, "OI", TabM=3) and K_Obed > K_Inbt:
-                        ch_k "I guess. . ."
-                elif ApprovalCheck("Kitty", 600, "I", TabM=3):
-                        ch_k "Hrmm. . ."
-                elif ApprovalCheck("Kitty", 1300, TabM=3):
-                        ch_k "Okay, okay."
-                else:
-                        call KittyFace("surprised")
-                        $ K_Brows = "angry"
-                        if Taboo > 20:
-                            ch_k "Not in public, [K_Petname]!"
-                        else:
-                            ch_k "I don't like you that much, [K_Petname]!"
-                        jump Kitty_Clothes
-
-
-            $ Line = K_Panties
-            $ K_Panties = 0
-            if K_Legs:
-                "She reaches into her pocket, grabs hold of something, and then pulls her [Line] out, droping them to the ground."
-            else:
-                "She lets her [Line] drop to the ground."
-                call Kitty_First_Bottomless
-                call Statup("Kitty", "Inbt", 50, 2)
-
-        "Why don't you wear the green panties instead?" if K_Panties and K_Panties != "green panties":
-            if ApprovalCheck("Kitty", 1100, TabM=3):
-                    ch_k "K."
-                    $ K_Panties = "green panties"
-            else:
-                    ch_k "I don't think that's any of your beeswax."
-
-        "Why don't you wear the lace panties instead?" if "lace panties" in K_Inventory and K_Panties and K_Panties != "lace panties":
-            if ApprovalCheck("Kitty", 1300, TabM=3):
-                    ch_k "I guess."
-                    $ K_Panties = "lace panties"
-            else:
-                    ch_k "That's[K_like]none of your business."
-
-        "You know, you could wear some panties with that. . ." if not K_Panties:
-            call KittyFace("bemused", 1)
-            if (K_Love+K_Obed) <= (2 * K_Inbt):
-                $ K_Mouth = "smile"
-                ch_k "I think I'd. . . rather not."
-                call Statup("Kitty", "Inbt", 70, 2)
-                menu:
-                    "Fine by me":
-                        call Statup("Kitty", "Love", 90, 2)
-                        call Statup("Kitty", "Inbt", 70, 2)
-                        jump Kitty_Clothes
-                    "I insist, put some on.":
-                        if (K_Love+K_Obed) <= (1.5 * K_Inbt):
-                            call KittyFace("angry", Eyes="side")
-                            call Statup("Kitty", "Inbt", 99, 5)
-                            call Statup("Kitty", "Obed", 80, -5)
-                            ch_k "Well that's too bad."
-                            jump Kitty_Clothes
-                        else:
-                            call KittyFace("sadside")
-                            call Statup("Kitty", "Inbt", 200, -5)
-                            call Statup("Kitty", "Obed", 80, 5)
-                            ch_k "Ok, FINE."
+    menu Kitty_Clothes_Under:                                                                                                 # Tops 
+        "Tops":
             menu:
-                ch_k "I guess. . ."
-                "How about the green ones?":
-                    ch_k "Sure, ok."
-                    $ K_Panties = "green panties"
-                "How about the lace ones?" if "lace panties" in K_Inventory:
-                    ch_k "Alright."
-                    $ K_Panties  = "lace panties"
+                "How about you lose the [K_Chest]?" if K_Chest:
+                    call KittyFace("bemused", 1)
+                    if K_SeenChest and ApprovalCheck("Kitty", 900, TabM=2.7):
+                        ch_k "Sure."    
+                    elif ApprovalCheck("Kitty", 1100, TabM=2):
+                        if Taboo:
+                            ch_k "I'm kind of nervous. . ."
+                        else:
+                            ch_k "If it's just you. . ."
+                    elif K_Over == "pink top" and ApprovalCheck("Kitty", 600, TabM=2):
+                        ch_k "This look is a bit revealing. . ."  
+                    elif K_Over == "red shirt" and ApprovalCheck("Kitty", 500, TabM=2):
+                        ch_k "I guess I could. . ."  
+                    elif not K_Over:
+                        ch_k "Not without a little coverage, for modesty."
+                        jump Kitty_Clothes 
+                    else:
+                        ch_k "I don't think so, [K_Petname]."
+                        jump Kitty_Clothes 
+                    $ Line = K_Chest
+                    $ K_Chest = 0
+                    if K_Over:
+                        "She reaches into her [K_Over] grabs her [Line], and pulls it out, dropping it to the ground."
+                    else:
+                        "She lets her [Line] fall to the ground."
+                        call Kitty_First_Topless
+                    
+                    
+                "Try on that yellow camisole." if K_Chest != "cami":
+                    ch_k "Ok."
+                    $ K_Chest = "cami"           
+                    
+                "I like that strapless bra." if K_Chest != "bra":
+                    if K_SeenChest or ApprovalCheck("Kitty", 1200, TabM=2):
+                        ch_k "K."   
+                        $ K_Chest = "bra"         
+                    else:                
+                        ch_k "I'm not really comfortable with that. . ."  
+                        
+                "I like that lace bra." if "lace bra" in K_Inventory and K_Chest != "lace bra":
+                    if K_SeenChest or ApprovalCheck("Kitty", 1300, TabM=2):
+                        ch_k "K."   
+                        $ K_Chest = "lace bra"         
+                    else:                
+                        ch_k "It's pretty skimpy. . ."  
+                    
+                "I like that sports bra." if K_Chest != "sports bra":
+                    if K_SeenChest or ApprovalCheck("Kitty", 1000, TabM=2):
+                        ch_k "K."   
+                        $ K_Chest = "sports bra"         
+                    else:                
+                        ch_k "I'm not sure about that. . ."  
+                    
+                "I like that bikini top." if K_Chest != "bikini top" and "bikini top" in K_Inventory:
+                    if bg_current == "bg pool":
+                            ch_k "K."   
+                            $ K_Chest = "bikini top"         
+                    else:                
+                            if K_SeenChest or ApprovalCheck("Kitty", 1000, TabM=2):
+                                ch_k "K."   
+                                $ K_Chest = "bikini top"         
+                            else:                
+                                ch_k "Geez, not here!"  
+                "Never mind":
+                    pass
+                        
+        #Panties       
+        "Panties":
+            menu:
+                "You could lose those panties. . ." if K_Panties:
+                    call KittyFace("bemused", 1)  
+                    if ApprovalCheck("Kitty", 900) and (K_Legs or (K_SeenPussy and not Taboo)):
+                        #If you've got decent approval and either she's wearing pants or you've seen her pussy and it's not in public
+                        
+                        if ApprovalCheck("Kitty", 850, "L"):               
+                                ch_k "Well, if you ask me nicely. . ."
+                        elif ApprovalCheck("Kitty", 500, "O"):
+                                ch_k "For you, ok."
+                        elif ApprovalCheck("Kitty", 350, "I"):
+                                ch_k "[[snort]."
+                        else:
+                                ch_k "Yeah, I guess."         
+                    else:                       #low approval or not wearing pants or in public 
+                        if ApprovalCheck("Kitty", 1100, "LI", TabM=3) and K_Love > K_Inbt:               
+                                ch_k "Well, not that I mind you seeing it. . ."
+                        elif ApprovalCheck("Kitty", 700, "OI", TabM=3) and K_Obed > K_Inbt:
+                                ch_k "I guess. . ."
+                        elif ApprovalCheck("Kitty", 600, "I", TabM=3):
+                                ch_k "Hrmm. . ."
+                        elif ApprovalCheck("Kitty", 1300, TabM=3):
+                                ch_k "Okay, okay."
+                        else: 
+                                call KittyFace("surprised")
+                                $ K_Brows = "angry"
+                                if Taboo > 20:
+                                    ch_k "Not in public, [K_Petname]!"
+                                else:
+                                    ch_k "I don't like you that much, [K_Petname]!"
+                                jump Kitty_Clothes
+                                
+                                
+                    $ Line = K_Panties
+                    $ K_Panties = 0  
+                    if K_Legs:
+                        "She reaches into her pocket, grabs hold of something, and then pulls her [Line] out, droping them to the ground."                
+                    else:
+                        "She lets her [Line] drop to the ground."
+                        call Kitty_First_Bottomless
+                        call Statup("Kitty", "Inbt", 50, 2)  
+                        
+                "Why don't you wear the green panties instead?" if K_Panties and K_Panties != "green panties":
+                    if ApprovalCheck("Kitty", 1100, TabM=3):
+                            ch_k "K."
+                            $ K_Panties = "green panties"  
+                    else:                
+                            ch_k "I don't think that's any of your beeswax."
+                        
+                "Why don't you wear the lace panties instead?" if "lace panties" in K_Inventory and K_Panties and K_Panties != "lace panties":
+                    if ApprovalCheck("Kitty", 1300, TabM=3):
+                            ch_k "I guess."
+                            $ K_Panties = "lace panties"
+                    else:
+                            ch_k "That's[K_like]none of your business."
+                            
+                "I like those bikini bottoms." if K_Panties != "bikini bottoms" and "bikini bottoms" in K_Inventory:
+                    if bg_current == "bg pool":
+                            ch_k "K."   
+                            $ K_Panties = "bikini bottoms"         
+                    else:                
+                            if ApprovalCheck("Kitty", 1000, TabM=2):
+                                ch_k "K."   
+                                $ K_Panties = "bikini bottoms"         
+                            else:                
+                                ch_k "Geez, not here!"  
+                        
+                "You know, you could wear some panties with that. . ." if not K_Panties:
+                    call KittyFace("bemused", 1)
+                    if (K_Love+K_Obed) <= (2 * K_Inbt):
+                        $ K_Mouth = "smile"
+                        ch_k "I think I'd. . . rather not."
+                        call Statup("Kitty", "Inbt", 70, 2)
+                        menu:
+                            "Fine by me":
+                                call Statup("Kitty", "Love", 90, 2)
+                                call Statup("Kitty", "Inbt", 70, 2)
+                                jump Kitty_Clothes
+                            "I insist, put some on.":
+                                if (K_Love+K_Obed) <= (1.5 * K_Inbt):
+                                    call KittyFace("angry", Eyes="side")
+                                    call Statup("Kitty", "Inbt", 99, 5)
+                                    call Statup("Kitty", "Obed", 80, -5)
+                                    ch_k "Well that's too bad."
+                                    jump Kitty_Clothes
+                                else:
+                                    call KittyFace("sadside")
+                                    call Statup("Kitty", "Inbt", 200, -5)
+                                    call Statup("Kitty", "Obed", 80, 5)
+                                    ch_k "Ok, FINE."                
+                    menu:
+                        ch_k "I guess. . ."
+                        "How about the green ones?":
+                            ch_k "Sure, ok."
+                            $ K_Panties = "green panties"
+                        "How about the lace ones?" if "lace panties" in K_Inventory:
+                            ch_k "Alright."                
+                            $ K_Panties  = "lace panties"
+                "Never mind":
+                    pass
         "Never mind":
             pass
     jump Kitty_Clothes
@@ -4457,6 +4717,8 @@ label Kitty_Clothes_ScheduleB(Count = 0):
 
 
 label K_AltClothes(Outfit=8):
+        #1 = "pink outfit", 2 = "red outfit"
+        #3 = "custom1", 5 = "custom2", 6 = "custom3", 7 = "sleep", 4 = "gym", 10 = "swimwear"
         #This selects her outfit when teaching if 8
         #This selects her private outfit if 9
 
@@ -4482,11 +4744,13 @@ label K_AltClothes(Outfit=8):
                     $ K_Outfit = "sleep"
         elif K_Schedule[Outfit] == 4:
                     $ K_Outfit = "gym"
+        elif K_Schedule[Outfit] == 10:
+                    $ K_Outfit = "swimwear"
         return
 
 label K_Private_Outfit:
     #sets Kitty's private outfit in private
-    if "comfy" in K_RecentActions or "comfy" in K_Traits:
+    if "comfy" in K_RecentActions or "comfy" in K_Traits or K_Outfit == K_Schedule[9]:
             call K_AltClothes(9)
             call KittyOutfit(Changed=1)
     elif "no comfy" in K_RecentActions:
@@ -4583,11 +4847,11 @@ label Kitty_Custom_Out(Custom = 3, Shame = 0, Agree = 1):
                             ch_k "I can't wear this out!"
             return
 # End Kitty Custom Out
-
-
-label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree = 1):                                                                             #sets custom outfit
-            #Custom determines which custom outfit is being checked against.
-            #If Custom1 = 3, if custom2 = 5, if custom3 = 6, if gym = 7, if private = 9
+                                
+                                
+label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree = 1):                                                                             #sets custom outfit    
+            #Custom determines which custom outfit is being checked against.    
+            #If Custom1 = 3, if custom2 = 5, if custom3 = 6, if gym = 7, if private = 9, if swimwear = 10
             #if not a check, then it is only applied if it's in a taboo area
             # Tempshame is a throwaway value, 0-50, Agree is whether she will wear it out, 2 if yes, 1 if only around you.
 
@@ -4599,9 +4863,13 @@ label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                 return
 
             #If she's wearing a bra of some kind
-            if K_Chest == "cami":
+            if Custom == 20 and K_Uptop: 
+                $ Count = 0
+            elif K_Chest == "cami":  
                 $ Count = 15
             elif K_Chest == "sports bra":
+                $ Count = 15
+            elif K_Chest == "bikini top":
                 $ Count = 15
             elif K_Chest == "bra":
                 $ Count = 10
@@ -4614,7 +4882,9 @@ label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                     $ Count = 0
 
             #If she's wearing an overshirt
-            if K_Over == "pink top":
+            if Custom == 20 and K_Uptop: 
+                $ Count = 0
+            elif K_Over == "pink top":                                             
                 $ Count += 15
             elif K_Over == "red shirt":
                 $ Count += 20
@@ -4645,19 +4915,19 @@ label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
             else:
                 call KittyFace("bemused", 1)
                 ch_k "I wouldn't wear this out, but maybe indoors."
-
-            $ Tempshame -= Count                  #Set Outfit shame for the upper half
-            $ Count = 0
-
-            if K_Legs and K_Panties:
-                        $ Count = 30
-            else: #If she's missing something on her legs
-                        if PantsNum("Kitty") >= 5:               #If wearing pants commando
+             
+            $ Tempshame -= Count                  #Set Outfit shame for the upper half    
+            $ Count = 0         
+            
+            if K_Legs and K_Panties: 
+                        $ Count = 30                 
+            else: #If she's missing something on her legs    
+                        if PantsNum("Kitty") >= 5:              #If wearing pants commando
                             $ Count = 25
                         elif K_Legs == "shorts":                #If wearing shorts
-                            $ Count = 20
-                        elif K_Legs:                            #If wearing a skirt commando
-                            $ Count = 20
+                            $ Count = 20    
+                        elif K_Panties == "bikini bottoms":     #If wearing only bikini bottoms
+                            $ Count = 15   
                         elif K_Panties == "green panties":      #If wearing only green panties
                             $ Count = 10
                         elif K_Panties == "lace panties":       #If wearing only lace panties
@@ -4665,7 +4935,10 @@ label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                         elif K_Panties:                         #If wearing only any other panties
                             $ Count = 7
                         #else: 0
-
+                        
+                        if K_Legs == "blue skirt":              #If wearing a skirt
+                            $ Count += 10    
+                            
                         if HoseNum("Kitty") >= 10:
                             $ Count = 25 if Count < 25 else Count
 
@@ -4742,6 +5015,10 @@ label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                         call KittyFace("bemused", 1)
                         ch_k "It's kinda slutty to wear out."
                         $ Agree = 0
+                    elif Custom == 10 and Tempshame <= 20:  
+                        #if it's a swimsuit. . .
+                        call KittyFace("bemused", 1)
+                        ch_k "This is a cute swimsuit. . ."
                     elif Tempshame <= 25 and (ApprovalCheck("Kitty", 2300, TabM=0, C = 0) or ApprovalCheck("Kitty", 700, "I", TabM=0, C = 0)):
                         ch_k "So sexy, but I can handle it."
                     elif Tempshame <= 25:
@@ -4766,7 +5043,8 @@ label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                             $ K_Custom2[6] = K_Panties
                             $ K_Custom2[8] = K_Hair
                             $ K_Custom2[9] = K_Hose
-                            $ K_Custom2[0] = 2 if Agree else 1
+                            $ K_Custom2[0] = 2 if Agree else 1   
+                            call Clothing_Schedule_Check("Kitty",5,1)          
                     elif Custom == 6:
                             $ K_Custom3[1] = K_Arms
                             $ K_Custom3[2] = K_Legs
@@ -4777,46 +5055,7 @@ label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                             $ K_Custom3[8] = K_Hair
                             $ K_Custom3[9] = K_Hose
                             $ K_Custom3[0] = 2 if Agree else 1
-                    elif Custom == 10:
-                            $ K_Custom4[1] = K_Arms
-                            $ K_Custom4[2] = K_Legs
-                            $ K_Custom4[3] = K_Over
-                            $ K_Custom4[4] = K_Neck
-                            $ K_Custom4[5] = K_Chest
-                            $ K_Custom4[6] = K_Panties
-                            $ K_Custom4[8] = K_Hair
-                            $ K_Custom4[9] = K_Hose
-                            $ K_Custom4[0] = 2 if Agree else 1
-                    elif Custom == 11:
-                            $ K_Custom5[1] = K_Arms
-                            $ K_Custom5[2] = K_Legs
-                            $ K_Custom5[3] = K_Over
-                            $ K_Custom5[4] = K_Neck
-                            $ K_Custom5[5] = K_Chest
-                            $ K_Custom5[6] = K_Panties
-                            $ K_Custom5[8] = K_Hair
-                            $ K_Custom5[9] = K_Hose
-                            $ K_Custom5[0] = 2 if Agree else 1
-                    elif Custom == 12:
-                            $ K_Custom6[1] = K_Arms
-                            $ K_Custom6[2] = K_Legs
-                            $ K_Custom6[3] = K_Over
-                            $ K_Custom6[4] = K_Neck
-                            $ K_Custom6[5] = K_Chest
-                            $ K_Custom6[6] = K_Panties
-                            $ K_Custom6[8] = K_Hair
-                            $ K_Custom6[9] = K_Hose
-                            $ K_Custom6[0] = 2 if Agree else 1
-                    elif Custom == 13:
-                            $ K_Custom7[1] = K_Arms
-                            $ K_Custom7[2] = K_Legs
-                            $ K_Custom7[3] = K_Over
-                            $ K_Custom7[4] = K_Neck
-                            $ K_Custom7[5] = K_Chest
-                            $ K_Custom7[6] = K_Panties
-                            $ K_Custom7[8] = K_Hair
-                            $ K_Custom7[9] = K_Hose
-                            $ K_Custom7[0] = 2 if Agree else 1
+                            call Clothing_Schedule_Check("Kitty",6,1)  
                     elif Custom == 7 and Agree:
                             $ K_Gym[1] = K_Arms
                             $ K_Gym[2] = K_Legs
@@ -4826,17 +5065,28 @@ label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                             $ K_Gym[6] = K_Panties
                             $ K_Gym[8] = K_Hair
                             $ K_Gym[9] = K_Hose
-                            $ K_Gym[0] = 2
-                    elif Custom == 9:
-                            $ K_Sleepwear[1] = K_Arms
-                            $ K_Sleepwear[2] = K_Legs
+                            $ K_Gym[0] = 2   
+                            call Clothing_Schedule_Check("Kitty",4,1)  
+                    elif Custom == 9:                            
+                            $ K_Sleepwear[1] = K_Arms  
+                            $ K_Sleepwear[2] = K_Legs 
                             $ K_Sleepwear[3] = K_Over
                             $ K_Sleepwear[4] = K_Neck
                             $ K_Sleepwear[5] = K_Chest
                             $ K_Sleepwear[6] = K_Panties
                             $ K_Sleepwear[8] = K_Hair
                             $ K_Sleepwear[9] = K_Hose
-                            $ K_Sleepwear[0] = 2 if Agree else 1
+                            $ K_Sleepwear[0] = 2 if Agree else 1   
+                    elif Custom == 10:            
+                            $ K_Swim[1] = K_Arms  
+                            $ K_Swim[2] = K_Legs 
+                            $ K_Swim[3] = K_Over
+                            $ K_Swim[4] = K_Neck 
+                            $ K_Swim[5] = K_Chest 
+                            $ K_Swim[6] = K_Panties
+                            $ K_Swim[8] = K_Hair
+                            $ K_Swim[9] = K_Hose
+                            $ K_Swim[0] = 2 if Agree else 1 
                     else: #Typically Custom == 3
                             $ K_Custom[1] = K_Arms
                             $ K_Custom[2] = K_Legs
@@ -4847,7 +5097,8 @@ label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
                             $ K_Custom[8] = K_Hair
                             $ K_Custom[9] = K_Hose
                             $ K_Custom[0] = 2 if Agree else 1
-                    #End check
+                            call Clothing_Schedule_Check("Kitty",3,1)  
+                    #End check                       
             elif Taboo <= 20:
                 # halves shame level if she's comfortable
                 $ Tempshame /= 2

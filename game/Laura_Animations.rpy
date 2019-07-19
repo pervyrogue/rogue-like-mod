@@ -1,25 +1,14 @@
 ﻿# Basic character Sprites
 
 image Laura_Sprite:
-    LiveComposite(        
-        (402,965),
-#        (55,0), ConditionSwitch(                                                                         #hair back temporary
-#            "not L_Hair", Null(),
-#            "L_Hair == 'wet' or L_Water", "images/LauraSprite/Laura_Sprite_Head_HairBackWet.png",
-#            "True", Null(),        
-#            ),        
-        (0,0), ConditionSwitch(
-            #hair back 
-            "not L_Hair", Null(),
-#            "L_Hair == 'wet' or L_Water", "images/LauraSprite/Laura_Sprite_HairbackWet.png",
-            "renpy.showing('Laura_BJ_Animation')", Null(), 
-            "L_Hair", "Laura_Sprite_HairBack",   
-            "True", Null(),        
-            ),   
+    LiveComposite(                
+        (402,965), 
+        (0,0), "Laura_Sprite_HairBack", 
         (0,0), ConditionSwitch(            
             #panties down back        
             "not L_Panties or not L_PantiesDown or (L_Legs and L_Legs != 'skirt' and not L_Upskirt)", Null(), 
             "L_Panties == 'wolvie panties'", "images/LauraSprite/Laura_Sprite_Panties_Wolvie_Back.png",   
+            "L_Panties == 'bikini bottoms'", "images/LauraSprite/Laura_Sprite_Panties_Bikini_Back.png",   
             "True", "images/LauraSprite/Laura_Sprite_Panties_Lace_Back.png",   
             ), 
         (0,0), ConditionSwitch(
@@ -34,6 +23,7 @@ image Laura_Sprite:
 #            ), 
         (0,0), ConditionSwitch(
             #L Over under
+            "L_Uptop and L_Over == 'jacket'", "images/LauraSprite/Laura_Sprite_Jacket_Back_Up.png", # one hand up
             "L_Over == 'jacket'", "images/LauraSprite/Laura_Sprite_Jacket_Back.png", # one hand up
             "True", Null(),     
             ), 
@@ -79,20 +69,32 @@ image Laura_Sprite:
                     "True", AlphaMask("Wet_Drip2","Laura_Drip_Mask"), #only plays if nothing is in the way
                     ),
             ),
+        (145,560), ConditionSwitch(    #(225,560)                                                                     
+            #dripping spunk            
+            "'in' not in L_Spunk and 'anal' not in L_Spunk", Null(),
+            "L_Legs and L_Legs != 'skirt' and not L_Upskirt", Null(),   
+            "L_Panties and not L_PantiesDown and L_Wet <= 1", Null(),   
+            "True", ConditionSwitch( #Wet = 2+
+                    "L_Panties and L_PantiesDown", AlphaMask("Spunk_Drip2","Laura_Drip_MaskP"),
+#                    "L_Legs and L_Legs != 'skirt'", AlphaMask("Spunk_Drip2","Laura_Drip_MaskP"), #add if pantes have down art
+                    "L_Panties", AlphaMask("Spunk_Drip","Laura_Drip_Mask"), #"Wet_Drip2",# 
+                    "True", AlphaMask("Spunk_Drip2","Laura_Drip_Mask"), #only plays if nothing is in the way
+                    ),
+            ),
         (0,0), ConditionSwitch(
             #pubes 
             "L_Pubes", "images/LauraSprite/Laura_Sprite_Pubes.png",   
             "True", Null(),        
             ),      
-#        (0,0), ConditionSwitch(
-#            #nude lower piercings        
-#            "not L_Pierce", Null(),  
-#            "L_Panties and not L_PantiesDown", Null(), 
-#            "L_Legs != 'skirt' and L_Legs and not L_Upskirt", Null(), #skirt if wearing a skirt
-#            "L_Pierce == 'barbell'", "images/LauraSprite/Laura_Sprite_Pierce_Pussy_Barbell.png",  
-#            "L_Pierce == 'ring'", "images/LauraSprite/Laura_Sprite_Pierce_Pussy_Ring.png",  
-#            "True", Null(), 
-#            ),  
+        (0,0), ConditionSwitch(
+            #nude lower piercings        
+            "not L_Pierce", Null(),  
+            "L_Panties and not L_PantiesDown", Null(), 
+            "L_Legs != 'skirt' and L_Legs and not L_Upskirt", Null(), #skirt if wearing a skirt
+            "L_Pierce == 'barbell'", "images/LauraSprite/Laura_Sprite_Barbell_Pussy.png",  
+            "L_Pierce == 'ring'", "images/LauraSprite/Laura_Sprite_Ring_Pussy.png",  
+            "True", Null(), 
+            ),  
         (0,0), ConditionSwitch(
             #stockings    
             "L_Hose == 'stockings' or L_Hose == 'stockings and garterbelt'", "images/LauraSprite/Laura_Sprite_Stockings.png",
@@ -113,8 +115,8 @@ image Laura_Sprite:
                             "L_Panties == 'wolvie panties' and L_Wet", "images/LauraSprite/Laura_Sprite_Panties_Wolvie_Down_W.png", 
                             "L_Panties == 'wolvie panties'", "images/LauraSprite/Laura_Sprite_Panties_Wolvie_Down.png",                             
                             "L_Panties == 'lace panties'", "images/LauraSprite/Laura_Sprite_Panties_Lace_Down.png", 
-                            "L_Panties == 'black panties'", "images/LauraSprite/Laura_Sprite_Panties_Lace_Down.png", #fix
-                            "True", Null(),
+                            "L_Panties == 'bikini bottoms'", "images/LauraSprite/Laura_Sprite_Panties_Bikini_Down.png", 
+                            "True", "images/LauraSprite/Laura_Sprite_Panties_Lace_Down.png", #fix
                             ),         
                     "True", Null(),
                     ),                    
@@ -124,12 +126,14 @@ image Laura_Sprite:
                         #if she's  wet                            
                         "L_Panties == 'wolvie panties'", "images/LauraSprite/Laura_Sprite_Panties_Wolvie_W.png",
                         "L_Panties == 'lace panties'", "images/LauraSprite/Laura_Sprite_Panties_Lace.png", 
+                        "L_Panties == 'bikini bottoms'", "images/LauraSprite/Laura_Sprite_Panties_Bikini.png", 
                         "True", "images/LauraSprite/Laura_Sprite_Panties_Leather.png", 
                         ),
                     "True", ConditionSwitch(   
                         #if she's not wet                            
                         "L_Panties == 'wolvie panties'", "images/LauraSprite/Laura_Sprite_Panties_Wolvie.png",
                         "L_Panties == 'lace panties'", "images/LauraSprite/Laura_Sprite_Panties_Lace.png", 
+                        "L_Panties == 'bikini bottoms'", "images/LauraSprite/Laura_Sprite_Panties_Bikini.png", 
                         "True", "images/LauraSprite/Laura_Sprite_Panties_Leather.png", 
                         ),                    
                     ),    
@@ -162,23 +166,23 @@ image Laura_Sprite:
                         ),                    
                     ),                  
             ),    
-#        (0,0), ConditionSwitch(
-#            #clothed lower piercings         
-#            "L_Legs == 'skirt'", Null(),
-#            "L_Pierce == 'barbell'", ConditionSwitch(   
-#                    #if it's the barbell pericings 
-#                    "L_Legs and not L_Upskirt", "images/LauraSprite/Laura_Sprite_Pierce_Pussy_BarOut.png",  
-#                    "L_Panties and not L_PantiesDown", "images/LauraSprite/Laura_Sprite_Pierce_Pussy_BarOut.png", 
-#                    "True", Null(),
-#                    ),    
-#            "L_Pierce == 'ring'", ConditionSwitch(   
-#                    #if it's the ring pericings
-#                    "L_Legs and not L_Upskirt", "images/LauraSprite/Laura_Sprite_Pierce_Pussy_RingOut.png",  
-#                    "L_Panties and not L_PantiesDown", "images/LauraSprite/Laura_Sprite_Pierce_Pussy_RingOut.png", 
-#                    "True", Null(),
-#                    ),
-#            "True", Null(), 
-#            ),    
+        (0,0), ConditionSwitch(
+            #clothed lower piercings         
+            "L_Legs == 'skirt'", Null(),
+            "L_Pierce == 'barbell'", ConditionSwitch(   
+                    #if it's the barbell pericings 
+                    "L_Legs and not L_Upskirt", "images/LauraSprite/Laura_Sprite_Barbell_PussyC.png",  
+                    "L_Panties and not L_PantiesDown", "images/LauraSprite/Laura_Sprite_Barbell_PussyC.png", 
+                    "True", Null(),
+                    ),    
+            "L_Pierce == 'ring'", ConditionSwitch(   
+                    #if it's the ring pericings
+                    "L_Legs and not L_Upskirt", "images/LauraSprite/Laura_Sprite_Ring_PussyC.png",  
+                    "L_Panties and not L_PantiesDown", "images/LauraSprite/Laura_Sprite_Ring_PussyC.png", 
+                    "True", Null(),
+                    ),
+            "True", Null(), 
+            ),    
         (0,0), ConditionSwitch(
             #Personal Wetness            
             "not L_Wet", Null(),
@@ -186,96 +190,77 @@ image Laura_Sprite:
             "L_Legs == 'skirt'", Null(),
             "True", "images/LauraSprite/Laura_Sprite_Wetness.png",       #L_Wet >1
             ),     
-#        (0,0), ConditionSwitch(
-#            #pussy spunk 
-#            "L_Legs", Null(),
-#            "'pussy' in L_Spunk", "images/LauraSprite/Laura_Sprite_Spunk_Pussy.png",
-#            "True", Null(), 
-#            ),  
-#        (0,0), ConditionSwitch(
-#            #belly spunk 
-#            "'belly' in L_Spunk", "images/LauraSprite/Laura_Sprite_Spunk_Belly.png",
-#            "True", Null(), 
-#            ),    
+        (0,0), ConditionSwitch(
+            #pussy spunk 
+            "L_Legs and not L_Upskirt", Null(),
+            "'in' in L_Spunk or 'anal' in L_Spunk", "images/LauraSprite/Laura_Sprite_Spunk_Pussy.png",
+            "True", Null(), 
+            ),  
         #where arms and tits were before
-#        (0,0), ConditionSwitch(
-#            #nude peircings      
-#            #something about this entry makes all subsequent entries mis-aligned
-#            "not L_Pierce", Null(),  
-#            "L_Pierce == 'barbell'", ConditionSwitch(   
-#                    #if it's the barbell pericings
-#                    "Laura_Arms == 1", "images/LauraSprite/Laura_Sprite_Pierce_Up_Barbell.png",                     
-#                    "L_Chest == 'corset'", "images/LauraSprite/Laura_Sprite_Pierce_Up_Barbell.png",   
-#                    "L_Chest == 'lace bra'", "images/LauraSprite/Laura_Sprite_Pierce_Up_Barbell.png",    
-#                    "L_Chest == 'sports bra'", "images/LauraSprite/Laura_Sprite_Pierce_Up_Barbell.png",  
-#                    "True", "images/LauraSprite/Laura_Sprite_Pierce_Down_Barbell.png",        
-#                    ),                        
-#            "L_Pierce == 'ring'", ConditionSwitch(                      
-#                    #if it's the ring pericings                                 
-#                    "Laura_Arms == 1", "images/LauraSprite/Laura_Sprite_Pierce_Up_Ring.png", 
-#                    "L_Chest == 'corset'", "images/LauraSprite/Laura_Sprite_Pierce_Up_Ring.png",                          
-#                    "L_Chest == 'lace bra'", "images/LauraSprite/Laura_Sprite_Pierce_Up_Ring.png", 
-#                    "L_Chest == 'sports bra'", "images/LauraSprite/Laura_Sprite_Pierce_Up_Ring.png", 
-#                    "True", "images/LauraSprite/Laura_Sprite_Pierce_Down_Ring.png", 
-#                    ),       
-#            "True", Null(),  
-#            ),    
-
-        
-        (0,0), ConditionSwitch(                          
-            #neck
+        (0,0), ConditionSwitch(
+            #nude peircings      
+            "not L_Pierce", Null(),  
+            "L_Pierce == 'barbell'", "images/LauraSprite/Laura_Sprite_Barbell_Tits.png",   
+            "L_Pierce == 'ring'", "images/LauraSprite/Laura_Sprite_Ring_Tits.png",               
+            "True", Null(),              
+            ),    
+        (0,0), ConditionSwitch(               
+            #neck            
             "L_Neck == 'leash choker'", "images/LauraSprite/Laura_Sprite_Neck_Leash.png",       
             "True", Null(), 
             ),  
         (0,0), ConditionSwitch(                                                                        
             #Chest layer
+            "L_Uptop", ConditionSwitch(
+                    # if top is up. . .
+                    "L_Chest == 'leather bra'", "images/LauraSprite/Laura_Sprite_Bra_Leather_Up.png", 
+                    "L_Chest == 'wolvie top'", "images/LauraSprite/Laura_Sprite_Top_Wolvie_Up.png",   
+                    "L_Chest == 'bikini top'", "images/LauraSprite/Laura_Sprite_Top_Bikini_Up.png",   
+                    "L_Chest == 'corset'", "images/LauraSprite/Laura_Sprite_Top_Corset_Up.png",   
+                    "L_Chest == 'lace corset'", "images/LauraSprite/Laura_Sprite_Top_Corset_Lace_Up.png",   
+                    "True", Null(),     
+                    ),     
             "L_Chest == 'leather bra'", "images/LauraSprite/Laura_Sprite_Bra_Leather.png", 
             "L_Chest == 'wolvie top'", "images/LauraSprite/Laura_Sprite_Top_Wolvie.png",   
-            "L_Chest == 'sports bra'", "images/LauraSprite/Laura_Sprite_Bra_Sports.png",   
+            "L_Chest == 'bikini top'", "images/LauraSprite/Laura_Sprite_Top_Bikini.png",   
             "L_Chest == 'corset'", "images/LauraSprite/Laura_Sprite_Top_Corset.png",   
+            "L_Chest == 'lace corset'", "images/LauraSprite/Laura_Sprite_Top_Corset_Lace.png",   
             "True", Null(),              
-            ),            
-#        (0,0), ConditionSwitch(                                                                        
-#            #clothed peircings        
-#            "not L_Pierce or (not L_Over and not L_Chest)", Null(),  
-#            "L_Pierce == 'barbell'", ConditionSwitch(   
-#                    #if it's the barbell pericings
-#                    "Laura_Arms == 1", "images/LauraSprite/Laura_Sprite_Pierce_Up_BarOut.png",  
-#                    "L_Chest == 'corset'", "images/LauraSprite/Laura_Sprite_Pierce_Up_BarOut.png",   
-#                    "L_Chest == 'lace bra'", "images/LauraSprite/Laura_Sprite_Pierce_Up_BarOut.png",    
-#                    "L_Chest == 'sports bra'", "images/LauraSprite/Laura_Sprite_Pierce_Up_BarOut.png",  
-#                    "True", "images/LauraSprite/Laura_Sprite_Pierce_Down_BarOut.png", 
-#                    ),    
-#            "L_Pierce == 'ring'", ConditionSwitch(   
-#                    #if it's the ring pericings
-#                    "Laura_Arms == 1", "images/LauraSprite/Laura_Sprite_Pierce_Up_RingOut.png",  
-#                    "L_Chest == 'corset'", "images/LauraSprite/Laura_Sprite_Pierce_Up_RingOut.png",   
-#                    "L_Chest == 'lace bra'", "images/LauraSprite/Laura_Sprite_Pierce_Up_RingOut.png",    
-#                    "L_Chest == 'sports bra'", "images/LauraSprite/Laura_Sprite_Pierce_Up_RingOut.png",  
-#                    "True", "images/LauraSprite/Laura_Sprite_Pierce_Down_RingOut.png", 
-#                    ),                 
-#            "True", Null(), 
-#            ),    
-#        (0,0), ConditionSwitch(
-#            #breast spunk      
-#            "'tits' in L_Spunk", ConditionSwitch(   
-#                    "Laura_Arms == 1", "images/LauraSprite/Laura_Sprite_Spunk_TitsU.png",                     
-#                    "L_Chest == 'corset'", "images/LauraSprite/Laura_Sprite_Spunk_TitsU.png",   
-#                    "L_Chest == 'lace bra'", "images/LauraSprite/Laura_Sprite_Spunk_TitsU.png",    
-#                    "L_Chest == 'sports bra'", "images/LauraSprite/Laura_Sprite_Spunk_TitsU.png",  
-#                    "True", "images/LauraSprite/Laura_Sprite_Spunk_TitsD.png",        
-#                    ),       
-#            "True", Null(),  
-#            ),   
+            ),     
 
         (0,0), ConditionSwitch(
             #L Over
+            "L_Uptop", ConditionSwitch(
+                    # if top is up. . .
+                    "L_Over == 'jacket' and Laura_Arms == 2", "images/LauraSprite/Laura_Sprite_Jacket_A2_Up.png", # one hand up
+                    "L_Over == 'jacket'", "images/LauraSprite/Laura_Sprite_Jacket_A1_Up.png", # one hand up
+#                    "L_Over == 'towel'", "images/LauraSprite/Laura_Sprite_Towel.png",
+                    "True", Null(),     
+                    ),                
             "L_Over == 'jacket' and Laura_Arms == 2", "images/LauraSprite/Laura_Sprite_Jacket_A2.png", # one hand up
             "L_Over == 'jacket'", "images/LauraSprite/Laura_Sprite_Jacket_A1.png", # one hand up
             "L_Over == 'towel'", "images/LauraSprite/Laura_Sprite_Towel.png",
             "True", Null(),     
-            ), 
-        
+            ),         
+        (0,0), ConditionSwitch(                                                                        
+            #clothed peircings        
+            "not L_Pierce or (not L_Over and not L_Chest)", Null(),  
+            "L_Over == 'jacket'", Null(),
+            "L_Pierce == 'barbell'",  "images/LauraSprite/Laura_Sprite_Barbell_TitsC.png", 
+            "L_Pierce == 'ring'", "images/LauraSprite/Laura_Sprite_Ring_TitsC.png", 
+            "True", Null(), 
+            ),   
+                
+        (0,0), ConditionSwitch(
+            #belly spunk 
+            "'belly' in L_Spunk", "images/LauraSprite/Laura_Sprite_Spunk_Belly.png",
+            "True", Null(), 
+            ),    
+        (0,0), ConditionSwitch(
+            #breast spunk      
+            "'tits' in L_Spunk", "images/LauraSprite/Laura_Sprite_Spunk_Tits.png",  
+            "True", Null(),  
+            ),   
         #Head
 #        (0,0), "Laura_Sprite_Head", #(55,0)
         (0,0), ConditionSwitch(
@@ -309,12 +294,11 @@ image Laura_Sprite:
             "True", Null(),     
             ), 
         
-#        (0,0), ConditionSwitch( 
-#            #hand spunk 
-#            "Laura_Arms != 2 or 'hand' not in L_Spunk", Null(),  
-#            "'mouth' in L_Spunk", "images/LauraSprite/Laura_Sprite_Spunk_HandM.png", 
-#            "True", "images/LauraSprite/Laura_Sprite_Spunk_Hand.png",   
-#            ),  
+        (0,0), ConditionSwitch( 
+            #hand spunk 
+            "Laura_Arms == 2 or 'hand' not in L_Spunk", Null(),  
+            "True", "images/LauraSprite/Laura_Sprite_Spunk_Hand.png",   
+            ),  
 #        (0,0), ConditionSwitch(                                                                         #Props
 #            "not L_Held or Laura_Arms != 2", Null(), 
 #            "Laura_Arms == 2 and L_Held == 'phone'", "images/LauraSprite/Laura_held_phone.png",
@@ -423,7 +407,7 @@ image Laura_Sprite:
             "Trigger4 == 'vibrator anal'", "VibratorAnal",
             "Trigger4 == 'vibrator anal insert'", "VibratorPussy",
             "True", Null(),             
-            ),                
+            ),
         (0,0), ConditionSwitch(             
             #UI tool for Trigger3(lesbian) actions (ie Rogue's hand on her when Laura is secondary)
             "Trigger != 'lesbian' or Ch_Focus == 'Laura' or not Trigger3", Null(),            
@@ -450,20 +434,34 @@ image Laura_Sprite:
             "Trigger3 == 'vibrator anal'", "VibratorAnal",
             "Trigger3 == 'vibrator anal insert'", "VibratorPussy",            
             "True", Null(),                
-            ),                
-        )           
-    anchor (0.6, 0.0)                
-    yoffset 15
+            ),   
+        )      
+    anchor (0.6, 0.0)               
+    yoffset 15            
     zoom .75                
 
-image Laura_Sprite_HairBack:          
-    "images/LauraSprite/Laura_Sprite_Hair_Long_Under.png"       
+image Laura_Sprite_HairBack: 
+    ConditionSwitch(
+            #hair back 
+            "not L_Hair", Null(),
+            "renpy.showing('Laura_BJ_Animation')", Null(), 
+#            "renpy.showing('Laura_SexSprite')", "images/LauraSex/Laura_Sprite_Hair_Long_UnderSex.png",
+            "L_Hair == 'wet' or L_Water", "images/LauraSprite/Laura_Sprite_Hair_Wet_Under.png",
+            "L_Hair", "images/LauraSprite/Laura_Sprite_Hair_Long_Under.png",   
+            "True", Null(),        
+            ),   
+#    "images/LauraSprite/Laura_Sprite_Hair_Long_Under.png"       
     anchor (0.6, 0.0)                
     zoom .5                   
     
 image Laura_Sprite_Head:            
     LiveComposite(
-        (806,806),         
+        (806,806),      
+        (0,0), ConditionSwitch(
+                # hair behind face
+                "renpy.showing('Laura_SexSprite')", "images/LauraSex/Laura_Sprite_Hair_Long_UnderSex.png", 
+                "True", Null(),                        
+                ),         
         (0,0), ConditionSwitch(
                 # Face background plate
                 "L_Blush == 2", "images/LauraSprite/Laura_Sprite_Head_Blush2.png", 
@@ -473,8 +471,8 @@ image Laura_Sprite_Head:
         (0,0), ConditionSwitch(#chin spunk
             "'chin' not in L_Spunk", Null(),
             "renpy.showing('Laura_BJ_Animation') and Speed >= 2", Null(),
-            "True", "images/LauraSprite/Laura_Sprite_Spunk_Chin.png",
-            ),    
+            "True", "images/LauraSprite/Laura_Sprite_Spunk_Chin.png",            
+            ),                
         (0,0), ConditionSwitch(#Mouths 
             "renpy.showing('Laura_BJ_Animation')", "images/LauraSprite/Laura_Sprite_Mouth_SuckingBJ.png", #and Speed >= 2
             "L_Mouth == 'normal'", "images/LauraSprite/Laura_Sprite_Mouth_Normal.png",
@@ -527,33 +525,40 @@ image Laura_Sprite_Head:
         (0,0), "Laura Blink",     #Eyes    
         (0,0), ConditionSwitch(                
             #Hair mid
-            "L_Over == 'jacket'", Null(),
-#            "L_Hair == 'wet' or L_Water", "images/LauraSprite/Laura_Sprite_Head_HairWet.png",
+            "L_Over == 'jacket'", Null(),            
+            "renpy.showing('Laura_Sex_Animation')", Null(),     
+            "L_Hair == 'wet' or L_Water", Null(),
             "L_Hair", "images/LauraSprite/Laura_Sprite_Hair_Long_Mid.png",
             "True", Null(),
-            ),       
+            ),           
+#        (0,0), ConditionSwitch(
+#            #Face Water
+#            "not L_Water", Null(),
+#            "True", "images/LauraSprite/Laura_Sprite_Wet_Head.png",
+#            ),  
         (0,0), ConditionSwitch(                                                                         
             #Hair over
             "not L_Hair", Null(),
-#            "L_Hair == 'wet' or L_Water", "images/LauraSprite/Laura_Sprite_Head_HairWet.png",
+            "renpy.showing('Laura_SexSprite')", "images/LauraSex/Laura_Sprite_Hair_Long_OverSex.png",
+            "L_Hair == 'wet' or L_Water", "images/LauraSprite/Laura_Sprite_Hair_Wet_Over.png",
             "L_Hair", "images/LauraSprite/Laura_Sprite_Hair_Long_Over.png",
             "True", Null(),
-            ),        
+            ),    
         (0,0), ConditionSwitch(
             #Hair Water
             "not L_Water", Null(),
-#            "L_Hair == 'wet'", "images/LauraSprite/Laura_Sprite_Wet_Head.png",
-            "True", "images/LauraSprite/Laura_Sprite_Wet_Head.png",
+            "True", "images/LauraSprite/Laura_Sprite_Head_Wet.png",
+#            "True", "images/LauraSprite/Laura_Sprite_Hair_Wet.png",
             ),
         (0,0), ConditionSwitch(
             #facial spunk               
             "'hair' in L_Spunk", "images/LauraSprite/Laura_Sprite_Spunk_Facial2.png",  
             "'facial' in L_Spunk", "images/LauraSprite/Laura_Sprite_Spunk_Facial1.png",            
-            "True", Null(),
+            "True", Null(),            
             ),  
         )                
     anchor (0.6, 0.0)                
-    zoom .5               
+    zoom .5                      
 
 image Laura Blink:            
     ConditionSwitch(
@@ -580,7 +585,7 @@ image Laura Blink:
     repeat                
 
 image Laura_Squint:       
-    "images/LauraSprite/Laura_Sprite_Eyes_Normal.png"
+    "images/LauraSprite/Laura_Sprite_Eyes_Normal.png"            
     choice:
         3.5
     choice:
@@ -605,14 +610,1505 @@ image Laura_Drip_MaskP:
         "images/LauraSprite/Laura_Sprite_WetMaskP.png"      
         offset (-145,-560)#(-225,-560)
             
-# End Laura Sprite / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+# End Laura Sprite / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
 
 
 
 
-# Laura's BJ Scenes / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
-                                                 
-# Laura's BJ Scenes / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+
+
+# Start Laura Sex Animations / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+# Core Laura Sex element //////////////////////////////////////////////////////////////////////////// / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /   
+
+image Laura_SexSprite:
+    #core sex animation   
+    contains:
+        ConditionSwitch(                                                              
+            # Laura's upper body
+            "P_Cock == 'in'", ConditionSwitch(                                                               
+                    # If during sex
+                    "Speed == 1", "Laura_Sex_Body_S1",#heading
+                    "Speed == 2", "Laura_Sex_Body_S2",#slow
+                    "Speed == 3", "Laura_Sex_Body_S3",#fast
+                    "Speed >= 4", "Laura_Sex_Body_S4",#cumming
+                    "True",       "Laura_Sex_Body_S0",#Static
+                    ),
+            "P_Cock == 'anal'", ConditionSwitch(                                                              
+#                    # If during Anal
+                    "Speed == 1", "Laura_Sex_Body_A1",#heading
+                    "Speed == 2", "Laura_Sex_Body_A2",#slow
+                    "Speed == 3", "Laura_Sex_Body_A3",#fast
+                    "Speed >= 4", "Laura_Sex_Body_A4",#cumming
+                    "True",       "Laura_Sex_Body_A0",#Static
+                    ),
+            "True", ConditionSwitch(                                                              
+                    # If neither
+                    "not P_Sprite","Laura_Sex_Body_H0",#Static
+                    "Speed == 1", "Laura_Sex_Body_H1",#slow
+                    "Speed == 4", "Laura_Sex_Body_H0",#cumming
+                    "Speed >= 2", "Laura_Sex_Body_H2",#fast
+                    "True",       "Laura_Sex_Body_H0",#Static
+                    ),
+            )
+    contains:
+        ConditionSwitch(                                                               
+            # Laura's lower body
+            "P_Cock == 'in'", ConditionSwitch(                                                               
+                    # If during sex
+                    "Speed == 1", "Laura_Sex_Legs_S1",#heading
+                    "Speed == 2", "Laura_Sex_Legs_S2",#slow
+                    "Speed == 3", "Laura_Sex_Legs_S3",#fast
+                    "Speed >= 4", "Laura_Sex_Legs_S4",#cumming
+                    "True", "Laura_Sex_Legs_S0",#Static
+                    ),
+            "P_Cock == 'anal'", ConditionSwitch(                                                              
+                    # If during Anal
+                    "Speed == 1", "Laura_Sex_Legs_A1",#heading
+                    "Speed == 2", "Laura_Sex_Legs_A2",#slow
+                    "Speed == 3", "Laura_Sex_Legs_A3",#fast
+                    "Speed >= 4", "Laura_Sex_Legs_A4",#cumming
+                    "True", "Laura_Sex_Legs_A0",#Static
+                    ),
+            "True", ConditionSwitch(                                                               
+                    # If neither
+                    "not P_Sprite","Laura_Sex_Legs_H0",#Static
+                    "Speed == 1", "Laura_Sex_Legs_H1",#heading
+                    "Speed == 4", "Laura_Sex_Legs_H0",#cumming
+                    "Speed >= 2", "Laura_Sex_Legs_H2",#slow
+                    "True", "Laura_Sex_Legs_H0",#Static
+                    ),
+            )    
+    zoom .6 #0.6
+    transform_anchor True
+    anchor (.5,.5)
+#    rotate -30
+    
+image Laura_Sex_HairBack:
+    #Hair underlay
+    "Laura_Sprite_HairBack"
+    transform_anchor True
+    zoom 1.8
+    anchor (0.5, 0.5)
+    rotate 10
+    pos (800,100)
+  
+image Laura_Sex_Head:
+    #Hair underlay
+    "Laura_Sprite_Head"
+    transform_anchor True
+    zoom 1.8
+    anchor (0.5, 0.5)
+    rotate 10
+    pos (800,100)
+                    
+
+
+image Laura_Sex_Body:                                                                        
+    #Her torso for the sex pose
+    contains:
+            "Laura_Sex_HairBack"        
+    contains:
+            # hand
+            "images/LauraSex/Laura_Sex_Hand.png"
+    contains:
+            # Over under layer
+        ConditionSwitch(   
+            "not L_Over", Null(), 
+            "L_Uptop", ConditionSwitch(   
+                    #if uptop                       
+                    "L_Over == 'jacket'", "images/LauraSex/Laura_Sex_Jacket_Back_Up.png",
+                    "True", Null(),
+                    ),                
+            "True", ConditionSwitch(
+                    #if not uptop        
+                    "L_Over == 'jacket'", "images/LauraSex/Laura_Sex_Jacket_Back.png",
+                    "True", Null(),
+                    ),    
+            )
+    contains:
+            # body
+            "images/LauraSex/Laura_Sex_Body.png"
+    contains:
+            # piercings tits
+        ConditionSwitch(   
+            "not L_Pierce", Null(),
+            "L_Pierce == 'barbell'", "images/LauraSex/Laura_Sex_Barbell_Tits.png", 
+            "L_Pierce == 'ring'", "images/LauraSex/Laura_Sex_Ring_Tits.png", 
+            "True", Null(), 
+            )
+    contains:
+            # Chest clothing layer
+        ConditionSwitch(    
+            "L_Neck == 'leash choker'", "images/LauraSex/Laura_Sex_Leash.png", 
+            "True", Null(),  
+            )
+    contains:
+            # garters
+        ConditionSwitch(    
+            "L_Hose == 'stockings and garterbelt' or L_Hose == 'garterbelt'", "images/LauraSex/Laura_Sex_Garter.png", 
+            "True", Null(),  
+            )
+    contains:
+            # Chest clothing layer
+        ConditionSwitch(    
+            "not L_Chest", Null(),              
+            "L_Uptop",ConditionSwitch(  
+                    #if the top is up. . .
+                    "not L_Chest", Null(),  
+                    "L_Chest == 'leather bra'", "images/LauraSex/Laura_Sex_Bra_Leather_Up.png", 
+                    "L_Chest == 'wolvie top'", "images/LauraSex/Laura_Sex_Top_Wolvie_Up.png", 
+                    "L_Chest == 'corset'", "images/LauraSex/Laura_Sex_Corset_Up.png",   
+                    "L_Chest == 'lace corset'", "images/LauraSex/Laura_Sex_Corset_Lace_Up.png",   
+                    "L_Chest == 'bikini top'", "images/LauraSex/Laura_Sex_Top_Bikini_Up.png",  
+#                    "L_Chest == 'sports bra'", "images/LauraSex/Laura_Sex_Bra_Sports_Up.png",  
+#                    "L_Chest == 'lace bra'", "images/LauraSex/Laura_Sex_Bra_Lace_Up.png",  
+                    "True", Null(),  
+                    ),     
+            # else. . .
+            "L_Chest == 'leather bra'", "images/LauraSex/Laura_Sex_Bra_Leather.png", 
+            "L_Chest == 'wolvie top'", "images/LauraSex/Laura_Sex_Top_Wolvie.png", 
+            "L_Chest == 'corset'", "images/LauraSex/Laura_Sex_Corset.png",   
+            "L_Chest == 'lace corset'", "images/LauraSex/Laura_Sex_Corset_Lace.png",   
+            "L_Chest == 'bikini top'", "images/LauraSex/Laura_Sex_Top_Bikini.png",  
+#            "L_Chest == 'sports bra'", "images/LauraSex/Laura_Sex_Bra_Sports.png",  
+#            "L_Chest == 'lace bra'", "images/LauraSex/Laura_Sex_Bra_Lace.png",  
+            "True", Null(),  
+            )
+    contains:
+            # piercings tits over clothes
+        ConditionSwitch(   
+            "not L_Pierce or L_Uptop", Null(),
+            "L_Pierce == 'barbell'", "images/LauraSex/Laura_Sex_Barbell_Tits_C.png", 
+            "L_Pierce == 'ring'", "images/LauraSex/Laura_Sex_Ring_Tits_C.png", 
+            "True", Null(), 
+            )
+    contains:
+            # Over clothing layer
+        ConditionSwitch(   
+            "not L_Over", Null(), 
+            "L_Uptop", ConditionSwitch(   
+                    #if uptop                       
+                    "L_Over == 'jacket'", "images/LauraSex/Laura_Sex_Jacket_Up.png",
+#                    "L_Over == 'towel'", "images/LauraSex/Laura_Sex_Towel_Up.png",
+                    "True", Null(),
+                    ),                
+            "True", ConditionSwitch(
+                    #if not uptop        
+                    "L_Over == 'jacket'", "images/LauraSex/Laura_Sex_Jacket.png",
+#                    "L_Over == 'towel'", "images/LauraSex/Laura_Sex_Towel.png",
+                    "True", Null(),
+                    ),    
+            )
+    contains:
+            # spunk
+        ConditionSwitch(    
+            "'belly' in L_Spunk", "images/LauraSex/Laura_Sex_Spunk_Belly.png", 
+            "True", Null(),
+            ) 
+    contains:
+            # spunk on tits
+            ConditionSwitch(    
+                "'tits' not in L_Spunk", Null(),
+                "True", "images/LauraSex/Laura_Sex_Spunk_Tits.png",
+                )     
+    contains:
+            "Laura_Sex_Head"
+    transform_anchor True
+    zoom .9 #1 
+    offset (55,55)
+#    rotate 30
+#end Laura Body base
+
+image Laura_Sex_Legs:                                                                        
+    #Her Legs during sex             
+    contains:
+            # legs under
+        ConditionSwitch(    
+            "L_Legs == 'skirt'", "images/LauraSex/Laura_Sex_Skirt_Back.png",  
+            "True", Null(),
+            )
+#    contains:
+#            # spunk
+#        ConditionSwitch(    
+#            "'anal' in L_Spunk or 'in' in L_Spunk", "images/LauraSex/Laura_Spunk_Sex.png", 
+#            "True", Null(),
+#            )
+    contains:
+            # Legs base
+        ConditionSwitch(    
+            "P_Cock == 'foot'", "images/LauraSex/Laura_Sex_Legs_Foot.png", 
+            "True", "images/LauraSex/Laura_Sex_Legs_High.png", 
+            )
+    contains:
+            # anus
+        ConditionSwitch(    
+            "P_Cock == 'anal' and Speed > 1", "images/LauraSex/Laura_Sex_Anus_L.png", #and speed above heading?
+            "P_Cock == 'anal' and Speed > 0", "images/LauraSex/Laura_Sex_Anus_M.png", #and speed above heading?
+            "'anal' in L_Spunk", "images/LauraSex/Laura_Sex_Anus_M.png", # If it's full. . .
+            "True", "images/LauraSex/Laura_Sex_Anus_S.png", 
+            )  
+    contains:
+            # anal spunk
+        ConditionSwitch(    
+            "'anal' not in L_Spunk", Null(),
+            "P_Cock == 'anal' and Speed > 1", "images/LauraSex/Laura_Sex_Spunk_Anal_U.png", #speed above heading?
+            "True", "images/LauraSex/Laura_Sex_Spunk_Anal.png", 
+            ) 
+    contains:
+            # pussy
+        ConditionSwitch(    
+            "P_Cock == 'in' and Speed > 1", "images/LauraSex/Laura_Sex_Pussy_Open.png", #and speed above heading?
+            "P_Cock == 'in' and Speed > 0", "images/LauraSex/Laura_Sex_Pussy_Mid.png", #and speed heading?
+            "True", "images/LauraSex/Laura_Sex_Pussy_Closed.png", 
+            )  
+    contains:
+            # pussy wetness
+        ConditionSwitch(    
+            "not L_Wet", Null(),
+            "True", "images/LauraSex/Laura_Sex_Wet.png", 
+            ) 
+    contains:
+            # pussy spunk
+        ConditionSwitch(    
+            "'in' not in L_Spunk", Null(),
+            "P_Cock == 'in' and Speed > 1", "images/LauraSex/Laura_Sex_Spunk_Pussy_Open.png", #and speed above heading?
+            "True", "images/LauraSex/Laura_Sex_Spunk_Pussy.png", 
+            ) 
+    contains:
+            # pubes
+        ConditionSwitch(    
+            "not L_Pubes", Null(),
+            "P_Cock == 'in' and Speed > 1", "images/LauraSex/Laura_Sex_Pubes_Open.png", #and speed above heading?
+            "P_Cock == 'in' and Speed > 0", "images/LauraSex/Laura_Sex_Pubes_Mid.png", #and speed heading?
+            "True", "images/LauraSex/Laura_Sex_Pubes_Closed.png", 
+            )  
+    contains:
+            # piercings
+        ConditionSwitch(    
+            "L_Pierce == 'barbell' and P_Cock == 'in' and Speed > 1", "images/LauraSex/Laura_Sex_Barbell_Pussy_O.png", #and speed above heading?
+            "L_Pierce == 'barbell'", "images/LauraSex/Laura_Sex_Barbell_Pussy.png", 
+            "L_Pierce == 'ring' and P_Cock == 'in' and Speed > 1", "images/LauraSex/Laura_Sex_Ring_Pussy_O.png", #and speed above heading?
+            "L_Pierce == 'ring'", "images/LauraSex/Laura_Sex_Ring_Pussy.png",
+            "True", Null(), 
+            )       
+    contains:
+            # panties
+        ConditionSwitch(    
+            "L_PantiesDown", Null(),
+#            "L_Panties == 'wolvie panties' and L_Wet", "images/LauraSex/Laura_Sex_Panties_Sport_SW.png", 
+            "L_Panties == 'bikini bottoms'", "images/LauraSex/Laura_Sex_Panties_Bikini.png", 
+            "L_Panties == 'wolvie panties'", "images/LauraSex/Laura_Sex_Panties_Wolvie.png", 
+            "L_Panties == 'lace panties'", "images/LauraSex/Laura_Sex_Panties_Lace.png", 
+            "L_Panties", "images/LauraSex/Laura_Sex_Panties_Black.png", 
+            "True", Null(),
+            )         
+    contains:
+            # hose base layer
+        ConditionSwitch(    
+            "P_Cock == 'foot' and (L_Hose == 'stockings and garterbelt' or L_Hose == 'stockings')", "images/LauraSex/Laura_Sex_Stockings_Base_Foot.png", 
+            "L_Hose == 'stockings and garterbelt' or L_Hose == 'stockings'", "images/LauraSex/Laura_Sex_Stockings_Base_Up.png", 
+            "True", Null(),
+            )              
+    contains:
+            # legs
+        ConditionSwitch(    
+            "L_Legs == 'skirt'", "images/LauraSex/Laura_Sex_Skirt.png", 
+            "L_Upskirt", Null(),
+            "L_Legs == 'leather pants' and P_Cock == 'foot'", "images/LauraSex/Laura_Sex_Pants_Base_Foot.png", 
+            "L_Legs == 'leather pants'", "images/LauraSex/Laura_Sex_Pants_Base_Up.png", 
+            "True", Null(),
+            )
+    contains:
+            # piercings
+        ConditionSwitch(    
+#            "L_Panties and L_PantiesDown", Null(), #don't show if panties are down
+#            "L_Legs == 'skirt' or (L_Legs and L_Upskirt)", Null(), #don't show if pants are down
+            "L_Pierce == 'barbell'", "images/LauraSex/Laura_Sex_Barbell_Pussy_C.png", 
+            "L_Pierce == 'ring'", "images/LauraSex/Laura_Sex_Ring_Pussy_C.png",
+            "True", Null(), 
+            ) 
+#    contains:
+#            # Over
+#        ConditionSwitch(    
+#            "L_Over == 'nighty'", "images/LauraSex/Laura_Sex_Nighty_Pussy.png", 
+#            "True", Null(),
+#            )
+    contains:
+            # Feet
+        ConditionSwitch(    
+            "P_Cock == 'foot'", "Laura_Footjob_Foot", 
+            "True", "Laura_Sex_Foot", 
+            )
+    transform_anchor True
+    zoom 1 
+#    rotate 30
+#    offset (0,0)
+# End Laura Legs base
+
+
+image Laura_Sex_Foot:
+    #her vertical foot in the sex poses
+#    contains:
+#            # base
+#            "images/LauraSex/Laura_Sex_FootHigh.png"
+    contains:
+            # hose/foot
+        ConditionSwitch(    
+            "L_Hose == 'stockings and garterbelt' or L_Hose == 'stockings'", "images/LauraSex/Laura_Sex_Stockings_Up.png", 
+            "True", "images/LauraSex/Laura_Sex_FootHigh.png" #base
+            )              
+    contains:
+            # legs
+        ConditionSwitch(    
+            "L_Upskirt", Null(),
+            "L_Legs == 'leather pants'", "images/LauraSex/Laura_Sex_Pants_Up.png", 
+            "True", Null(),
+            )     
+        xoffset  -2 #this shouldn't be needed, but otherwise there's a gap between the knee and leg. 
+    transform_anchor True
+    zoom 1 
+#    alpha 0.2
+    pos (988,-553)#(988,-553)
+
+image Laura_Footjob_Foot:
+    #her movable foot in the footjob poses
+    contains:
+            # hose/base
+        ConditionSwitch(    
+            "L_Hose == 'stockings and garterbelt' or L_Hose == 'stockings'", "images/LauraSex/Laura_Sex_Stockings_Foot.png", 
+            "True", "images/LauraSex/Laura_Sex_Foot.png"
+            )              
+    contains:
+            # legs
+        ConditionSwitch(    
+            "L_Upskirt", Null(),
+            "L_Legs == 'leather pants'", "images/LauraSex/Laura_Sex_Pants_Foot.png", 
+            "True", Null(),
+            )      
+    transform_anchor True
+    zoom 1 
+
+image Laura_CockRef:
+    "images/LauraSex/Laura_Sex_Cocktest.png"
+    alpha 0.8
+   
+   
+# Sex Animations / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+
+# Sex Animations / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+
+image Laura_SexMask:                    
+    transform_anchor True
+    contains:
+        "images/LauraSex/Laura_Sex_MaskPussyX.png"
+        pos (200,303)#(0,0)#(-300,-300) #303
+        anchor (.5,.5)
+    zoom 1 
+    anchor (0.5,0.5)
+                    
+# Start S0 (static) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+image Laura_Sex_Body_S0:                                                                        
+    #Her Body in the sex pose, static
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,0) #top (0,-10)
+        block:#total 2s
+            pause 0.15
+            ease 0.6 ypos -5 #in
+            pause 0.65
+            ease .6 ypos 0 #out
+            repeat
+
+image Laura_Sex_Legs_S0:
+    # Her Legs in the Sex pose, static
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:#total 2s
+                pause 0.1
+                ease 0.5 ypos -5 #in -25
+                easeout 0.5 ypos -4 #-50
+                easein 0.9 ypos 0 #out
+                repeat                    
+    contains:
+            AlphaMask("Laura_Sex_Zero_Anim_S0", "Laura_SexMask")
+            subpixel True
+            pos (525,465)
+            block:#total 2s
+                pause 0.1
+                ease 0.5 ypos 460 #in 470
+                easeout 0.5 ypos 461 #471
+                easein 0.9 ypos 465 #out 475                 
+                repeat
+    # End Legs Sex static
+                    
+image Laura_Sex_Zero_Anim_S0:
+    #this is the cock for Laura's sex animation, Speed0 (static)
+    contains:
+        subpixel True
+        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        alpha 0.8
+        pos (125,170)#125,75
+        block: #total 4s
+                ease 2 ypos 115#-50
+                easeout .5 ypos 120#60
+                easein 1.5 ypos 170
+                repeat
+    
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True
+                    
+# End S0 (static) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+# Start S1 (Heading) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+image Laura_Sex_Body_S1:                                                                        
+    #Her Body in the sex pose, heading
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,0) #top (0,-10)
+        block:#total 2s
+            pause 0.15
+            ease 0.6 ypos -5 #in
+            pause 0.65
+            ease .6 ypos 0 #out
+            repeat
+
+image Laura_Sex_Legs_S1:
+    # Her Legs in the Sex pose, heading
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:#total 2s
+                pause 0.1
+                ease 0.5 ypos -5 #in -25
+                easeout 0.5 ypos -4 #-50
+                easein 0.9 ypos 0 #out
+                repeat                    
+    contains:
+            AlphaMask("Laura_Sex_Zero_Anim_S1", "Laura_SexMask")
+            subpixel True
+            pos (525,485)
+            block:#total 2s
+                pause 0.1
+                ease 0.5 ypos 480 #in 450
+                easeout 0.5 ypos 481 #455
+                easein 0.9 ypos 485 #out    #475              
+                repeat
+    # End Legs Sex heading
+                    
+image Laura_Sex_Zero_Anim_S1:
+    #this is the cock for Laura's sex animation, Speed1 (heading)
+    contains:
+        subpixel True
+        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        pos (125,115)#125,75
+        block: #total 2s
+                ease .5 ypos 90#-50
+                easeout .5 ypos 100#60
+                easein 1 ypos 115
+                repeat
+    
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True
+                    
+# End S1 (Heading) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+# Start S2 (slow) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+image Laura_Sex_Body_S2:                                                                        
+    #Her Body in the sex pose, slow
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,10) #top (0,-10)
+        block:
+            pause 0.3
+            ease 0.3 ypos -10 #in
+            pause 0.20
+            ease 1.70 ypos 10 #out
+            repeat
+
+image Laura_Sex_Legs_S2:
+    # Her Legs in the Sex pose, slow
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:
+                pause 0.25
+                ease 0.3 ypos -25 #in
+                easeout 0.45 ypos -20
+                easein 1.5 ypos 0 #out
+                repeat                    
+    contains:
+            AlphaMask("Laura_Sex_Zero_Anim_S2", "Laura_SexMask")
+            subpixel True
+            pos (525,478)
+            block:
+                pause 0.25
+                ease 0.3 ypos 453 #in
+                easeout 0.45 ypos 458 
+                easein 1.5 ypos 478 #out                    
+                repeat
+    contains:
+            # spunk
+            ConditionSwitch(    
+                "'in' not in L_Spunk", Null(),
+                "True", "images/LauraSex/Laura_Sex_Spunk_Anal_O.png", 
+                ) 
+            subpixel True                
+            pos (-15,-105) #top
+            block:
+                pause 0.25
+                ease 0.3 ypos -130 #in 
+                easeout 0.45 ypos -125
+                easein 1.5 ypos -105 #out
+                repeat         
+    # End Legs Sex slow
+                    
+image Laura_Sex_Zero_Anim_S2:
+    #this is the cock for Laura's sex animation, Speed 1 (slow)
+    contains:
+        subpixel True
+        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        pos (125,75)#130,75
+        block: #total 2.5s
+                ease .5 ypos -50#-50
+                easeout 1.5 ypos 60#100
+                easein .5 ypos 75
+                repeat
+    
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True
+# End S2 (slow) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+
+# Start S3 (fast) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+image Laura_Sex_Body_S3:                                                                        
+    #Her Body in the sex pose, fast
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,10) #top (0,-10)
+        block:#total 2.5s > 1.75 > 1.2
+            pause 0.1
+            ease 0.2 ypos -50 #in -10
+            pause 0.2
+            ease .7 ypos 10 #out
+            repeat
+
+image Laura_Sex_Legs_S3:
+    # Her Legs in the Sex pose, slow
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.05
+                ease 0.2 ypos -45 #in -25
+                easeout 0.45 ypos -40 #-50
+                easein .5 ypos 0 #out
+                repeat                    
+    contains:
+            AlphaMask("Laura_Sex_Zero_Anim_S3", "Laura_SexMask")
+            subpixel True
+            pos (525,478) #(525,475)
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.05
+                ease 0.2 ypos 433 #in 450
+                easeout 0.45 ypos 438 #455
+                easein .5 ypos 478 #out                  
+                repeat
+#            block:#total 2.5s > 1.75 > 1.2
+#                pause 0.05
+#                ease 0.2 ypos 430 #in 450
+#                easeout 0.45 ypos 435 #455
+#                easein .5 ypos 475 #out                  
+#                repeat
+    contains:
+            # spunk
+            ConditionSwitch(    
+                "'in' not in L_Spunk", Null(),
+                "True", "images/LauraSex/Laura_Sex_Spunk_Anal_O.png", 
+                ) 
+            subpixel True                
+            pos (-15,-105) #top(-15,-105)   
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.05
+                ease 0.2 ypos -150 #in -45
+                easeout 0.45 ypos -145 #-40
+                easein .5 ypos -105 #out
+                repeat     
+    # End Legs Sex fast
+                    
+image Laura_Sex_Zero_Anim_S3:
+    #this is the cock for Laura's sex animation, Speed3 (fast)
+    contains:
+        subpixel True
+        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        pos (125,75)#130,75
+        block: #total 2.5s > 1.75 > 1.2
+                ease .2 ypos -70#-50
+                easeout .5 ypos 0#60
+                easein .5 ypos 75
+                repeat
+    
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True                    
+# End S3 (fast) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+# Start S4 (cumming) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+image Laura_Sex_Body_S4:                                                                        
+    #Her Body in the sex pose, cumming
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,10) #top (0,10)
+        block:#total 2.5s > 1.75 > 1.2
+            pause 0.1
+            ease 0.2 ypos 0 #in
+            pause 0.2
+            ease 1.7 ypos 10 #out
+            repeat
+
+image Laura_Sex_Legs_S4:
+    # Her Legs in the Sex pose, slow
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.05
+                ease 0.2 ypos -15 #in -25
+                easeout 0.45 ypos -10 #-50
+                easein 1.5 ypos 0 #out
+                repeat                   
+    contains:
+            AlphaMask("Laura_Sex_Zero_Anim_S4", "Laura_SexMask")
+            subpixel True
+            pos (525,475)
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.05
+                ease 0.2 ypos 460 #in 450
+                easeout 0.45 ypos 465 #455
+                easein 1.5 ypos 475 #out                  
+                repeat
+    contains:
+            # spunk
+            ConditionSwitch(    
+                "'in' not in L_Spunk", Null(),
+                "True", "images/LauraSex/Laura_Sex_Spunk_Anal_O.png", 
+                ) 
+            subpixel True
+            pos (-15,-105) #top
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.05
+                ease 0.2 ypos -120 #in -15
+                easeout 0.45 ypos -115 #-10
+                easein 1.5 ypos -105 #out
+                repeat 
+    # End Legs Sex fast
+                    
+image Laura_Sex_Zero_Anim_S4:
+    #this is the cock for Laura's sex animation, Speed4 (cumming)
+    contains:
+        subpixel True
+        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        pos (125,-60)#130,75
+        block: #total 
+                ease .2 ypos -70
+                easeout .5 ypos -68
+                easein 1.5 ypos -60
+                repeat
+    
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True
+    
+# End S4 (cumming) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+# Anal Animations / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+
+# Start A0 (static) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+ 
+image Laura_Sex_Body_A0:                                                                        
+    #Her Body in the anal pose, static
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,0) #top (0,-10)
+        block:#total 2s
+            pause 1.15
+            ease 0.6 ypos -5 #in
+            pause 0.65
+            ease .6 ypos 0 #out
+            repeat
+            
+image Laura_Sex_Legs_A0:
+    # Her Legs in the anal pose, static
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:#total 2s
+                pause 0.6
+                easeout 0.8 ypos -2 #-50
+                easein 0.2 ypos -5 #out
+                easeout 0.5 ypos -4 #-50
+                easein 0.9 ypos 0 #out
+                repeat                  
+    contains:
+            AlphaMask("Laura_Sex_Zero_Anim_A0", "Laura_AnalMask")
+            subpixel True
+            pos (533,587) #538,580
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.6
+                easeout 0.8 ypos 585 #578
+                easein 0.2 ypos 582 #out  575
+                easeout 0.5 ypos 583 #576
+                easein 0.9 ypos 587 #out  580                
+                repeat
+    # End Legs anal static
+    
+image Laura_Sex_Zero_Anim_A0:
+    #this is the cock for Laura's anal animation, Speed0 (static)
+    contains:
+        subpixel True
+        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        pos (125,115)#125,115
+        block: #total 3s
+                ease 1.5 ypos 110
+                pause .5
+                ease 1.0 ypos 115
+                repeat         
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True
+    
+# End A0 (static) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+# Start A1 (heading) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+                
+image Laura_Sex_Body_A1:                                                                        
+    #Her Body in the anal pose, heading
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,0) #top (0,-10)
+        block:#total 2s
+            pause 1.15
+            ease 0.6 ypos -5 #in
+            pause 0.65
+            ease .6 ypos 0 #out
+            repeat
+            
+image Laura_Sex_Legs_A1:
+    # Her Legs in the anal pose, heading
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:#total 2s
+                pause 0.6
+                easeout 0.8 ypos -2 #-50
+                easein 0.2 ypos -5 #out
+                easeout 0.5 ypos -4 #-50
+                easein 0.9 ypos 0 #out
+                repeat                  
+    contains:
+            AlphaMask("Laura_Sex_Zero_Anim_A1", "Laura_AnalMask")
+            subpixel True
+            pos (538,583) #525,475
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.6
+                easeout 0.8 ypos 581 #455
+                easein 0.2 ypos 578 #out  
+                easeout 0.5 ypos 579 #455
+                easein 0.9 ypos 583 #out                  
+                repeat
+    # End Legs anal heading
+                    
+image Laura_Sex_Zero_Anim_A1:
+    #this is the cock for Laura's anal animation, Speed1 (heading)
+    contains:
+        subpixel True
+        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        pos (125,115)#125,75
+        block: #total 3s
+                easeout 1.2 ypos 100
+                easein .3 ypos 90
+                easeout .5 ypos 100
+                easein 1 ypos 115
+                repeat         
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True
+    
+# End A1 (heading) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+# Start A2 (slow) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+ 
+image Laura_Sex_Body_A2:                                                                        
+    #Her Body in the anal pose, slow
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,0) #top (0,-10)
+        block:#total 2.5s > 1.75 > 1.2
+            pause 0.3
+            ease 0.3 ypos -20 #in
+            pause 0.20
+            ease 1.70 ypos 20 #out
+            repeat
+            
+image Laura_Sex_Legs_A2:
+    # Her Legs in the anal pose, slow
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.25
+                ease 0.3 ypos -35 #in
+                easeout 0.45 ypos -30
+                easein 1.5 ypos 0 #out
+                repeat            
+    contains:
+            AlphaMask("Laura_Sex_Zero_Anim_A2", "Laura_AnalMask")
+            subpixel True
+            pos (538,580) #525,475
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.25
+                ease 0.3 ypos 545 #in 450
+                easeout 0.45 ypos 550 #455
+                easein 1.5 ypos 580 #out                  
+                repeat
+    contains:
+            # spunk
+            ConditionSwitch(    
+                "'anal' not in L_Spunk", Null(),
+                "True", "images/LauraSex/Laura_Sex_Spunk_Anal_O.png", 
+                ) 
+            subpixel True
+            pos (0,0) #top
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.25
+                ease 0.3 ypos -35 #in
+                easeout 0.45 ypos -30
+                easein 1.5 ypos 0 #out
+                repeat 
+    # End Legs anal slow
+                    
+image Laura_Sex_Zero_Anim_A2:
+    #this is the cock for Laura's anal animation, Speed2 (slow)
+    contains:
+        subpixel True
+        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        pos (125,75)#130,75
+        block: #total 2.5s > 1.75 > 1.2
+                ease .5 ypos -50#-50
+                easeout 1.5 ypos 60#60
+                easein .5 ypos 75
+                repeat                
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True
+    
+# End A2 (slow) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+# Start A3 (fast) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+image Laura_Sex_Body_A3:                                                                        
+    #Her Body in the anal pose, fast
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,0) #top (0,-10)
+        block:#total 2.5s > 1.75 > 1.2
+            pause 0.1
+            ease 0.2 ypos -50 #in
+            pause 0.2
+            ease .7 ypos 00 #out
+            repeat
+                            
+image Laura_Sex_Legs_A3:
+    # Her Legs in the anal pose, fast
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.05
+                ease 0.2 ypos -55 #in -25
+                easeout 0.45 ypos -40 #-50
+                easein .5 ypos 0 #out
+                repeat                      
+    contains:
+            AlphaMask("Laura_Sex_Zero_Anim_A3", "Laura_AnalMask")
+            subpixel True
+            pos (538,580) #525,475
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.05
+                ease 0.2 ypos 525 #in 450
+                easeout 0.45 ypos 540 #455
+                easein .5 ypos 580 #out                  
+                repeat
+    contains:
+            # Spunk
+            ConditionSwitch(    
+                "'anal' not in L_Spunk", Null(),
+                "True", "images/LauraSex/Laura_Sex_Spunk_Anal_O.png", 
+                ) 
+            subpixel True
+            pos (0,0) #top
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.05
+                ease 0.2 ypos -55 #in -25
+                easeout 0.45 ypos -40 #-50
+                easein .5 ypos 0 #out
+                repeat  
+    # End Legs Anal fast
+                    
+image Laura_Sex_Zero_Anim_A3:
+    #this is the cock for Laura's anal animation, Speed3 (fast)
+    contains:
+        subpixel True
+        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        pos (125,75)#130,75
+        block: #total 2.5s > 1.75 > 1.2
+                ease .2 ypos -70#-50
+                easeout .7 ypos 0#60
+                easein .3 ypos 75
+                repeat
+    
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True
+    
+# End A3 (fast) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+# Start A4 (cumming) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+image Laura_Sex_Body_A4:                                                                        
+    #Her Body in the anal pose, cumming
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,20) #top (0,-10)
+        block:#total 2.5s > 1.75 > 1.2
+            pause 0.1
+            ease 0.2 ypos 00 #in
+            pause 0.2
+            ease 1.7 ypos 20 #out
+            repeat
+
+image Laura_Sex_Legs_A4:
+    # Her Legs in the anal pose, cumming
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.05
+                ease 0.2 ypos -15 #in -25
+                easeout 0.45 ypos -10 #-50
+                easein 1.5 ypos 0 #out
+                repeat                   
+    contains:
+            AlphaMask("Laura_Sex_Zero_Anim_A4", "Laura_AnalMask")
+            subpixel True
+            pos (538,583) #525,475
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.05
+                ease 0.2 ypos 568 #in 450
+                easeout 0.45 ypos 573 #455
+                easein 1.5 ypos 583 #out                  
+                repeat
+    contains:
+            # spunk
+            ConditionSwitch(    
+                "'anal' not in L_Spunk", Null(),
+                "True", "images/LauraSex/Laura_Sex_Spunk_Anal_O.png", 
+                ) 
+            subpixel True
+            pos (0,0) #top
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.05
+                ease 0.2 ypos -15 #in -25
+                easeout 0.45 ypos -10 #-50
+                easein 1.5 ypos 0 #out
+                repeat 
+    # End Legs Anal cumming
+                    
+image Laura_Sex_Zero_Anim_A4:
+    #this is the cock for Laura's anal animation, Speed4 (cumming)
+    contains:
+        subpixel True
+        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        pos (125,-60)#130,75
+        block: #total 
+                ease .2 ypos -70
+                easeout .5 ypos -68
+                easein 1.5 ypos -60
+                repeat
+    
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True
+# End A4 (cumming) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+
+# Start H0 (static) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+   
+image Laura_Sex_Body_H0:                                                                        
+    #Her Body in the hotdogging pose, static
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,0) #top (0,-10)
+        block:#total 2s
+            pause 1.15
+            ease 0.6 ypos -5 #in
+            pause 0.65
+            ease .6 ypos 0 #out
+            repeat
+            
+image Laura_Sex_Legs_H0:
+    # Her Legs in the hotdogging pose, static
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:#total 2s
+                pause 0.6
+                easeout 0.8 ypos -2 #-50
+                easein 0.2 ypos -5 #out
+                easeout 0.5 ypos -4 #-50
+                easein 0.9 ypos 0 #out
+                repeat                  
+    contains:
+            "Laura_Sex_Zero_Anim_H0"
+#            AlphaMask("Laura_Sex_Zero_Anim_H0", "Laura_AnalMask")
+            subpixel True
+            pos (558,580) #538,475
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.6
+                easeout 0.8 ypos 578 #455
+                easein 0.2 ypos 575 #out  
+                easeout 0.5 ypos 576 #455
+                easein 0.9 ypos 580 #out                  
+                repeat
+    # End Legs hotdogging static
+                    
+image Laura_Sex_Zero_Anim_H0:
+    #this is the cock for Laura's hotdogging animation, Speed0 (static)
+    contains:
+        subpixel True
+        ConditionSwitch(            
+            "P_Sprite", "Zero_Doggy_Insert",# Zero's cock, changes color and properties
+            "True", Null(),
+            )    
+        
+#        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        pos (125,115)#125,75
+        alpha 0.8    
+        block: #total 3s
+                ease 1.5 ypos 110
+                pause .5
+                ease 1.0 ypos 115
+                repeat         
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True
+    
+# End H0 (static) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+# Start H1 (slow) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+        
+image Laura_Sex_Body_H1:                                                                        
+    #Her Body in the hotdogging pose, slow
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,0) #top (0,-10)
+        block:#total 2s
+            pause 1.15
+            ease 0.6 ypos -5 #in
+            pause 0.65
+            ease .6 ypos 0 #out
+            repeat
+            
+image Laura_Sex_Legs_H1:
+    # Her Legs in the hotdogging pose, slow
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:#total 2s
+                pause 0.6
+                ease 1 ypos -10 #-50
+                easeout 0.5 ypos -4 #-50
+                easein 0.9 ypos 0 #out
+                repeat                  
+    contains:
+            "Laura_Sex_Zero_Anim_H1"
+#            AlphaMask("Laura_Sex_Zero_Anim_H0", "Laura_AnalMask")
+            subpixel True
+            pos (558,580) #538,475
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.6
+                ease 1 ypos 570 #-50 
+                easeout 0.5 ypos 576 #455
+                easein 0.9 ypos 580 #out                  
+                repeat
+    # End Legs hotdogging slow
+                    
+image Laura_Sex_Zero_Anim_H1:
+    #this is the cock for Laura's hotdogging animation, Speed1 (slow)
+    contains:
+        subpixel True
+        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        alpha 0.8    
+        pos (125,250)#125,75
+        block: #total 3s
+                ease 1.5 ypos 90 #110
+                pause .5
+                ease 1.0 ypos 250
+                repeat         
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True
+    
+# End H1 (slow) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+                
+# Start H2 (fast) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+
+image Laura_Sex_Body_H2:                                                                        
+    #Her Body in the hotdogging pose, fast
+    contains:
+        "Laura_Sex_Body"      
+        subpixel True       
+        pos (0,0) #top (0,-10)
+        block:#total .75s
+            pause .3
+            ease .5 ypos -5 #in
+            pause 0.3
+            ease .4 ypos 0 #out
+            repeat
+            
+image Laura_Sex_Legs_H2:
+    # Her Legs in the hotdogging pose, fast
+    contains:
+            #Body
+            "Laura_Sex_Legs"
+            subpixel True
+            pos (0,0) #top
+            block:#total .75s
+                pause 0.1
+                ease .25 ypos -20 #-50
+                easeout 0.15 ypos -18 #-50
+                easein 0.25 ypos 0 #out
+                repeat                  
+    contains:
+            "Laura_Sex_Zero_Anim_H2"
+#            AlphaMask("Laura_Sex_Zero_Anim_H0", "Laura_AnalMask")
+            subpixel True
+            pos (558,580) #538,475
+            block:#total 2.5s > 1.75 > 1.2
+                pause 0.1
+                ease .25 ypos 560 #-50
+                easeout 0.15 ypos 562 #455
+                easein 0.25 ypos 580 #out                  
+                repeat
+    # End Legs anal fast
+                    
+image Laura_Sex_Zero_Anim_H2:
+    #this is the cock for Laura's hotdogging animation, Speed1 (fast)
+    contains:
+        subpixel True
+        "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+        zoom 1.7 #1.6
+        alpha 0.8    
+        pos (125,230)#125,75
+        block: #total .75s
+                ease .25 ypos 150 #110
+                easeout 0.25 ypos 170 
+                easein 0.25 ypos 230   
+                repeat         
+    size (401,606)
+    anchor (0.1,0.5)
+    transform_anchor True
+    
+# End H2 (fast) < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < <
+                
+             
+image Laura_AnalMask:                    
+    transform_anchor True
+    contains:
+        "images/LauraSex/Laura_Sex_MaskAnalX.png"
+        pos (200,366)#(0,0)#(-300,-300) #323 -70
+        anchor (.5,.5)
+    zoom 1 
+    anchor (0.5,0.5)
+                    
+#End Sex Animations / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+
+
+
+
+
+#image Laura_SexMask:
+#    contains:
+#        "images/LauraSex/Laura_Sex_PussyMaskTest2.png"
+#        pos (-300,-300)   
+##        block:
+##                    ease 1 xzoom .5
+##                    ease 1 xzoom 1
+##                    repeat
+#    zoom 1 
+#    transform_anchor True
+#    anchor (0.1,0.5)
+##    rotate 30
+                    
+#image Laura_Sex_Zero_Anim0:
+#        #this is the cock for Laura's sex animation, Speed 0 (static)
+##        contains: 
+##            "images/LauraSex/Laura_Sex_PussyMaskTestB.png"
+##            pos (-200,0)
+#        contains:
+#            subpixel True
+##            anchor (0.5,0)
+#            "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+##            pos (498,530) #X less is left, Y less is up (498,520)
+#            zoom 1.6
+#            alpha 0.5
+#            pos(350,250) #466
+##            rotate -30
+#            block:
+#                    ease 1.25 ypos 100#630
+#                    ease 1.25 ypos 250#480
+#                    repeat
+#        size (1264,1061)#(1119,1186)
+#        anchor (0.1,0.5)
+#        transform_anchor True
+##        rotate 30
+    
+
+
+
+image Laura_SexMaskX:                    
+    transform_anchor True
+    contains:
+        "images/LauraSex/Laura_Sex_MaskPussyX.png"
+        pos (200,303)#(0,0)#(-300,-300) #
+        anchor (.5,.5)
+#        block:
+#            ease 0.5 ypos 490#270 #bottom
+#            pause 0.5
+#            ease 1 ypos 540#320 #top
+#            repeat
+#        block:
+#                    ease 1 xzoom .5
+#                    ease 1 xzoom 1
+#                    repeat
+#        block:
+#                    ease .5 pos(0,0)
+#                    ease .5 pos(0,2000)
+#                    ease .5 pos(200,0)
+#                    ease .5 pos(200,2000)
+#                    ease .25 pos(400,0)
+#                    ease .25 pos(400,2000)
+#                    ease .25 pos(600,0)
+#                    ease .25 pos(600,2000)
+#                    ease .25 pos(800,0)
+#                    ease .25 pos(800,2000)
+#                    ease .25 pos(1000,0)
+#                    ease .25 pos(1000,2000)
+#                    ease .25 pos(1200,0)
+#                    ease .25 pos(1200,2000)
+#                    ease .25 pos(1400,0)
+#                    ease .25 pos(1400,2000)
+#                    repeat
+    zoom 1 
+#    transform_anchor True
+    anchor (0.5,0.5)
+#    rotate 30
+                    
+image Laura_Sex_Zero_AnimX:
+        #this is the cock for Laura's sex animation, Speed 0 (static)
+        contains: 
+            Solid("#159457", xysize=(401,606))#(1264,1061))
+            alpha 0.9
+        contains:
+            subpixel True
+#            anchor (0.5,0)
+            "Zero_Doggy_Insert" # Zero's cock, changes color and properties
+#            pos (498,530) #X less is left, Y less is up (498,520)
+            zoom 1.6
+            alpha 0.5
+            pos (130,100)#(390,550)#(350,250) #466
+#            rotate -30
+            block:
+                    ease 1.25 ypos -50#630
+                    ease 1.25 ypos 100#480
+                    repeat
+        
+        size (401,606)#(88,266)(1264,1061)#(1119,1186)
+        anchor (0.1,0.5)
+        transform_anchor True
+#        rotate 30
+
+
+image Laura_Mega_Mask2:
+    # giant green brick for use in finding where a mask is
+    contains:
+        "images/LauraSex/Laura_Sex_PussyMaskTest2.png"
+#        Solid("#159457", xysize=(500,500))
+#        offset (-100,100)
+#        anchor (0.5,0.5)
+#        zoom 1.0
+#        alpha .5
+#        pos (200,0)#(26,350)#(-175,450)
+#        block:
+#                    ease .25 offset(0,-500)
+#                    ease .25 offset(0,1000)
+#                    ease .25 offset(200,-500)
+#                    ease .25 offset(200,1000)
+#                    ease .25 offset(400,-500)
+#                    ease .25 offset(400,1000)
+#                    ease .25 offset(600,-500)
+#                    ease .25 offset(600,1000)
+#                    ease 1.5 offset(-800,-1000)
+#                    ease 1.5 offset(-200,-100)
+#                    ease .25 offset(-400,-500)
+#                    ease .25 offset(-400,1000)
+#                    ease .25 offset(-200,-500)
+#                    ease .25 offset(-200,1000)
+#                    repeat
+    transform_anchor True
+    zoom 1 
+    rotate 30
+#    block:
+#                    ease 1 rotate 0
+#                    ease 1 rotate 30
+#                    repeat
+
+image Laura_Mega_Mask:
+    # giant green brick for use in finding where a mask is
+    contains:
+        "images/LauraSex/Laura_Sex_PussyMaskTestB.png"
+#        Solid("#159457", xysize=(500,500))
+#        offset (-100,100)
+#        anchor (0.5,0.5)
+#        zoom 1.0
+        alpha .5
+#        pos (200,0)#(26,350)#(-175,450)
+#        block:
+#                    ease 1.5 offset(-800,-1200)
+#                    ease 1.5 offset(-200,-100)
+#                    ease 1.5 offset(-600,-1200)
+#                    ease 1.5 offset(-600,-600)
+#                    ease 1.5 offset(-200,-1200)
+#                    ease 1.5 offset(-200,-600)
+#                    repeat
+    transform_anchor True
+    zoom 1 
+    rotate 30
+                    
+# end Laura's Sex Scenes / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+
+
+label Laura_Sex_Launch(Line = "solo"): 
+    if Line == "sex":        
+        $ P_Cock = "in"
+    elif Line == "anal":
+        $ P_Cock = "anal"
+    elif Line == "solo":   
+        $ P_Sprite = 0
+        $ P_Cock = "out"
+    elif Line == "hotdog":          
+        $ P_Cock = "out"
+    elif Line == "foot":          
+        $ P_Cock = "foot"
+    if not Trigger:
+        $ Trigger = Line
+    if renpy.showing("Laura_SexSprite"):
+        return 
+    $ P_Sprite = 1
+    hide Laura_Sprite      
+    if renpy.showing("Laura_BJ_Animation"):
+        hide Laura_BJ_Animation
+    if renpy.showing("Laura_HJ_Animation"):
+        hide Laura_HJ_Animation
+    if renpy.showing("Laura_TJ_Animation"):
+        hide Laura_TJ_Animation
+    call Speed_Shift(0) 
+    
+    if Trigger == "in" or Trigger == "anal": 
+            if L_Legs:          #temporary, change or remove when other clothing options are available
+                $ L_Upskirt = 1
+            if L_Panties:       #temporary, change or remove when other clothing options are available
+                $ L_PantiesDown = 1
+                        
+    show Laura_SexSprite zorder 150:
+        pos (450,500)
+    with dissolve
+    return
+    
+label Laura_Sex_Reset:
+    if not renpy.showing("Laura_SexSprite"):
+        return
+    $ Laura_Arms = 2     
+    hide Laura_SexSprite  
+    call Laura_Hide 
+    show Laura_Sprite at SpriteLoc(L_SpriteLoc) zorder LauraLayer:
+        alpha 1
+        zoom 1 offset (0,0) 
+        anchor (0.5, 0.0)
+    with dissolve
+    $ Speed = 0
+    return
+
+
+# Laura's BJ Scenes / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+            
+            
+            
+            
+# Laura's BJ Scenes / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
                                                  
 
               
@@ -652,7 +2148,14 @@ image Laura_BJ_Animation:
             
 image Laura_Sprite_BJ_HairBack:          
     #This is the version of the hair back used in the BJ pose
-    "images/LauraSprite/Laura_Sprite_Hair_Long_Under.png"      
+#    "images/LauraSprite/Laura_Sprite_Hair_Long_Under.png"      
+    ConditionSwitch(                                                                         
+            #Hair over
+            "not L_Hair", Null(),
+            "L_Hair == 'wet' or L_Water", "images/LauraSprite/Laura_Sprite_Hair_Wet_Under.png",
+            "L_Hair", "images/LauraSprite/Laura_Sprite_Hair_Long_Under.png",
+            "True", Null(),
+            )        
                     
 image Laura_Sprite_BJ_Head:
     #This is the version of the head used in the BJ pose
@@ -732,22 +2235,27 @@ image Laura_Sprite_BJ_Head:
         (0,0), ConditionSwitch(                
             #Hair mid
             "L_Over == 'jacket'", Null(),
-#            "L_Hair == 'wet' or L_Water", "images/LauraSprite/Laura_Sprite_Head_HairWet.png",
+            "L_Hair == 'wet' or L_Water", Null(),
             "L_Hair", "images/LauraSprite/Laura_Sprite_Hair_Long_Mid.png",
             "True", Null(),
             ),       
+#        (0,0), ConditionSwitch(
+#            #Face Water
+#            "not L_Water", Null(),
+#            "True", "images/LauraSprite/Laura_Sprite_Wet_Head.png",
+#            ),
         (0,0), ConditionSwitch(                                                                         
             #Hair over
             "not L_Hair", Null(),
-#            "L_Hair == 'wet' or L_Water", "images/LauraSprite/Laura_Sprite_Head_HairWet.png",
+            "L_Hair == 'wet' or L_Water", "images/LauraSprite/Laura_Sprite_Hair_Wet_Over.png",
             "L_Hair", "images/LauraSprite/Laura_Sprite_Hair_Long_Over.png",
             "True", Null(),
             ),        
         (0,0), ConditionSwitch(
             #Hair Water
             "not L_Water", Null(),
-#            "L_Hair == 'wet'", "images/LauraSprite/Laura_Sprite_Wet_Head.png",
-            "True", "images/LauraSprite/Laura_Sprite_Wet_Head.png",
+            "True", "images/LauraSprite/Laura_Sprite_Head_Wet.png",
+#            "True", "images/LauraSprite/Laura_Sprite_Hair_Wet.png",
             ),
         (0,0), ConditionSwitch(
             #facial spunk               
@@ -813,7 +2321,7 @@ image Laura_BJ_Body_0:
                 pause 0.1
                 ease 1.1 ypos 810 #bottom
                 pause 0.2
-                ease 1.1 ypos 800 #top
+                ease 1 ypos 800 #top
                 pause 0.1
                 repeat    
     contains:
@@ -1720,6 +3228,8 @@ image Laura_BJ_Body_6:
 #Head and Body Animations for Laura's BJ Scenes / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
                                                                #BJ Launchers  
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                                                               #BJ Launchers  
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 label Laura_BJ_Launch(Line = 0):    # The sequence to launch the Laura BJ animations 
     $ Laura_Arms = 1
@@ -1986,11 +3496,13 @@ label L_Pussy_Launch(T = Trigger):
 label L_Pos_Reset(Pose = 0):    
     call Laura_Hide 
     show Laura_Sprite at SpriteLoc(L_SpriteLoc) zorder LauraLayer:
-        ease .5 offset (0,0) anchor (0.5, 0.0) zoom 1 alpha 1
+        ease .5 offset (0,0) anchor (0.5, 0.0) zoom 1 alpha 1 xzoom 1 yzoom 1
     show Laura_Sprite zorder LauraLayer:
         offset (0,0) 
         anchor (0.5, 0.0)
         zoom 1  
+        xzoom 1 
+        yzoom 1 
         alpha 1
         pos (L_SpriteLoc,50)
     $ Trigger = Pose
@@ -2339,33 +3851,33 @@ image GirlFingerPussy_L:
         subpixel True
         "UI_GirlFinger"       
         zoom .6
-        pos (220,640)#(220,635)
+        pos (140,605)#(220,640)
         anchor (0.5,0.5)
         alpha 0.5
         rotate 200
         block:
             choice: #fast rub
-                ease .75 rotate 210 pos (220,645)
+                ease .75 rotate 210 pos (140,610)
                 ease .5 rotate 195 
                 ease .75 rotate 210 
                 ease .5 rotate 195 
             choice: #slow rub
-                ease .5 rotate 210 pos (220,645)
+                ease .5 rotate 210 pos (140,610)
                 ease 1 rotate 195
                 pause .25
                 ease .5 rotate 210
                 ease 1 rotate 195
                 pause .25
             choice: #slow stroke
-                ease .5 rotate 205 pos (220,655)
-                ease .75 rotate 200 pos (220,660)
-                ease .5 rotate 205 pos (220,655)
-                ease .75 rotate 200 pos (220,660)
+                ease .5 rotate 205 ypos 620
+                ease .75 rotate 200 ypos 625
+                ease .5 rotate 205 ypos 620
+                ease .75 rotate 200 ypos 625
             choice: #Fast stroke
-                ease .3 rotate 205 pos (220,655)
-                ease .3 rotate 200 pos (220,665)
-                ease .3 rotate 205 pos (220,655)
-                ease .3 rotate 200 pos (220,665)
+                ease .3 rotate 205 ypos 620
+                ease .3 rotate 200 ypos 630
+                ease .3 rotate 205 ypos 620
+                ease .3 rotate 200 ypos 630
             repeat
 
 # Start Laura Faces / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
@@ -2519,8 +4031,11 @@ label LauraWardrobe:
                         $ L_Over = "jacket"  
                     "Add Towel":
                         $ L_Over = "towel" 
-                    "Add nighty":
-                        $ L_Over = "nighty"   
+                    "Toggle up-top":
+                        if L_Uptop:
+                            $ L_Uptop = 0
+                        else:
+                            $ L_Uptop = 1   
                     "Back":
                         jump LauraWardrobe                
         "Chests":            
@@ -2533,21 +4048,24 @@ label LauraWardrobe:
                         $ L_Chest = "leather bra"
                     "Add wolvie top":
                         $ L_Chest = "wolvie top"
+                    "Add bikini top":
+                        $ L_Chest = "bikini top"
                     "Add corset":
                         $ L_Chest = "corset"
-#                    "Add buttoned tank top" if L_Over != "mesh top":
-#                        $ L_Chest = "buttoned tank"
-                    "Add lace bra":
-                        $ L_Chest = "lace bra"
-#                    "Add bra":
-#                        $ L_Chest = "bra"                            
-#                    "Toggle Piercings":
-#                        if L_Pierce == "ring":
-#                            $ L_Pierce = "barbell"
-#                        elif L_Pierce == "barbell":
-#                            $ L_Pierce = 0
-#                        else:
-#                            $ L_Pierce = "ring"
+                    "Add lace corset":
+                        $ L_Chest = "lace corset"                       
+                    "Toggle Piercings":
+                        if L_Pierce == "ring":
+                            $ L_Pierce = "barbell"
+                        elif L_Pierce == "barbell":
+                            $ L_Pierce = 0
+                        else:
+                            $ L_Pierce = "ring"
+                    "Toggle up-top":
+                        if L_Uptop:
+                            $ L_Uptop = 0
+                        else:
+                            $ L_Uptop = 1   
                     "Back":
                         jump LauraWardrobe             
         
@@ -2612,6 +4130,8 @@ label LauraWardrobe:
 #                        $ L_Panties = "shorts"
                     "Add wolvie panties":
                         $ L_Panties = "wolvie panties"  
+                    "Add bikini bottoms":
+                        $ L_Panties = "bikini bottoms"  
                     "Add lace panties":
                         $ L_Panties = "lace panties"    
                     "pull down-up panties":
@@ -2722,11 +4242,46 @@ label LauraWardrobe:
                             $ L_Pubes = 1
                         else:
                             $ L_Pubes = 0
-                    "Toggle Pussy Spunk" if True:
-                        if "pussy" in L_Spunk:
-                            $ L_Spunk.remove("pussy")
-                        else:
-                            $ L_Spunk.append("pussy")
+                    "Spunk":
+                        menu:                            
+                            "Toggle Mouth Spunk":
+                                if "mouth" in L_Spunk:
+                                    $ L_Spunk.remove("mouth")
+                                else:
+                                    $ L_Spunk.append("mouth")
+                            "Toggle hand Spunk":
+                                if "hand" in L_Spunk:
+                                    $ L_Spunk.remove("hand")
+                                else:
+                                    $ L_Spunk.append("hand")                                    
+                            "Toggle Facial Spunk":
+                                if "facial" in L_Spunk and "hair" not in L_Spunk:
+                                    $ L_Spunk.append("hair")
+                                elif "facial" in L_Spunk:
+                                    $ L_Spunk.remove("facial")                
+                                    $ L_Spunk.remove("hair")
+                                else:
+                                    $ L_Spunk.append("facial")                
+                            "Toggle Pussy Spunk" if True:
+                                if "in" in L_Spunk:
+                                    $ L_Spunk.remove("in")
+                                else:
+                                    $ L_Spunk.append("in")             
+                            "Toggle Anal Spunk" if True:
+                                if "anal" in L_Spunk:
+                                    $ L_Spunk.remove("anal")
+                                else:
+                                    $ L_Spunk.append("anal")        
+                            "Toggle Belly Spunk" if True:
+                                if "belly" in L_Spunk:
+                                    $ L_Spunk.remove("belly")
+                                else:
+                                    $ L_Spunk.append("belly")        
+                            "Toggle Tits Spunk" if True:
+                                if "tits" in L_Spunk:
+                                    $ L_Spunk.remove("tits")
+                                else:
+                                    $ L_Spunk.append("tits")
                     "Toggle Piercings":
                         if L_Pierce == "ring":
                             $ L_Pierce = "barbell"
