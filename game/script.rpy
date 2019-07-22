@@ -1,4 +1,4 @@
-?�#This is the core game code
+#This is the core game code
 
 
 image title card = "images/titleimage.jpg"

@@ -108,6 +108,7 @@ venv.bak/
 *.rpyc
 traceback.txt
 log.txt
+errors.txt
 
 # Specific for Rogue-Like
 game/images/
@@ -118,3 +119,5 @@ game/saves/
 # UnRen specific ignores
 unren*
 
+
+errors\.txt
