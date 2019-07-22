@@ -200,6 +200,37 @@ label Emma_SexMenu:
                                 call E_Sex_P           
                         "Fuck your ass.":                        
                                 call E_Sex_A    
+#MOD MARKER doggy position menu choices
+                        "Turn around, I've got something in mind. . . \[DoggyStyle\]":
+                                if P_Semen:
+                                    call E_Doggy_H   
+                                else:
+                                    "The spirit is apparently willing, but the flesh is spongy and bruised."
+                        "Fuck your pussy. \[DoggyStyle\]":    
+                                if P_Semen:                    
+                                    call E_Doggy_P  
+                                else:
+                                    "The spirit is apparently willing, but the flesh is spongy and bruised."          
+                        "Fuck your ass. \[DoggyStyle\]":     
+                                if P_Semen:                   
+                                    call E_Doggy_A    
+                                else:
+                                    "The spirit is apparently willing, but the flesh is spongy and bruised."
+
+#MOD MARKER missionary position menu choices
+                        "Lean back, I've got something in mind. . . \[Missionary\]":
+                                    if P_Semen:
+                                        call E_Missionary_H
+                                    else:
+                                        "The spirit is apparently willing, but the flesh is spongy and bruised."
+                        "Fuck your pussy. \[Missionary\].":
+                                    if P_Semen:
+                                        call E_Missionary_P
+                                    else:
+                                        "The spirit is apparently willing, but the flesh is spongy and bruised."         
+                        "Fuck your ass. \[Missionary\]":
+                                    if P_Semen:
+                                        call E_Missionary_A
                         "How about some toys? [[Pussy]":                        
                             call E_Dildo_Pussy     
                         "How about some toys? [[Anal]":                        
@@ -872,11 +903,31 @@ label E_Headpat:
     return
 # Slap Ass
 
+#MOD MARKER SLAP
 label E_Slap_Ass:
     call Shift_Focus("Emma")
     # fix add sound here?
     if renpy.showing("Emma_SexSprite"):
             show Emma_SexSprite #fix, test this
+            with vpunch
+#MOD Emma Missionary Slap
+    elif renpy.showing("Emma_Missionary"):
+            show Emma_Missionary #fix, test this
+            with vpunch
+#MOD MARKER SLAP
+label E_Slap_Ass:
+    call Shift_Focus("Emma")
+    # fix add sound here?
+    if renpy.showing("Emma_SexSprite"):
+            show Emma_SexSprite #fix, test this
+            with vpunch
+#MOD Emma Missionary Slap
+    elif renpy.showing("Emma_Missionary"):
+            show Emma_Missionary #fix, test this
+            with vpunch
+#MOD Emma Doggy Slap
+    elif renpy.showing("Emma_Doggy"):
+            show Emma_Doggy #fix, test this
             with vpunch
     elif renpy.showing("Emma_BJ_Animation"):           #fix, make this animation work better when paused for this effect.
             show Emma_BJ_Animation
