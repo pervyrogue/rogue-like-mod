@@ -106,6 +106,8 @@ venv.bak/
 # Renpy Projects
 *.rpa
 *.rpyc
+traceback.txt
+log.txt
 
 # Specific for Rogue-Like
 game/images/
@@ -115,3 +117,4 @@ game/saves/
 
 # UnRen specific ignores
 unren*
+

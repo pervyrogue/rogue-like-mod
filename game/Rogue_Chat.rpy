@@ -4090,8 +4090,6 @@ label Rogue_Clothes:
     call RogueFace
     menu:
         ch_r "So what did you want to tell me about my clothes again?"
-        "Let's talk about your modded clothes.":
-                jump Rogue_Modded_Clothes_Menu
         "Let's talk about your outfits.":
                 jump Rogue_Clothes_Outfits
         "Let's talk about your over shirts.":
@@ -4112,13 +4110,13 @@ label Rogue_Clothes:
                     "Custom 3":
                                 call Rogue_OutfitShame(6,1)
                     "Custom 4":
-                                call Rogue_OutfitShame(10,1)
-                    "Custom 5":
                                 call Rogue_OutfitShame(11,1)
-                    "Custom 6":
+                    "Custom 5":
                                 call Rogue_OutfitShame(12,1)
-                    "Custom 7":
+                    "Custom 6":
                                 call Rogue_OutfitShame(13,1)
+                    "Custom 7":
+                                call Rogue_OutfitShame(14,1)
                     "Gym Clothes":
                                 call Rogue_OutfitShame(7,1)
                     "Sleepwear":
