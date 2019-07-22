@@ -3633,6 +3633,8 @@ label Kitty_Clothes:
     call KittyFace
     menu:
         ch_k "So[K_like]you wanted to talk about my clothes?"
+        "Let's talk about your modded clothes.":
+                    jump Kitty_Modded_Clothes_Menu
         "Let's talk about your outfits.":
                     jump Kitty_Clothes_Outfits
         "Let's talk about your over shirts.":
@@ -4865,6 +4867,8 @@ label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
             #If she's wearing a bra of some kind
             if Custom == 20 and K_Uptop: 
                 $ Count = 0
+            elif IsOutfitModdedKitty("Chest"):  
+                $ Count = Mod_Kitty_OutfitShame("Chest")  
             elif K_Chest == "cami":  
                 $ Count = 15
             elif K_Chest == "sports bra":
@@ -4884,6 +4888,8 @@ label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
             #If she's wearing an overshirt
             if Custom == 20 and K_Uptop: 
                 $ Count = 0
+            elif IsOutfitModdedKitty("Over"):                                             
+                $ Count += Mod_Kitty_OutfitShame("Over")                                             
             elif K_Over == "pink top":                                             
                 $ Count += 15
             elif K_Over == "red shirt":
@@ -4924,8 +4930,12 @@ label Kitty_OutfitShame(Custom = 3, Check = 0, Count = 0, Tempshame = 50, Agree 
             else: #If she's missing something on her legs    
                         if PantsNum("Kitty") >= 5:              #If wearing pants commando
                             $ Count = 25
+                        elif IsOutfitModdedKitty("Legs"):
+                            $ Count = Mod_Kitty_OutfitShame("Legs")
                         elif K_Legs == "shorts":                #If wearing shorts
                             $ Count = 20    
+                        elif IsOutfitModdedKitty("Panties"):     #If wearing only bikini bottoms
+                            $ Count = Mod_Kitty_OutfitShame("Panties")     #If wearing only bikini bottoms
                         elif K_Panties == "bikini bottoms":     #If wearing only bikini bottoms
                             $ Count = 15   
                         elif K_Panties == "green panties":      #If wearing only green panties

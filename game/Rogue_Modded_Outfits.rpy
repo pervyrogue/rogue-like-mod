@@ -94,7 +94,7 @@ label Rogue_Modded_Clothes_Menu:
                             "I like the white one" if R_Over != "modded white hoodie":
                                 call SetOverRogue("modded white hoodie")
 
-        "How about you jacket?" if R_Over != "modded classic jacket":
+        "How about your jacket?" if R_Over != "modded classic jacket":
                 call SetOverRogue("modded classic jacket")
 
                         
@@ -110,25 +110,25 @@ label Rogue_Modded_Clothes_Menu:
                 jump Rogue_Modded_Clothes_Menu  
             call SetOverRogue("towel")
 
-        "How about that red dress?" if R_Over != "modded red dress":
-            if R_Legs:
-                ch_r "I can't really wear that with my [R_Legs] on."
-            elif ApprovalCheck("Rogue", 1000) or R_BodySuit:
-                ch_r "Sure. . ."
-                call SetOverRogue("modded red dress")
+        # "How about that red dress?" if R_Over != "modded red dress":
+        #     if R_Legs:
+        #         ch_r "I can't really wear that with my [R_Legs] on."
+        #     elif ApprovalCheck("Rogue", 1000) or R_BodySuit:
+        #         ch_r "Sure. . ."
+        #         call SetOverRogue("modded red dress")
 
-            else:
-                ch_r "That's a bit . . . revealing."   
+        #     else:
+        #         ch_r "That's a bit . . . revealing."   
 
-        "How about that blue dress?" if R_Over != "modded blue dress":
-            if R_Legs:
-                ch_r "I can't really wear that with my [R_Legs] on."
-            elif ApprovalCheck("Rogue", 1000) or R_BodySuit :
-                ch_r "Sure. . ."
-                call SetOverRogue("modded blue dress")
+        # "How about that blue dress?" if R_Over != "modded blue dress":
+        #     if R_Legs:
+        #         ch_r "I can't really wear that with my [R_Legs] on."
+        #     elif ApprovalCheck("Rogue", 1000) or R_BodySuit :
+        #         ch_r "Sure. . ."
+        #         call SetOverRogue("modded blue dress")
 
-            else:
-                ch_r "That's a bit . . . revealing."    
+        #     else:
+        #         ch_r "That's a bit . . . revealing."    
             
         "How about that green nighty I got you?" if R_Over != "nighty" and "nighty" in R_Inventory:
                         if R_Legs:
@@ -753,11 +753,11 @@ label Rogue_Modded_Clothes_Menu:
                                 $ R_Hose = "ripped pantyhose"                
                                 jump Rogue_Modded_Clothes_Under_Hoses
                 "You could use that fishnet" if R_Hose != "modded fishnet" and R_Legs != "pants":
-                                call SetHose("Rogue", "modded fishnet")
+                                call SetHoseRogue("modded fishnet")
                                 jump Rogue_Modded_Clothes_Under_Hoses
 
                 "You could use that SR7 hose" if R_Hose != "modded SR7 hose" and R_Legs != "pants":
-                                call SetHose("Rogue", "modded SR7 hose")
+                                call SetHoseRogue("modded SR7 hose")
                                 jump Rogue_Modded_Clothes_Under_Hoses
         
                 "You could lose the hose." if R_Hose and R_Hose != 'ripped tights' and R_Hose != 'tights':     
@@ -1144,23 +1144,23 @@ init python:
                             return 5
                         elif R_Legs == "modded cheerleader skirt":
                             return 5
-                        elif R_Panties == "shorts":
-                            return 6
+                        # elif R_Panties == "shorts":
+                        #     return 6
                         else:
                             return 0
                 elif Chr == "Kitty":
                         # if K_Upskirt and K_Legs:
                         #     return 1
-                        if K_Legs == "black jeans":
-                            return 10            
-                        elif K_Legs == "capris":
-                            return 10    
-                        elif K_Legs == "yoga pants":
-                            return 8                    
-                        elif K_Legs == "shorts":
-                            return 6       
-                        elif K_Legs == "blue skirt":
-                            return 5
+                        if K_Legs == "modded orange skirt":
+                            return 5            
+                        elif K_Legs == "modded black skirt":
+                            return 5    
+                        elif K_Legs == "modded white skirt":
+                            return 5                    
+                        # elif K_Legs == "shorts":
+                        #     return 6       
+                        # elif K_Legs == "blue skirt":
+                        #     return 5
                         else:
                             return 0
                 elif Chr == "Emma":
@@ -1312,5 +1312,75 @@ init python:
             # elif R_BodySuit == "swimsuit2":
             #     $ Count += 5
 
-        return 0          
+        return 0    
+    def GetModdedString(first = "images/RogueSprite/Rogue_panties_", second = "test", third = ".png"):
+        if second:
+            if "modded" in second:
+                string = first + second + third
+                # if renpy.showing("Rogue"):
+                #     renpy.hide("Rogue")
+                #     renpy.show("Rogue")
+                # elif renpy.showing("Rogue_Doggy"):
+                #     renpy.show("Rogue_Doggy")
+                # elif renpy.showing("Rogue_SexSprite"):
+                #     renpy.show("Rogue_SexSprite")
+                # elif renpy.showing("Rogue_BJ_Animation"):
+                #     renpy.show("Rogue_BJ_Animation")
+                # elif renpy.showing("Rogue_HJ_Animation"):
+                #     renpy.show("Rogue_HJ_Animation")
+                # elif renpy.showing("Rogue_TJ_Animation"):
+                #     renpy.show("Rogue_TJ_Animation")
+                if not renpy.loadable(string):
+                    # if not string in SomethingWrongDesu:
+                    #     SomethingWrongDesu.append(string)
+                    #     f = open("SomethingWrongDesu.txt")
+                    #     f.write(string + "\n")
+                    #     f.close()
+                    #string2 = "something wrong loading " + string + ", warn the modders"
+                    #renpy.call_in_new_context(narrator(string2))
+                    #renpy.say(Character('???', color="#85bb65", image = "arrow", show_two_window=True), string2)
+                    #renpy.say(ch_u,"something wrong loading [string], warn the modders")
+                    string = Null()
+            else:
+                string = Null()
+        else:
+            string = Null()
+        return string
+
+    def GetModdedString2Kitty(first = "images/RogueSprite/Rogue_panties_", second = "3", third = ".png"):
+        second_ = int(second)
+        if K_DynamicTan[second_]:
+            if "modded" in K_DynamicTan[second_]:
+                string = first + K_DynamicTan[second_] + third
+                # if renpy.showing("Rogue"):
+                #     renpy.hide("Rogue")
+                #     renpy.show("Rogue")
+                # elif renpy.showing("Rogue_Doggy"):
+                #     renpy.show("Rogue_Doggy")
+                # elif renpy.showing("Rogue_SexSprite"):
+                #     renpy.show("Rogue_SexSprite")
+                # elif renpy.showing("Rogue_BJ_Animation"):
+                #     renpy.show("Rogue_BJ_Animation")
+                # elif renpy.showing("Rogue_HJ_Animation"):
+                #     renpy.show("Rogue_HJ_Animation")
+                # elif renpy.showing("Rogue_TJ_Animation"):
+                #     renpy.show("Rogue_TJ_Animation")
+                if not renpy.loadable(string):
+                    # if not string in SomethingWrongDesu:
+                    #     SomethingWrongDesu.append(string)
+                    #     f = open("SomethingWrongDesu.txt")
+                    #     f.write(string + "\n")
+                    #     f.close()
+                    #string2 = "something wrong loading " + string + ", warn the modders"
+                    #renpy.call_in_new_context(narrator(string2))
+                    #renpy.say(Character('???', color="#85bb65", image = "arrow", show_two_window=True), string2)
+                    #renpy.say(ch_u,"something wrong loading [string], warn the modders")
+                    string = Null()
+            else:
+                string = Null()
+        else:
+            string = Null()
+        return string
+
+
 #End Rogue Wardrobe
