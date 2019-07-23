@@ -4091,15 +4091,15 @@ label Rogue_Clothes:
     menu:
         ch_r "So what did you want to tell me about my clothes again?"
         "Let's talk about your outfits.":
-                jump Rogue_Clothes_Outfits
+                call Rogue_Modded_Clothes_Outfits from Rogue_Modded_Clothes_Menu
         "Let's talk about your over shirts.":
-                jump Rogue_Clothes_Over
+                call Rogue_Modded_Clothes_Over from Rogue_Modded_Clothes_Menu
         "Let's talk about your legwear.":
-                jump Rogue_Clothes_Legs
+                call Rogue_Modded_Clothes_Legs from Rogue_Modded_Clothes_Menu
         "Let's talk about your underwear.":
-                jump Rogue_Clothes_Under
+                call Rogue_Modded_Clothes_Under from Rogue_Modded_Clothes_Menu
         "Let's talk about the other stuff.":
-                jump Rogue_Clothes_Misc
+                call Rogue__Modded_Clothes_Misc from Rogue_Modded_Clothes_Menu
         "That looks really good on you, you should remember that one. [[Set Custom]":
                 menu:
                     "Which slot would you like this saved in?"
@@ -4486,7 +4486,7 @@ label Rogue_Clothes:
                             ch_r "Sure, why not?"
                             $ R_Legs = 0
                         elif ApprovalCheck("Rogue", 1100, TabM=2) and R_Panties:
-                            ch_r "Well, I suppose if it's for you. . ."
+                            ch_r "Guess I could give you a show. . ."
                             $ R_SeenPanties = 1
                             $ R_Legs = 0
                         elif ApprovalCheck("Rogue", 1400, TabM=3): #No panties
