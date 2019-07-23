@@ -1429,8 +1429,7 @@ label EventCalls:
                         ch_r "I guess we can see if she comes around on the idea."
                 elif R_Loc != bg_current and K_Loc != bg_current:
                         $ R_Traits.remove("ask Kitty")
-                        if
-                        ("Kitty", 2000, Bonus = int((K_LikeRogue - 500)/2)) or ApprovalCheck("Kitty", 950, "L", Bonus = int((K_LikeRogue - 500)/6)) or K_LikeRogue >= 900:
+                        if ApprovalCheck("Kitty", 2000, Bonus = int((K_LikeRogue - 500)/2)) or ApprovalCheck("Kitty", 950, "L", Bonus = int((K_LikeRogue - 500)/6)) or K_LikeRogue >= 900:
                                 #applies the "dating?" tag to note that she asked Kitty about it and Kitty was ok with it.
                                 $ K_Traits.append("poly Rogue")
                                 $ K_Traits.append("dating?")
