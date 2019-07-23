@@ -4091,15 +4091,15 @@ label Rogue_Clothes:
     menu:
         ch_r "So what did you want to tell me about my clothes again?"
         "Let's talk about your outfits.":
-                call Rogue_Clothes_Outfits from Rogue_Modded_Clothes_Menu
+                call Rogue_Modded_Clothes_Outfits from Rogue_Modded_Clothes_Menu
         "Let's talk about your over shirts.":
-                call Rogue_Clothes_Over from Rogue_Modded_Clothes_Menu
+                call Rogue_Modded_Clothes_Over from Rogue_Modded_Clothes_Menu
         "Let's talk about your legwear.":
-                call Rogue_Clothes_Legs from Rogue_Modded_Clothes_Menu
+                call Rogue_Modded_Clothes_Legs from Rogue_Modded_Clothes_Menu
         "Let's talk about your underwear.":
-                call Rogue_Clothes_Under from Rogue_Modded_Clothes_Menu
+                call Rogue_Modded_Clothes_Under from Rogue_Modded_Clothes_Menu
         "Let's talk about the other stuff.":
-                call Rogue_Clothes_Misc from Rogue_Modded_Clothes_Menu
+                call Rogue_Modded_Clothes_Misc from Rogue_Modded_Clothes_Menu
         "That looks really good on you, you should remember that one. [[Set Custom]":
                 menu:
                     "Which slot would you like this saved in?"
